@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="site.css">
+    <title>GP Audax - CRM</title>
+</head>
+<body>
+    <input type="checkbox" id="check" checked>
+    <!--comeco do header-->
+        <header>
+            <label for="check">
+                <ion-icon name="menu-outline" id="sidebar_btn"></ion-icon>
+            </label>
+            <div class="left"></div>
+        </header>
+        <!--final do header-->
+        <!--comeco da sidebar-->
+        <div class="sidebar">
+            <span><img src="logo-small.png" alt="Audax"></span>
+            <a href="Home.html"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
+            <a href="Cadastro.html"><ion-icon name="person-outline"></ion-icon><span>Cadastro</span></a>
+            <a href="Notificacao.html"><ion-icon name="notifications-outline"></ion-icon><span>Notificações</span></a>
+            <a href="Pastas.html"><ion-icon name="document-outline"></ion-icon><span>Pastas</span></a>
+            <a href="Kanban2.html"><ion-icon name="easel-outline"></ion-icon><span>Kanban</span></a>
+            <a href="Configuracao.html"><ion-icon name="settings-outline"></ion-icon><span>Configurações</span></a>
+        </div>
+        <!--final da sidebar -->
+        <container>
+            <main>
+                <div class="form-style">
+                <div class="container-comite">
+                    <div class="cabecalho">
+                        <h3 class="titulo-pagina">Comitê de Crédito</h3>
+                        <div class="linha-horizontal"></div>
+                    </div>
+                    <div class="container-perguntas">
+                        <div class="formulario">
+                            <h4>Documentação </h4>
+                            <div class="linha-horizontal"></div>
+                            <p>Contrato social e alterações ?</p>
+                            <p>Comprovante de endereço da empresa e dos socios? </p>
+                            <p>Inscrição estadual? (Se houver)</p>
+                            <p>RG e CPF dos Socios ?</p>
+                            <p>Imposto de renda dos Socios ?</p>
+                            <p>Cartão CNPJ ?</p>
+                            <p>Demonstrativo de faturamento: meses do ano corrente + ultimos 2 anos</p>
+                            <p>Balanço patrimonial dos ultimos 2 anos +  balancete ano corrente</p>
+
+                            <h4>Dados do Cedente</h4>
+                            <div class="linha-horizontal"></div>
+                            <p>Tempo de fundação da empresa</p>
+                            <p>Houve mudança de atividade nos ultimos 12 meses?</p>
+                            <p>houve mudança de socios nos ultimos 12 meses ?</p>
+
+                            <h4>Informações das operações do cliente</h4>
+                            <div class="linha-horizontal"></div>
+                            <p>Limite está acima de 30% do valor do faturamento apresentado ?</p>
+                            <p>Possui indicativos de que haverá concentração de sacados?</p>
+                            <p>Cedente vai realizar antecipação de venda de imóveis</p>
+                            <p>Operações sem entrega de mercadoria?</p>
+                            <p>Operações podem ser confirmadas através de notas fiscais ?</p>
+                    
+                            <h4>Consulta Bureaux de Crédito</h4>
+                            <div class="linha-horizontal"></div>
+                            <p>Cliente com aumento significativo de consultas acima da média dos ultimos 3 meses ?</p>
+                            <p>Cliente não apresenta consultas no CNPJ ?</p>
+                            <p>Cedente possui pedência fincanceira em Factoring / Securtizadora? </p>
+                            <p>Cedente possui aumento repentino de protestos ?</p>
+                            <p>Cedente possui protestos de contas de consumo ? (Água, energia elétrica, gás, etc)</p>
+                            <p>Perfil de protestos condizentes à fornecedores do cedente ?</p>
+                            <p>Cedente possui CCF sem devida apresentação de anuência ?</p>
+                            <p>Cedente possui alto risco na pontualidade de pagamento ?</p>
+                            <p>Cedente possui endividamento em linhas emergenciais ?</p>
+                            <p>Cedente possui aumento de contratações de crédito no mercado ?</p>
+                            <p>Cedente apresenta pico de consultas ao CNPJ ?</p>
+
+                            <h4>Ações Judiciais</h4>
+                            <div class="linha-horizontal"></div>
+                            <p>Clientes com ações juduciais?</p>
+                            <p>Cliente com ações de recuperação judicial, falência ou qualquer ação com outra securitização ?</p>
+                            <p>Cedente com ações de execução fiscal em geral ?</p>
+                            <p>Cedente com ações movidas por bancos ?</p>
+                            <p>Cedente com ações de reclamação do serviço / rescição de contrato ? (analisar o motivo da ação com o cedente)</p>
+                            <p>Cedente com ações para retirada de apontamento restritivo ?</p>
+
+                            <h4>Sócios</h4>
+                            <div class="linha-horizontal"></div>
+                            <p>Sócio possui participação em demais empresas inadimplentes ?</p>
+                            <p>Algum sócio possui outra empresa do mesmo ramo ?</p>
+                            <p>Sócios possuem protestos ?</p>
+                            <p>Sócios possuem cheques sem fundo ?</p>
+                            <p>Sócios com ações judiciais ?</p>
+                            <p>Sócios com apontamentos no CPF ?</p>
+                            <p>Sócios com perfil ostentador ?</p>
+                            <p>Herdeiros assumindo a empresa ?</p>
+                            <p>Sócio ou empresa possui garantias adicionais ?</p>
+                        </div>
+                        <div class="container-yesornot">
+                            <div class="linha-horizontal"></div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="comprovanteendereco" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="comprovanteendereco" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="incricaoestadual" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="incricaoestadual" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="rgcpfsocios" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="rgcpfsocios" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="impostorendasocios" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="impostorendasocios" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="cartaocnpj" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="cartaocnpj" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="faturamentoanocorrente" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="faturamentoanocorrente" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="simnao" name="balancopatrimonial" value="Sim">
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="simnao" name="balancopatrimonial" value="Nao">
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="form-simnao">
+                                <div class="container-yesornot">
+                                <div class="linha-horizontal"></div>
+                                    <div class="linha-simnao">
+                                        <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                        <label for="Sim">Sim</label>
+                                        <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                        <label for="Nao">Não</label>
+                                    </div>
+                                    <div class="linha-simnao">
+                                        <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                        <label for="Sim">Sim</label>
+                                        <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                        <label for="Nao">Não</label>
+                                    </div>
+                                    <div class="linha-simnao">
+                                        <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                        <label for="Sim">Sim</label>
+                                        <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                        <label for="Nao">Não</label>
+                                    </div>
+                                </div>
+                                <div class="form-simnao">
+                                    <div class="container-yesornot">
+                                    <div class="linha-horizontal"></div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-simnao">
+                                    <div class="container-yesornot">
+                                    <div class="linha-horizontal"></div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-simnao">
+                                    <div class="container-yesornot">
+                                    <div class="linha-horizontal"></div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-simnao">
+                                    <div class="container-yesornot">
+                                    <div class="linha-horizontal"></div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                        <div class="linha-simnao">
+                                            <input type="radio" id="simnao" name="contatosocial" value="Sim">
+                                            <label for="Sim">Sim</label>
+                                            <input type="radio" id="simnao" name="contatosocial" value="Nao">
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="Cedente.html"><button class="btn-salvar">Salvar</button></a>
+                </div>
+            </main>
+        </container>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

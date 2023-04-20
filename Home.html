@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="site.css">
+    <title>GP Audax - CRM</title>
+</head>
+<body>
+    <input type="checkbox" id="check" checked>
+    <!--comeco do header-->
+        <header>
+            <label for="check">
+                <ion-icon name="menu-outline" id="sidebar_btn"></ion-icon>
+            </label>
+            <div class="left"></div>
+        </header>
+        <!--final do header-->
+        <!--comeco da sidebar-->
+        <div class="sidebar">
+            <span><img src="logo-small.png" alt="Audax"></span>
+            <a href="Home.html"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
+            <a href="Cadastro.html"><ion-icon name="person-outline"></ion-icon><span>Cadastro</span></a>
+            <a href="Notificacao.html"><ion-icon name="notifications-outline"></ion-icon><span>Notificações</span></a>
+            <a href="Pastas.html"><ion-icon name="document-outline"></ion-icon><span>Pastas</span></a>
+            <a href="Kanban2.html"><ion-icon name="easel-outline"></ion-icon><span>Kanban</span></a>
+            <a href="Configuracao.html"><ion-icon name="settings-outline"></ion-icon><span>Configurações</span></a> 
+        </div>
+        <!--final da sidebar -->
+        <container>
+            <main>
+                <div class="form-style">
+                    <a href="Cadastro.html"><button class="btn-new"><ion-icon name="add-outline" class="icon-add"></ion-icon>Novo Cadastro</button></a>
+                    <h3 class="titulo-pagina">Todos os Cadastros</h3>
+                        <div class="linha-horizontal"></div>
+                            <div class="container-filter">
+                                <input 
+                                    type="text" 
+                                    id=""
+                                    placeholder="Pesquisa  por Nome / CNPJ"/>
+                                <input 
+                                    type="date" 
+                                    id="" />
+                                <select name="" id="">
+                                    <option value="default">Status</option>
+                                    <option value="">Ativo</option>
+                                    <option value="">Inativo</option>
+                                </select>
+                                <select name="" id="">
+                                    <option value="default">Situação</option>
+                                    <option value="">Aprovado</option>
+                                    <option value="">Reprovado</option>
+                                    <option value="">Analise</option>
+                                </select>
+                                <select name="" id="">
+                                    <option value="default">Tipo</option>
+                                    <option value="">Proponente</option>
+                                    <option value="">Cedente</option>
+                                </select>
+                            </div>
+                            <div class="form-controle">
+                                <div class="container-title">
+                                    <h4>Nome</h4>
+                                    <h4>CPF / CNPJ</h4>
+                                    <h4>Tipo</h4>
+                                    <h4>Situação</h4>
+                                    <h4>Status</h4>
+                                </div>
+                                <div class="tables">
+                                    <ul class="table-nome">
+                                        <li>João Gabriel Silveira Perreira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                        <li>João Gabriel Silveira</li>
+                                    </ul>
+                                    <ul class="table-cpf">
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                        <li>467.855.599-55</li>
+                                    </ul>
+                                    <ul class="table-tipo">
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li> 
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li>
+                                        <li>Proponente</li> 
+                                    </ul>
+                                    <ul class="table-situacao">
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                        <li>Aprovado</li>
+                                    </ul>
+                                    <ul class="table-status">
+                                        <li>Ativo<a href="Cedente.html"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                        <li>Ativo <ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                                    </ul>
+                                </div>
+                            </div>
+                </div>  
+            </main>
+        </container>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

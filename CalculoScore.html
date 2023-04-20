@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <label>Numero de parcela</label>
+        <input type="number" id="Parcela" name="Parcela">
+        <label>Score</label>
+        <input type="number" id="Score" name="Score">
+        <label>Renda</label>
+        <input type="number" id="Renda" name="Renda">
+
+        <button onclick="CalculoScore()">Calcular</button>
+        <p id="inputHaiting"></p>
+        <p id="inputLimite"></p>
+    </main>
+</body>
+    <script>
+        function CalculoScore(){
+            debugger;
+            var parcela = document.getElementById("Parcela").value;
+            var score = document.getElementById("Score").value;
+            var renda = document.getElementById("Renda").value;
+
+            if(score <= 500){
+                var haiting = "E";
+            } else if(score <= 600){
+                var haiting = "D";
+                var porcentagem = 0.12;
+            } else if(score <= 700){
+                var haiting = "C";
+                var porcentagem = 0.20;
+            } else if(score <= 800){
+                var haiting = "B";
+                var porcentagem = 0.30;
+            } else if(score <= 1000){
+                var haiting = "A";
+                var porcentagem = 0.30;
+            }
+
+            var limite = renda * porcentagem * parcela;
+            
+            var inputLimite = document.getElementById("inputLimite");
+            var inputHaiting = document.getElementById("inputHaiting");
+
+            if(haiting =="E"){
+                inputHaiting.style.color = 'red';
+                document.getElementById("inputHaiting").innerHTML = (haiting);
+                document.getElementById("inputLimite").innerHTML = ("Não Operar!");
+            }else if(haiting == "D" ){
+                inputHaiting.style.color = 'red';
+                document.getElementById("inputHaiting").innerHTML = (haiting);
+                document.getElementById("inputLimite").innerHTML = ("Limite: " + limite);
+                
+            }else if(haiting == "C" || haiting =="B"){
+                inputHaiting.style.color = 'yellowgreen';
+                document.getElementById("inputHaiting").innerHTML = (haiting);
+                document.getElementById("inputLimite").innerHTML = ("Limite: " + limite);
+            }else if(haiting == "A"){
+                inputHaiting.style.color = 'green';
+                document.getElementById("inputHaiting").innerHTML = (haiting);
+                document.getElementById("inputLimite").innerHTML = ("Limite: " + limite);
+            }
+        }
+    </script>
+</html>
