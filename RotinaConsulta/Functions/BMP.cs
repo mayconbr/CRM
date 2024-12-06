@@ -137,7 +137,5 @@ namespace RotinaConsulta.Functions
         //    }
         //    return ("Endividamento consultado com sucesso no banco BMP");
         //}
-
-
     }
 }
