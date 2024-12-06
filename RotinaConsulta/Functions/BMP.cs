@@ -17,9 +17,9 @@ namespace RotinaConsulta.Functions
                 request.Headers.Add("Cache-Control", "no-cache");
                 var collection = new List<KeyValuePair<string, string>>();
                 collection.Add(new("grant_type", "client_credentials"));
-                collection.Add(new("client_id", "bmp.digital.api.gp_securitizadora_scr"));
+                collection.Add(new("client_id", ""));
                 collection.Add(new("scope", "bmp.digital.api.full.access"));
-                collection.Add(new("client_assertion", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4MzVlMWY0Zi02Njg5LTQ2YTUtYmQ2NS04ZTE4OWZhMjNiMGIiLCJzdWIiOiJibXAuZGlnaXRhbC5hcGkuZ3Bfc2VjdXJpdGl6YWRvcmFfc2NyIiwiaWF0IjoxNzAyNDg4MzI3LCJuYmYiOjE3MDI0ODgzMjcsImV4cCI6MTk3MDMzNzMwNiwiaXNzIjoiYm1wLmRpZ2l0YWwuYXBpLmdwX3NlY3VyaXRpemFkb3JhX3NjciIsImF1ZCI6Imh0dHBzOi8vYXV0aC5tb25leXAuY29tLmJyL2Nvbm5lY3QvdG9rZW4ifQ.WD9dahGsl1SumCh8ewZTQfDOve2gXS-sW--I6uLQKEsh9aFKgVQhDx_OeOk7wadHep2mvhHe7vxRFyPyl0cc2W6KwyTcwOpcFNOk61yKmCAh34tsRdtezd9WtSSX1WLFFdMES9Rr7NKImgRQ4Mfb4rr1LWcTt18H7SmsTA5E2-eYLL0m5jaBB6Jyo0K87SWjAHv1_s8neA-H8LT2FiUpRGWiqAKGvs8eeGJYcf6TLFhdarYbQRbwyjCoaoAqhB0Qr5Qg_cmQL3pDJaDKe1s9qeU01oMzny5drOHAgOJVDmUXZIuQeEV9WPQ5XnJ_BhePvqT3uSFN5y6sOfxrkjm1yQ"));
+                collection.Add(new("client_assertion", ""));
                 collection.Add(new("client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"));
                 var content = new FormUrlEncodedContent(collection);
                 request.Content = content;
@@ -64,7 +64,7 @@ namespace RotinaConsulta.Functions
 
         //        var client = new HttpClient();
         //        var request = new HttpRequestMessage(HttpMethod.Post, "https://api.bmpdigital.moneyp.com.br/Bureau/MultiConsultaSCR");
-        //        request.Headers.Add("IdempotencyKey", "6c490988-8d84-46dd-873e-78053e1dad1a");
+        //        request.Headers.Add("IdempotencyKey", "");
         //        request.Headers.Add("Authorization", "Bearer " + token);
         //        var content = new StringContent($"{{\"consulta\": {{\"documento\": \"{cpfcnpj}\",\"dataBaseMes\": \"{mes}\",\"dataBaseAno\": \"{ano}\"}}}}", null, "application/json");
         //        request.Content = content;

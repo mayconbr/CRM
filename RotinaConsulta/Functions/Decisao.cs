@@ -24,7 +24,7 @@ namespace RotinaConsulta.Functions
             {
                 var client = _httpClient;
 
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=565306&senha=gpaudax03api&consulta=67&tipo_documento=F&documento=" + cpf);
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=&senha=api&consulta=67&tipo_documento=F&documento=" + cpf);
 
                 using (var context = new MyDbContext())
                 {
@@ -134,7 +134,7 @@ namespace RotinaConsulta.Functions
             {
                 var client = _httpClient;
 
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=565306&senha=gpaudax03api&consulta=73&tipo_documento=F&documento=" + cpf);
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=&senha=api&consulta=73&tipo_documento=F&documento=" + cpf);
 
                 using (var context = new MyDbContext())
                 {
@@ -269,7 +269,7 @@ namespace RotinaConsulta.Functions
             {
                 var client = _httpClient;
 
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=565306&senha=gpaudax03api&consulta=75&tipo_documento=J&documento=" + cnpj);
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=&senha=api&consulta=75&tipo_documento=J&documento=" + cnpj);
 
                 using (var context = new MyDbContext())
                 {
@@ -482,7 +482,7 @@ namespace RotinaConsulta.Functions
             {
                 var client = _httpClient;
 
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=565306&senha=gpaudax03api&consulta=72&tipo_documento=J&documento=" + cnpj);
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://consulta.distribuidor.digital/api/consulta?logon=&senha=api&consulta=72&tipo_documento=J&documento=" + cnpj);
 
                 using (var context = new MyDbContext())
                 {

@@ -39,7 +39,7 @@ namespace RotinaConsulta.Functions
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.quod.com.br/WsQuodAPI/QuodReport?ver_=2.0");
 
-                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes("32598094000139@esp:Q6BVLL2uv"));
+                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(""));
                 request.Headers.Add("Authorization", "Basic " + credentials);
 
                 var jsonRequest = new
@@ -187,7 +187,7 @@ namespace RotinaConsulta.Functions
             {
                 var client2 = _httpClient2;
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.quod.com.br/WsQuodAPI/QuodReport?ver_=2.0");
-                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes("32598094000139@esp:Q6BVLL2uv"));
+                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(""));
                 request.Headers.Add("Authorization", "Basic " + credentials);
 
                 var jsonRequest = new
@@ -336,7 +336,7 @@ namespace RotinaConsulta.Functions
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.quod.com.br/WsQuodPJ/ReportPJ?ver_=1.4");
 
-                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes("32598094000139@esp:Q6BVLL2uv"));
+                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(""));
 
                 request.Headers.Add("Authorization", "Basic " + credentials);
 
@@ -472,7 +472,7 @@ namespace RotinaConsulta.Functions
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.quod.com.br/WsQuodPJ/ReportPJ?ver_=1.4");
 
-                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes("32598094000139@esp:Q6BVLL2uv"));
+                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(""));
 
                 request.Headers.Add("Authorization", "Basic " + credentials);
 
