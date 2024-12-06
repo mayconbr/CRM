@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Nova Atividade";
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Maquinas e Equipamentos</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doCadastrarMaquina(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Descrição *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="nomeEquipamento"
+                           id="nomeEquipamento"
+                           placeholder="Ex.: Injetora de polimero"
+                           required />
+                </div>
+            </div>
+            <div class="object-input">
+                <div>
+                    <label>Marca *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="marca"
+                           id="marca"
+                           placeholder="Ex.: Huarong"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ano da compra</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="ano"
+                           id="ano"
+                           placeholder="Digite o ano em que o equipamento foi comprado"/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor Financiado (se houver)</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorFinanciado"
+                           id="valorFinanciado"
+                           placeholder="R$: 0,00" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor de Onus (se houver)</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorOnus"
+                           id="valorOnus"
+                           placeholder="R$: 0,00" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor do Equipamento *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorMaquina"
+                           id="valorMaquina"
+                           placeholder="R$: 0,00" 
+                           required/>
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="btn-cad">
+            <button class="btn-cadastrar" type="submit">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+ 
+@section Scripts{
+    <script>
+        $("#valorFinanciado").mask("R$: 00000000000000");
+        $("#valorOnus").mask("R$: 00000000000000");
+        $("#valorMaquina").mask("R$: 00000000000000");
+
+        function doCadastrarMaquina(form) {
+            try {
+                var u = parseForm(form);
+                const urlParams = new URLSearchParams(window.location.search);
+                u.ClienteId = urlParams.get('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarMaquina',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Imovel adicionado");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar o imovel");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+    }

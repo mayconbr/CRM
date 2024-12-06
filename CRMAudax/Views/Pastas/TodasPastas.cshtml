@@ -1,0 +1,181 @@
+﻿@{
+    ViewData["Title"] = "Todas as Pastas";
+}
+<div class="form-style">
+    <button class="btn-new" onclick="openModalquest()"><ion-icon name="add-outline" class="icon-add"></ion-icon>Nova Pasta</button>
+    <h3 class="titulo-pagina">Pastas</h3>
+    <div class="linha-horizontal"></div>
+    <div>
+        <div class="container-pastas">
+            @foreach (dynamic Pasta in Model.Pastas)
+            {
+                <div class="pasta-un">
+                    <div class="share-file-pasta" onclick="doShareFolder(@Pasta.Id)">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </div>
+                    <div class="pastas-icon">
+                        <ion-icon name="folder-open" onclick="window.location.href = '/Pastas/ExibePasta?Id=@Pasta.Id'"></ion-icon>
+                    </div>
+                    <div class="titulo-pasta">
+                        <p>@Pasta.NomePasta<button class="trash-pasta"><ion-icon name="trash-outline" onclick="openModalConfirmaPasta(@Pasta.Id)"></ion-icon></button></p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal-message" id="modal-message">
+    <div class="modal-message-content">
+        <button class="botao-close-pasta" onclick="closeModalMessage(true)"><ion-icon name="close-outline"></ion-icon></button>
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <form onsubmit="doExcluirpasta(this); return false;">
+                <input type="hidden" id="Id" name="Id" />
+                <button class="botao-message" id="botao-message" type="submit" style="background-color:#c7000a; display:none;">Excluir</button>
+                <fieldset class="fildsettres">
+                    <div class="container-modal-copy" style="display:none;" id="container-modal-copy">
+                        <h2>Link de compartilhamento</h2>
+                        <div class="linha-horizontal"></div>
+                        <div class="copy-line">
+                            <input type="text" id="linkCompartilhamento" name="linkCompartilhamento" class="linkCompartilhamento" />
+                            <ion-icon name="copy-outline" id="botaoCopiar" class="botaoCopiar" onclick="doCopy()"></ion-icon>
+                        </div>
+                        <p class="confirmacao-copy" id="confirmacao-copy">Link copiado</p>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-load" id="modal-load">
+    <div class="modal-message-content">
+
+        <div class="conteudo-modal-load" style="display:block;">
+            <button class="botao-close-pasta" onclick="closeModalload()"><ion-icon name="close-outline"></ion-icon></button>
+            <div class="modal-message-header" id="divMessage">
+                <form onsubmit="doCriarPasta(this); return false;">
+                    <fieldset class="fildsettres">
+                        <div class="object-input">
+                            <div>
+                                <label> <ion-icon name="add-outline"></ion-icon> Nova Pasta </label>
+                            </div>
+                            <div>
+                                <input type="text" id="NomePasta" name="NomePasta" required />
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                        <button class="btn-new-big" type="submit"><ion-icon name="add-outline"></ion-icon></button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModalConfirmaPasta(id) {
+            openModalMessage("Todos os arquivos dentro dessa pasta serão excluidos permanentemente e nenhum usuário conseguirá recupera-los, você tem certeza disso?");
+            let botaoConfirmaExcluir = document.getElementById("botao-message");
+            botaoConfirmaExcluir.style.display = 'block';
+            let IdPasta = document.getElementById("Id");
+            IdPasta.value = id;
+        }
+
+        function openModalquest() {
+            let modalMessage = document.querySelector('.modal-load')
+            modalMessage.style.display = 'block';
+        }
+
+        function doCriarPasta(form) {
+            debugger;
+            try {
+                var u = parseForm(form);
+                $.ajax({
+                    type: 'POST',
+                    url: '/CriarPastas',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        let modalMessage = document.querySelector('.modal-load')
+                        modalMessage.style.display = 'none';
+                        openModalMessage("Pasta criada com sucesso");
+                    },
+                    error: function () {
+                        let modalMessage = document.querySelector('.modal-load')
+                        modalMessage.style.display = 'none';
+                        openModalMessage("Não foi possivel criar a pasta");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doExcluirpasta() {
+            debugger;
+            Id = document.getElementById("Id").value
+            try {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/DeletePasta/' + Id,
+                    success: function () {
+                        closeModalMessage(true);
+                    },
+                    error: function () {
+                        closeModalMessage();
+                        alert("Erro em excluir pasta");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        function doShareFolder(Id) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: '/ShareFolder/' + Id,
+                    success: function (data) {
+                        openModalMessage();
+
+                        var divMessage = document.getElementById("divMessage");
+                        divMessage.style.display = 'none';
+
+                        var modalCopy = document.getElementById("container-modal-copy");
+                        modalCopy.style.display = 'block';
+
+                        var caminhoRaiz = window.location.protocol + "//" + window.location.host;
+                        var input = document.getElementById("linkCompartilhamento");
+                        input.value = caminhoRaiz + "/FreeAccess/CompartilhaPasta?Hash=" + data;
+                    },
+                    error: function () {
+                        alert("Erro ao compartilhar");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doCopy() {
+            debugger;
+            var input = document.getElementById('linkCompartilhamento');
+
+            // Seleciona e copia o valor do campo de entrada para a área de transferência
+            input.select();
+            document.execCommand('copy');
+
+            var confirma = document.getElementById("confirmacao-copy");
+            confirma.style.display = 'block';
+        }
+
+    </script>
+}

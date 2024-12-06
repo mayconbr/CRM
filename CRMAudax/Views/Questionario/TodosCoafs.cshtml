@@ -1,0 +1,41 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Todos os Coafs</h3>
+    <div class="linha-horizontal"></div>
+
+    <div class="form-controle">
+        <div class="container-title-dois">
+            <h4>Respostas</h4>
+        </div>
+        <div class="tables-dois">
+            <ul id="tags1">
+                @foreach (dynamic Coaf in Model.Coafs)
+                {
+                    <li class="dropzone">
+                        <span class="span-nome" id="nomeUsuario">@Coaf.DataResposta.ToString("dd/MM/yyyy | HH:mm")</span>
+                        <span class="span-btn"><a href="/Questionario/ExibeCoaf?Id=@Coaf.ClienteId&DataHora=@Coaf.DataResposta.ToString("yyyy-MM-dd HH:mm:ss")"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+    }

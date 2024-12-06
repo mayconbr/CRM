@@ -1,0 +1,82 @@
+﻿<body style="background-color:#1C4587;">
+    <div class="header">
+        <div class="logo">
+            <a href="https://www.gpaudax.com.br/">
+                <img src="/img/logobranco.png" alt="">
+            </a>
+        </div>
+    </div>
+
+    <div class="login_body">
+        <div class="login_box">
+            <form onsubmit="doNovaSenha(this); return false;">
+                <div class="input_box">
+                    <p>Senha</p>
+                    <input type="password"
+                           name="Senha"
+                           id="Senha"
+                           placeholder="**********"
+                           required />
+                </div>
+
+                <div class="input_box">
+                    <p>Confirmar senha</p>
+                    <input type="password"
+                           name="SenhaConf"
+                           id="SenhaConf"
+                           placeholder="**********"
+                           required />
+                </div>
+
+                <div>
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button type="submit" class="botao-message" onclick="doLogin(); return false;">Login</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    function doLogin() {
+        window.location.href = '/Home/Index';
+    }
+
+    function doNovaSenha(form) {
+        debugger;
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const param_x = urlParams.get('pass');
+
+            var u = parseForm(form);
+            u.Senha = sha1(u.Senha);
+            u.hash = param_x;
+
+            $.ajax({
+                type: 'PUT',
+                url: '/CadastroSenha',
+                data: JSON.stringify(u),
+                success: function (data) {
+                    openModalMessage("Senha Alterada, realize o login");
+                },
+                error: function () {
+                    openModalMessage("Não foi possivel cadastrar a senha");
+                },
+                contentType: "application/json"
+            });
+        } catch (e) {
+            openModalMessage(e.message);
+        }
+    }
+</script>
+}

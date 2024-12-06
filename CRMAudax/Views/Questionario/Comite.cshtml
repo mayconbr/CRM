@@ -1,0 +1,107 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+<div class="form-style">
+    <div class="container-comite">
+        <div class="cabecalho">
+            <h3 class="titulo-pagina">Comitê de crédito</h3>
+            <div class="linha-horizontal"></div>
+        </div>
+        @foreach (dynamic Pergunta in Model.Perguntas)
+        {
+
+            <div class="pergunta-coaf">
+                <input type="hidden" id="pergunta_@Pergunta.PerguntaId" name="pergunta_@Pergunta.PerguntaId" class="PerguntaId">
+                <p>@Pergunta.Pergunta</p>
+                <div class="resposta-coaf">
+                    @foreach (var item in Pergunta.Respostas)
+                    {
+                        if (Pergunta.Tipopergunta == 1)
+                        {
+                            <input type="radio" id="resposta_@Pergunta.PerguntaId" name="resposta_@Pergunta.PerguntaId" value="@item.RespostaId" class="input-coaf" required>
+                            <label for="@Pergunta.PerguntaId">@item.RespostaTexto</label>
+                        }
+                        else if (Pergunta.Tipopergunta == 2)
+                        {
+                            <input type="radio" id="resposta_@Pergunta.PerguntaId" name="resposta_@Pergunta.PerguntaId@item.RespostaId" value="@item.RespostaId" class="input-coaf">
+                            <label for="@Pergunta.PerguntaId">@item.RespostaTexto</label>
+                        }
+                    }
+                    @if (Pergunta.Tipopergunta == 3)
+                    {
+                        <input type="text" id="resposta_@Pergunta.PerguntaId" name="resposta_@Pergunta.PerguntaId" placeholder="Digite a resposta" required class="input-coaf" style="border-radius:5px;height:30px;border:solid;color:#436db4;width:112px;padding:4px;">
+                    }
+                </div>
+            </div>
+        }
+        <button class="btn-salvar" onclick="doSaveCoafTeste()">Salvar</button>
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function doSaveCoafTeste() {
+            debugger;
+            const urlParams = new URLSearchParams(window.location.search);
+            IdCliente = urlParams.get('id');
+
+            var respostasPorPergunta = {};
+            var inputs = document.querySelectorAll('.input-coaf');
+
+            inputs.forEach(function (input) {
+
+                if (input.checked) {
+
+                    var perguntaId = input.getAttribute('id').replace('resposta_', '');
+                    var respostaId = input.value;
+
+                    if (!respostasPorPergunta[perguntaId]) {
+                        respostasPorPergunta[perguntaId] = [];
+                    }
+                    respostasPorPergunta[perguntaId].push(respostaId);
+                } else if (input.type != "radio"){
+                    var perguntaId = input.getAttribute('id').replace('resposta_', '');
+                    var respostaId = input.value;
+
+                    if (!respostasPorPergunta[perguntaId]) {
+                        respostasPorPergunta[perguntaId] = [];
+                    }
+                    respostasPorPergunta[perguntaId].push(respostaId);
+                }
+            });
+            console.log(respostasPorPergunta);
+
+            var jsonData = JSON.stringify(respostasPorPergunta);
+
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastraRespostaCedente' + "/" + IdCliente,
+                    contentType: 'application/json',
+                    data: jsonData,
+                    success: function (response) {
+                        openModalMessage("Questionário Salvo!");
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possível cadastrar as respostas");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,58 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+<div class="form-style">
+    <div class="container-comite">
+        <button class="btn-salvar-relatorio" onclick="alterarUrl('/ExibeComite', '/ExportaComite');" style="margin-top:-5px">Exportar</button>
+
+        <div class="cabecalho">            
+            <h3 class="titulo-pagina">Comitê de crédito</h3>
+            <div class="linha-horizontal"></div>
+        </div>
+
+        @foreach (dynamic Pergunta in Model.Perguntas)
+        {
+
+            <div class="pergunta-coaf">
+                <p>@Pergunta.PerguntaCoaf</p>
+                @if ((Pergunta.TipoPergunta == 1) || (Pergunta.TipoPergunta == 2))
+                {
+                    <p>@Pergunta.RespostaPergunta</p>
+                }
+                else
+                {
+                    <p>@Pergunta.RespostaAberta</p>
+
+                }
+            </div>
+
+        }
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+
+            function alterarUrl(parteAntiga, parteNova) {
+            const urlAtual = window.location.href;
+
+            const novaUrl = urlAtual.replace(parteAntiga, parteNova);
+
+            window.location.href = novaUrl;
+        }
+
+
+
+    </script>
+}

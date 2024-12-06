@@ -1,0 +1,156 @@
+﻿@using CRMAudax.Controllers;
+@model dynamic
+@{
+    ViewData["Title"] = "Exibe Usuário";
+}
+@foreach (dynamic Usuario in Model.Usuarios)
+{
+    <div class="form-style">
+        <h3 class="titulo-pagina">Edição de Usuário</h3>
+        <div class="linha-horizontal"></div>
+        <form onsubmit="doEditUser(this); return false;">
+            <fieldset class="fildsetCadastro">
+                <input type="hidden" id="Id" name="Id" value="@Usuario.Id">
+                <div class="object-input">
+                    <div>
+                        <label>Nome</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="Nome"
+                               id="Nome"
+                               value="@Usuario.Nome" />
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Tipo de Usuário</label>
+                    </div>
+                    <div>
+                        <select class="filtro-tipos" title="TipoUsuario" id="TipoUsuario" name="TipoUsuario">
+                            @if (Usuario.TipoUsuario == "1")
+                            {
+                                <option value="1" selected>Administrador</option>
+                                <option value="2">Gerente</option>
+                                <option value="3">Operador</option>
+                            }
+                            else if (Usuario.TipoUsuario == "2")
+                            {
+                                <option value="1">Administrador</option>
+                                <option value="2" selected>Gerente</option>
+                                <option value="4">Operador</option>
+                            }
+                            else if (Usuario.TipoUsuario == "3")
+                            {
+                                <option value="1">Administrador</option>
+                                <option value="2">Gerente</option>
+                                <option value="3" selected>Operador</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Ativo</label>
+                    </div>
+                    <div>
+                        <select class="filtro-tipos" title="Ativo" id="Ativo" name="Ativo">
+                            @{
+                                if (Usuario.Ativo == true)
+                                {
+                                    <option value="1" selected>Sim</option>
+                                    <option value="2">Não</option>
+                                }
+                                else if (Usuario.Ativo == false)
+                                {
+                                    <option value="1">Sim</option>
+                                    <option value="2" selected>Não</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Email</label>
+                    </div>
+                    <div>
+                        <input type="email"
+                               name="Email"
+                               id="Email"
+                               value="@Usuario.Email" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="fildset-padrao">
+                <div>
+                    <div>
+                        <label>Região</label>
+                    </div>
+                    <div>
+                        <select class="filtro-tipos" title="Regiao" id="RegiaoId" name="RegiaoId">
+                            <option value="@Usuario.RegiaoId">@Usuario.Regiao.Nome</option>
+                            @foreach (dynamic Regiao in Model.Regioes)
+                            {
+                                @if (Regiao.Id != Usuario.RegiaoId)
+                                {
+                                    <option value="@Regiao.Id">@Regiao.Nome</option>
+                                }
+                               
+                            }
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="btn-cad">
+                <button class="btn-cadastrar" type="submit">Editar</button>
+            </div>
+        </form>
+    </div>
+}
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function doEditUser(form) {
+            debugger;
+            try {
+                var u = parseForm(form);
+                //var hash = sha1(u.Senha);
+                //u.Senha = hash;
+
+                var ativo = $('#Ativo').val();
+                if (ativo == 1) {
+                    u.Ativo = true;
+                } else {
+                    u.Ativo = false;
+                }
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AtualizaUsuario',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Usuário editado!");
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel editar o usuário");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+    }

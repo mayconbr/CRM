@@ -1,0 +1,419 @@
+﻿@model dynamic
+@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Atualização API";
+
+    @foreach (dynamic Cedente in Model.Cedentes)
+    {
+        @if (Cedente.cpfCnpj.Length <= 14)
+        {
+            <input type="hidden" id="cpfcnpj" value="@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")" />
+            <input type="hidden" id="tipoPessoa" value="F" />
+            <input type="hidden" id="idCliente" value="@Cedente.Id" />
+        }
+        else if (Cedente.cpfCnpj.Length >= 18)
+        {
+            <input id="cpfcnpj" value="@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")" />
+            <input id="tipoPessoa" value="J" />
+            <input id="idCliente" value="@Cedente.Id" />
+        }
+    }
+}
+
+@foreach (dynamic NFE in Model.NFEs)
+{
+    <input type="hidden" id="Id" name="Id" value="@NFE.Id">
+    <input type="hidden" id="numero" name="numero" value="@NFE.numero">
+}
+
+<div class="container-cup">
+    <div class="cup">
+        <div class="handle"></div>
+    </div>
+    <p class="carregando">Carregando ...</p>
+</div>
+
+<div class="concluido" style="display:none;">
+    <p>Concluido!</p>
+    @foreach (dynamic Cedente in Model.Cedentes)
+    {
+        <a href="/Cedente/ExibeCadastros?id=@Cedente.Id"><button class="botao-concluido">Voltar</button></a>
+    }
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content"></div>
+    <div class="modal-conteudo">
+        <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        window.onload = function () {
+
+            //Variaveis
+            var tipoPessoa = document.getElementById("tipoPessoa").value;
+            var CpfCnpj = document.getElementById("cpfcnpj").value;
+            var idCliente = document.getElementById("idCliente").value;
+
+            //Atualização NF
+            GetToken();
+
+            //Atualização Scores
+            if (tipoPessoa == "J") {
+                GetQuodScorePJ(CpfCnpj, idCliente);
+
+            } else {
+                GetQuodScore(CpfCnpj, idCliente);
+            }
+
+            //Atualização SCR
+            GetTokenBancoBMP(CpfCnpj, idCliente);
+
+            //Atualização Pendencias
+            if (tipoPessoa == "J") {
+                GetDecisaoPendenciasPJ(CpfCnpj, idCliente);
+                GetPendenciasQuodPJ(CpfCnpj, idCliente);
+
+            } else {
+                GetDecisaoPendenciasPF(CpfCnpj, idCliente);
+                GetPendenciasQuodPF(CpfCnpj, idCliente);
+            }
+
+            //Atualização Protestos
+            if (tipoPessoa == "J") {
+
+                GetDecisaoProtestosPJ(CpfCnpj, idCliente);
+
+            } else {
+                GetDecisaoProtestosPF(CpfCnpj, idCliente);
+            }
+
+        };
+
+        setInterval(editForm, 15000);
+
+        function editForm() {
+            var doc = document.querySelector('.container-cup')
+            doc.style.display = "none"
+            var but = document.querySelector('.concluido')
+            but.style.display = "block"
+        }
+
+        //faz update so no primeiro registro
+        //se nao tiver nf oq fazer
+
+        function GetToken() {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetToken',
+                    data: null,
+                    success: function (data) {
+                        var nfes = @Html.Raw(Json.Serialize(Model.NFEs));
+                        nfes.forEach(function (NFE) {
+                            if (NFE.status != "Desativado") {
+                                $.ajax({
+                                    type: 'GET',
+                                    url: 'https://gateway.apiserpro.serpro.gov.br/consulta-nfe-df/api/v1/nfe/' + NFE.numero,
+                                    headers: {
+                                        'accept': 'application/json',
+                                        'Authorization': 'Bearer ' + data,
+                                    },
+                                    success: function (data) {
+
+                                        var cStat = data.nfeProc.protNFe.infProt.cStat;
+
+                                        if (cStat === "101") {
+                                            doEditNFE("Desativado", NFE.numero);
+                                        } else {
+                                            doEditNFE("Ativo", NFE.numero);
+                                        }
+                                    },
+                                    error: function () {
+                                        openModalMessage("Uma ou mais nota fiscais não foram encontrada na Serpro");
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    error: function () {
+                        openModalMessage("Erro");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doEditNFE(status, numero) {
+            try {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/UpdateStatusNFE/' + status + '/' + numero,
+                    data: null,
+                    success: function (data) {
+                        openModalMessage("Notas atualizadas, verifique seu status");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel consultar uma ou mais notas");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        //scores
+        function GetQuodScore(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetQuodScore/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        return data;
+                    },
+                    error: function () {
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoScore/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        return data;
+                    },
+                    error: function (data) {
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetQuodScorePJ(cnpj, Id) {
+            debugger;
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetQuodScorePJ/' + cnpj + '/' + Id,
+                    data: null,
+                    success: function () {
+                    },
+                    error: function (data1) {
+                        if (data1 != null) {
+                        }
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoScorePJ/' + cnpj + '/' + Id,
+                    data: null,
+                    success: function (data2) {
+                    },
+                    error: function (data2) {
+                        if (data2 != null) {
+                        }
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+
+        // SCR
+        function GetTokenBancoBMP(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetTokenBancoBMP/',
+                    data: null,
+                    success: function (data) {
+                        debugger;
+                        var token = data;
+                        ConsultaSCR(token, cpf, Id);
+                        return data;
+                    },
+                    error: function () {
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function ConsultaSCR(token, cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/ConsultaSCR/' + token + '/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                        }
+                        return data;
+                    },
+                    error: function () {
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        //Pendencias
+        function GetDecisaoPendenciasPF(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoPendenciasPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetPendenciasQuodPF(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetPendenciasQuodPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetDecisaoPendenciasPJ(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoPendenciasPJ/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetPendenciasQuodPJ(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetQuodPendenciasPJ/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetDecisaoProtestosPJ(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoProtestosPJ/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetDecisaoProtestosPF(cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoProtestosPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+
+    </script>
+}

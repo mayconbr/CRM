@@ -1,0 +1,134 @@
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <script src="https://kit.fontawesome.com/f48165f51e.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="~/favicon.ico" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.mask.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <title>GP Audax - CRM</title>
+</head>
+@if (ViewContext.RouteData.Values["action"]?.ToString() == "Index" || ViewContext.RouteData.Values["action"]?.ToString() == "Configuracao" || ViewContext.RouteData.Values["action"]?.ToString() == "RecuperarSenha" || ViewContext.RouteData.Values["action"]?.ToString() == "CompartilhaPasta")
+{
+    @RenderBody()
+}
+else if (User.Identity.IsAuthenticated)
+{
+    <body>
+        <input type="checkbox" id="check" checked>
+        <!--comeco do header-->
+        <header>
+            <label for="check">
+
+                <ion-icon name="menu-outline" id="sidebar_btn"></ion-icon>
+            </label>
+            <div class="left"></div>
+        </header>
+        <!--final do header-->
+        <!--comeco da sidebar-->
+        <div class="sidebar">
+            <span><img src="~/img/logo-small.png" alt="Audax"></span>
+
+            @if (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.System)?.Value) == 3)
+            {
+                <a asp-controller="Cedente" asp-action="TodosCadastros"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
+                <a asp-controller="Cedente" asp-action="NovoProponentePF"><ion-icon name="add-outline"></ion-icon><span>Novo Proponente</span></a>
+                <a asp-controller="Cedente" asp-action="NovoSacado"><ion-icon name="bag-add-outline"></ion-icon><span>Novo Sacado</span></a>
+                <a asp-controller="Notificacao" asp-action="Notificacao"><ion-icon name="notifications-outline"></ion-icon> <div id="notificacaoSideBar" class="notificacaoSideBar" style="display:none;">@* <p>*</p> *@</div><span>Notificações</span></a>
+                <a asp-controller="Pastas" asp-action="TodasPastas"><ion-icon name="document-outline"></ion-icon><span>Pastas</span></a>
+                <a asp-controller="Relatorio" asp-action="GerenciaPF"><ion-icon name="stats-chart-outline"></ion-icon><span>Relatórios</span></a>
+                <a asp-controller="Configuracao" asp-action="Kanban"><ion-icon name="easel-outline"></ion-icon><span>Prospecção</span></a>
+                <a onclick="logout()" style="cursor:pointer;"><ion-icon name="log-out-outline"></ion-icon><span>Sair</span></a>
+            }
+            else
+            {
+                <a asp-controller="Cedente" asp-action="TodosCadastros"><ion-icon name="home-outline"></ion-icon><span>Home</span></a>
+                //<a asp-controller="Usuario" asp-action="TodosUsuarios"><ion-icon name="person-outline"></ion-icon><span>Usuários</span></a>
+                <a asp-controller="Cedente" asp-action="NovoProponentePF"><ion-icon name="add-outline"></ion-icon><span>Novo Proponente</span></a>
+                <a asp-controller="Cedente" asp-action="NovoSacado"><ion-icon name="bag-add-outline"></ion-icon><span>Novo Sacado</span></a>
+                <a asp-controller="Notificacao" asp-action="Notificacao"><ion-icon name="notifications-outline"></ion-icon> <div id="notificacaoSideBar" class="notificacaoSideBar" style="display:none;">@* <p>*</p> *@</div><span>Notificações</span></a>
+                <a asp-controller="Pastas" asp-action="TodasPastas"><ion-icon name="document-outline"></ion-icon><span>Pastas</span></a>
+                <a asp-controller="Relatorio" asp-action="GerenciaPF"><ion-icon name="stats-chart-outline"></ion-icon><span>Relatórios</span></a>
+                <a asp-controller="Configuracao" asp-action="Kanban"><ion-icon name="easel-outline"></ion-icon><span>Prospecção</span></a>
+                <a asp-controller="Configuracao" asp-action="ConfiguracaoKanban"><ion-icon name="settings-outline"></ion-icon><span>Configurações</span></a>
+                <a onclick="logout()" style="cursor:pointer;"><ion-icon name="log-out-outline"></ion-icon><span>Sair</span></a>
+            }
+
+        </div>
+        <!--final da sidebar -->
+        <div class="container">
+            @if (ViewContext.RouteData.Values["action"]?.ToString() == "GerenciaPJ" || ViewContext.RouteData.Values["action"]?.ToString() == "GerenciaPF")
+            {
+                @RenderBody()
+            }
+            else
+            {
+                <container>
+                    <main role="main">
+                        @RenderBody()
+                    </main>
+                </container>
+            }
+
+        </div>
+        <script>
+
+            function logout() {
+                try {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/logout',
+                        success: function (data) {
+                            window.location.replace("/Home/Index");
+                        },
+                        error: function () {
+                            alert("Não foi possível sair do sistema!");
+                        },
+                        contentType: "application/json"
+                    });
+                } catch (e) {
+                    openModalMessage(e.message);
+                }
+            }
+
+            function doChegaNotificacao() {
+                try {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ConfereNotificacao',
+                        data: null,
+                        success: function (data) {
+                            var notificacaoSideBar = document.getElementById("notificacaoSideBar");
+                            if (data != true) {
+                                notificacaoSideBar.style.display = "none";
+                            } else {
+                                notificacaoSideBar.style.display = "block";
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Tratar erro da requisição AJAX
+                            openModalMessage("Erro na requisição AJAX: " + error);
+                        }
+                    });
+                } catch (e) {
+                    openModalMessage(e.message);
+                }
+            }
+            setTimeout(doChegaNotificacao, 100);
+        </script>
+
+    </body>
+}
+</html>

@@ -1,0 +1,95 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Atividade";
+    IEnumerable<CRMAudax.Models.TableRelacaoBensImoveis> imovel = ViewData["imovel"] as IEnumerable<CRMAudax.Models.TableRelacaoBensImoveis>;
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Imoveis</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doCadastrarImovel(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Localização</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="localizacao"
+                           id="localizacao"
+                           value="@imovel.FirstOrDefault().localizacao"
+                           disabled/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Matrícula</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="matricula"
+                           id="matricula"
+                           value="@imovel.FirstOrDefault().matricula"
+                           disabled/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Cartório</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="cartorio"
+                           id="cartorio"
+                           value="@imovel.FirstOrDefault().cartorio"
+                           disabled/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Livro</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="livro"
+                           id="livro"
+                           value="@imovel.FirstOrDefault().livro"
+                           disabled/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Situação da propriedade</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="situacao"
+                           id="situacao"
+                           value="@imovel.FirstOrDefault().situacao"
+                           disabled/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor estimado do Imóvel</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valor"
+                           id="valor"
+                           value="@imovel.FirstOrDefault().valor"
+                           disabled/>
+                </div>
+            </div>
+        </fieldset>
+        <div class="btn-cad">
+            @*<button class="btn-cadastrar">Voltar</button>*@
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+}

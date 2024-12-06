@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CRMAudax.Models.TableUsuario>
+@{
+    ViewData["Title"] = "Usuários";
+}
+<div class="form-style">
+    <a asp-controller="Usuario" asp-action="NovoUsuario"><button class="btn-new"><ion-icon name="add-outline" class="icon-add"></ion-icon>Novo Usuario</button></a>
+    <h3 class="titulo-pagina">Todos os Usuário</h3>
+    <div class="linha-horizontal"></div>
+
+    <div class="form-controle">
+        <div class="container-title-dois">
+            <h4>Usuário</h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables-dois">
+            <ul id="tags1">
+                @foreach (var element in Model)
+                {
+                    <li class="dropzone" id="@element.Id" onclick="window.location.href='/Usuario/ExibeUsuario?id=@element.Id'" style="cursor: pointer;">
+                        <span class="span-nome" id="nomeUsuario">@Html.DisplayFor(m => element.Nome)</span>
+                        <span class="span-btn"><a href="/Usuario/ExibeUsuario?id=@element.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+    }

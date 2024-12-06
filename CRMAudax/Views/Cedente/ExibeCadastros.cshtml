@@ -1,0 +1,2442 @@
+﻿@model dynamic
+@using System.Linq;
+@using System.Globalization;
+@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Exibir Cadastro";
+}
+@*@{
+    var cpf = 37963215000118;
+    var id = 16;
+}
+<button onclick="GetTokenBancoBMP(@cpf, @id)">CONSULTAR SCR</button>*@
+<div class="form-style">
+    <div class="form-controle">
+        <div class="container-cedente">
+            <div class="atividades">
+
+                <div class="container-title">
+                    <ion-icon name="bulb-outline" class="calendario"></ion-icon><h4>Parecer</h4>
+                </div>
+                <div class="tarefa-score" style="margin-bottom:10px;">
+                    <div>
+                        <textarea class="parecerCedente" disabled rows="3" cools="0">Data: @Model.Parecer.DataRegistro.ToString("dd/MM/yyyy") | Fonte: @Model.Parecer.Tipo, Parecer: @Model.Parecer.Parecer</textarea>
+                    </div>
+                </div>
+
+                <div class="container-title">
+                    <ion-icon name="calendar-clear-outline" class="calendario"></ion-icon><h4>Agenda</h4>
+                </div>
+                <div class="tarefas">
+                    <ul class="table-tarefa">
+                        @foreach (dynamic Atividade in Model.Atividades)
+                        {
+                            <li onclick="window.location.href='/Atividade/ExibeAtividade?id=@Atividade.Id'" style="cursor: pointer;">@Atividade.atividade</li>
+                        }
+                    </ul>
+                    <ul class="table-data-atividade">
+                        @foreach (dynamic Atividade in Model.Atividades)
+                        {
+                            <li onclick="window.location.href='/Atividade/ExibeAtividade?id=@Atividade.Id'" style="cursor: pointer;">@Convert.ToDateTime(Atividade.dataAtividade).ToString("dd/MM/yyyy") <a href="/Atividade/ExibeAtividade?id=@Atividade.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                        }
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            <li><a href="/Atividade/NovaAtividade?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            @foreach (dynamic Cedente in Model.Cedentes)
+            {
+                <div class="container-info">
+                    <div class="float-left info-cabecalho">
+                        <div class="info-faturamento">
+                            <h5>Faturamento</h5>
+                            @if (Cedente.faturamento == null)
+                            {
+                                <p>R$0,00</p>
+                            }
+                            else
+                            {
+                                <p>@string.Format("{0:C}", Cedente.faturamento)</p>
+                            }
+                        </div>
+                        <div class="info-limite">
+                            <h5>Limite</h5>
+                            @if (Model.Limites != null)
+                            {
+                                <p>@Model.Limites.RespostaPergunta</p>
+                            }
+                            else
+                            {
+                                <p>0,00</p>
+                            }
+                        </div>
+                    </div>
+
+                    @if (Cedente.nome.Length > 11)
+                    {
+                        <div class="tooltip">
+                            <div class="tooltip-frente">
+                                <span class="tooltiptext">@Cedente.nome</span>
+                            </div>
+                            <h1>@Cedente.nome.Substring(0, 10) ...</h1>
+
+                        </div>
+
+                        <div class="botoes-edit-coaf">
+                            <h1>
+                                <a href="/Questionario/TodosCoafs?id=@Cedente.Id">
+                                    <button class="botao-pen"><ion-icon name="chatbox-ellipses-outline" class="mais"></ion-icon></button>
+                                </a>
+                            </h1>
+                            <h1>
+                                <a href="/Cedente/EditarCedente?id=@Cedente.Id">
+                                    <button class="botao-pen"><ion-icon name="pencil" class="mais"></ion-icon></button>
+                                </a>
+                            </h1>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="tooltip">
+                            <div class="tooltip-frente">
+                            </div>
+                            <h1>@Cedente.nome</h1>
+
+                        </div>
+
+                        <div class="botoes-edit-coaf">
+                            <h1>
+                                <a href="/Questionario/TodosCoafs?id=@Cedente.Id">
+                                    <button class="botao-pen"><ion-icon name="chatbox-ellipses-outline" class="mais"></ion-icon></button>
+                                </a>
+                            </h1>
+                            <h1>
+                                <a href="/Cedente/EditarCedente?id=@Cedente.Id">
+                                    <button class="botao-pen"><ion-icon name="pencil" class="mais"></ion-icon></button>
+                                </a>
+                            </h1>
+                        </div>
+                    }
+
+                    <div class="linha-horizontal" style="clear:both"></div>
+
+                    <div class="Ativo">
+                        @if (Cedente.status == true)
+                        {
+                            <input type="checkbox" onclick="doStatusCliente(@Cedente.Id)" checked class="input-ativo-cliente" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" onclick="doStatusCliente(@Cedente.Id)" class="input-ativo-cliente" />
+                        }
+
+                        <h5>Ativo</h5>
+                        <div class="operador-cedente">
+                            @if (Cedente.Usuario != null && Cedente.Usuario.Nome != null)
+                            {
+                                <h5 class="nome-operador">@Cedente.Usuario.Nome</h5>
+                                <h5 class="titulo-operador">Operador: </h5>
+                            }
+                            else
+                            {
+                                <h5 class="nome-operador">Sacado</h5>
+                                <h5 class="titulo-operador">Tipo: </h5>
+                            }
+
+                        </div>
+                    </div>
+
+                    <fieldset class="fildset-info">
+                        <input name="IdCedente" id="IdCedente" value="@Cedente.Id" type="hidden" />
+                        <div>
+                            <div>
+                                <label>CPF / CNPJ:</label>
+                            </div>
+                            <div>
+                                @if (Cedente.SituacaoCNPJ != null)
+                                {
+                                    <input type="text"
+                                           name="CnpjCedente"
+                                           value="@Cedente.cpfCnpj @Cedente.SituacaoCNPJ"
+                                           disabled />
+                                }
+                                else
+                                {
+                                    <input type="text"
+                                           name="CnpjCedente"
+                                           value="@Cedente.cpfCnpj"
+                                           disabled />
+                                }
+
+                            </div>
+                        </div>
+                        @if (Cedente.razaoSocialCedente != null )
+                        {
+                            <div>
+                                <div>
+                                    <label>R. Social:</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="TelefoneCedente"
+                                           value="@Cedente.razaoSocialCedente"
+                                           disabled />
+                                </div>
+                            </div>
+                        }                     
+                        <div>
+                            <div>
+                                <label>Telefone:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="TelefoneCedente"
+                                       value="@Cedente.telefone"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Ramo de atividade:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="RamoAtividade"
+                                       value="@Cedente.ramoAtividade"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Email:</label>
+                            </div>
+                            <div>
+                                <input type="email"
+                                       name="EmailCedente"
+                                       value="@Cedente.email"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>CEP:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="CEP"
+                                       value="@Cedente.cep"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Rua:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="Rua"
+                                       value="@Cedente.rua"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Numero:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="Numero"
+                                       value="@Cedente.numero"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Complemento:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="Complemento"
+                                       value="@Cedente.complemento"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Cidade:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="Cidade"
+                                       value="@Cedente.cidade"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Estado:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="Estado"
+                                       value="@Cedente.estado"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Site:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="Site"
+                                       value="@Cedente.site"
+                                       disabled />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Data de nascimento/Fundação:</label>
+                            </div>
+                            <div>
+                                @if (@Convert.ToDateTime(Cedente.dataFundacaoCedente).ToString("dd/MM/yyyy") == "01/01/0001")
+                                {
+                                    <input type="text"
+                                           name="parecer"
+                                           value=""
+                                           disabled />
+                                }
+                                else
+                                {
+                                    <input type="text"
+                                           name="parecer"
+                                           value="@Convert.ToDateTime(Cedente.dataFundacaoCedente).ToString("dd/MM/yyyy") "
+                                           disabled />
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Data de Cadastro:</label>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       name="DataCadastro"
+                                       value="@Cedente.DataCadastro"
+                                       disabled />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="linha-horizontal"></div>
+                    <h2>Arquivos</h2><button class="botao-add"><ion-icon name="add-outline" class="mais" onclick="openModalMessage()"></ion-icon></button>
+                    <div class="container-arquivos">
+                        @foreach (dynamic ContratoSocial in Model.ContratosSociais)
+                        {
+                            if (ContratoSocial.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadContratoSocial(@ContratoSocial.Id)"></ion-icon>
+
+                                <p>Contrato Social </p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Contrato Social Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic ComprovanteEndereco in Model.ComprovantesEnderecos)
+                        {
+                            if (ComprovanteEndereco.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadComprovanteEndereco(@ComprovanteEndereco.Id)"></ion-icon>
+
+                                <p>Comprovante de Endereço </p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Comprovante de Endereço Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic CartaoCnpj in Model.CartoesCnpj)
+                        {
+                            if (CartaoCnpj.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadCartaoCnpj(@CartaoCnpj.Id)"></ion-icon>
+
+                                <p>Cartão CNPJ</p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Cartão CNPJ Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic Faturamento in Model.Faturamentos)
+                        {
+                            if (Faturamento.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadFaturamento(@Faturamento.Id)"></ion-icon>
+
+                                <p>Faturamento</p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Faturamento Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic FaturamentoFiscal in Model.FaturamentosFiscais)
+                        {
+                            if (FaturamentoFiscal.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadFaturamentoFiscal(@FaturamentoFiscal.Id)"></ion-icon> <p>Faturamento Fiscal</p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Faturamento Fiscal Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic ImpostoRenda in Model.ImpostosRenda)
+                        {
+                            if (ImpostoRenda.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadImpostoRenda(@ImpostoRenda.Id)"></ion-icon> <p>Imposto de Renda ou outros</p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Imposto R. Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic CpfRgCnh in Model.CpfRgCnhs)
+                        {
+                            if (CpfRgCnh.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadCPF(@CpfRgCnh.Id)"></ion-icon>
+
+                                <p>CPF/RG/CNH</p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon> <p>CPF/RG/CNH Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic ArquivoDap in Model.ArquivosDap)
+                        {
+                            if (ArquivoDap.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadDAP(@ArquivoDap.Id)"></ion-icon>
+
+                                <p>Arquivo DAP </p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Arquivo DAP Faltante</p>
+                            }
+                        }
+
+                        @foreach (dynamic Declaracao in Model.DeclaracoesC)
+                        {
+                            if (Declaracao.Id != null)
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload" onclick="downloadDeclaracaoC(@Declaracao.Id)"></ion-icon>
+
+                                <p>Declaração de C. </p>
+                            }
+                            else
+                            {
+                                <ion-icon name="download-outline" class="IconeDownload"></ion-icon>
+
+                                <p>Arquivo de declaração Faltante</p>
+                            }
+                        }
+
+                    </div>
+                </div>
+            }
+            <div class="container-esquerdo">
+                <div class="container-ScoreQuod">
+                    <div class="container-title">
+                        <ion-icon name="speedometer-outline" class="calendario"></ion-icon><h4>Scores</h4>
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            @if (Cedente.cpfCnpj.Length <= 14)
+                            {
+                                <button onclick="GetQuodScore('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")', @Cedente.Id)" class="sync-scores" id="botaosyncscore"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                            else if (Cedente.cpfCnpj.Length >= 18)
+                            {
+                                <button onclick="GetQuodScorePJ('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")', @Cedente.Id)" class="sync-scores" id="botaosyncscore"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                        }
+                    </div>
+                    <div class="tarefa-score">
+
+                        <div class="container-cartao-informacao">
+                            <div class="cartao-score-quod">
+                                @foreach (dynamic UltimoScoreQuod in Model.UltimosScoresQuod)
+                                {
+                                    <h1>@UltimoScoreQuod.Score</h1>
+                                    break;
+                                }
+                                <h4>Score Quod</h4>
+                            </div>
+                            <div class="cartao-score-decisao">
+                                @foreach (dynamic UltimoScoreDecisao in Model.UltimosScoresDecisao)
+                                {
+                                    <h1>@UltimoScoreDecisao.Score</h1>
+                                    break;
+                                }
+                                <h4>Score Decisao</h4>
+                            </div>
+                        </div>
+                        <canvas class="line-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="container-Endividamento">
+                    <div class="container-ScoreQuod">
+                        <div class="container-title">
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <ion-icon name="skull-outline" class="calendario"></ion-icon>
+
+                                <h4 class="titulo-grafico" onclick="window.location.href='/Score/ExibeSCR?id=@Cedente.Id'" class="botao-mais-scr" style="cursor: pointer;">Endividamento</h4>
+                            }
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                @if (Cedente.cpfCnpj.Length <= 14)
+                                {
+                                    <button onclick="GetTokenBancoBMP('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncendividamento"><ion-icon name="sync-outline"></ion-icon></button>
+                                }
+                                else if (Cedente.cpfCnpj.Length >= 18)
+                                {
+                                    <button onclick="GetTokenBancoBMP('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncendividamento"><ion-icon name="sync-outline"></ion-icon></button>
+                                }
+                            }
+                        </div>
+                        <div class="tarefa-score">
+
+                            <div class="container-cartao-informacao-scr">
+                                <div class="cartao-score-avencer">
+                                    <div class="cartao-info-interno">
+                                        @foreach (dynamic UltimoSCR in Model.UltimosSCR)
+                                        {
+                                            string valorFormatado = String.Format(new CultureInfo("pt-BR"), "{0:C}", UltimoSCR.carteiraVencer);
+
+                                            <h1>R$@valorFormatado</h1>
+                                            break;
+                                        }
+                                        <h4>A vencer</h4>
+                                    </div>
+                                </div>
+                                <div class="cartao-score-vencido">
+                                    <div class="cartao-info-interno">
+                                        @foreach (dynamic UltimoSCR in Model.UltimosSCR)
+                                        {
+                                            string valorFormatado = String.Format(new CultureInfo("pt-BR"), "{0:C}", UltimoSCR.carteiraVencido);
+                                            <h1>R$@valorFormatado</h1>
+                                            break;
+                                        }
+                                        <h4>Vencidos</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <canvas class="pie-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-protesto-decisao">
+                    <div class="container-title">
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            <ion-icon name="alert-circle-outline" class="calendario"></ion-icon>
+
+                            <h4 onclick="window.location.href='/Score/ExibeProtestosD?id=@Cedente.Id'" style="cursor: pointer;">Protestos Decisão</h4>
+                        }
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            @if (Cedente.cpfCnpj.Length <= 14)
+                            {
+                                <button onclick="GetDecisaoProtestosPF('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreDecisaoProtestos"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                            else if (Cedente.cpfCnpj.Length >= 18)
+                            {
+                                <button onclick="GetDecisaoProtestosPJ('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreDecisaoProtestos"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                        }
+                    </div>
+                    <div class="tarefas">
+
+                        <canvas class="protestoDec-chart"></canvas>
+
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            <ion-icon name="alert-circle-outline" class="calendario"></ion-icon>
+
+                            <h4 onclick="window.location.href='/Score/ExibeProtestosQ?id=@Cedente.Id'" style="cursor: pointer;">Protestos quod</h4>
+                        }
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            @if (Cedente.cpfCnpj.Length <= 14)
+                            {
+                                <button onclick="GetProtestosQuodPF('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreQuodProtestos"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                            else if (Cedente.cpfCnpj.Length >= 18)
+                            {
+                                <button class="botao-inoperante"> <ion-icon name="warning-outline"></ion-icon> </button>
+                                //<button onclick="GetocorePJ('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosync"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                        }
+                    </div>
+                    <div class="tarefas">
+                        <canvas class="protestoQuod-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            <ion-icon name="trending-down-outline" class="calendario"></ion-icon>
+
+                            <h4 onclick="window.location.href='/Score/ExibePendenciasD?id=@Cedente.Id'" style="cursor: pointer;">Pendencias Decisão</h4>
+                        }
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            @if (Cedente.cpfCnpj.Length <= 14)
+                            {
+                                <button onclick="GetDecisaoPendenciasPF('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreDecisaoPendencias"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                            else if (Cedente.cpfCnpj.Length >= 18)
+                            {
+                                <button onclick="GetDecisaoPendenciasPJ('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreDecisaoPendencias"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                        }
+                    </div>
+                    <div class="tarefas">
+                        <canvas class="pendenciasDec-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            <ion-icon name="trending-down-outline" class="calendario"></ion-icon>
+
+                            <h4 onclick="window.location.href='/Score/ExibePendenciasQ?id=@Cedente.Id'" style="cursor: pointer;">Pendencias Quod</h4>
+                        }
+                        @foreach (dynamic Cedente in Model.Cedentes)
+                        {
+                            @if (Cedente.cpfCnpj.Length <= 14)
+                            {
+                                <button onclick="GetPendenciasQuodPF('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreQuodPendencias"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                            else if (Cedente.cpfCnpj.Length >= 18)
+                            {
+                                //<button class="botao-inoperante"> <ion-icon name="warning-outline"></ion-icon> </button>
+                                <button onclick="GetPendenciasQuodPJ('@Cedente.cpfCnpj.Replace(".", "").Replace("-", "").Replace("/", "")', @Cedente.Id)" class="sync-protesto-decisao" id="botaosyncscoreQuodPendencias"><ion-icon name="sync-outline"></ion-icon></button>
+                            }
+                        }
+                    </div>
+                    <div class="tarefas">
+                        <canvas class="pendenciasQuod-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        <ion-icon name="newspaper-outline" class="calendario"></ion-icon><h4>Comitês</h4>
+                    </div>
+                    <div class="tarefas">
+                        <ul class="table-inform">
+                            @foreach (dynamic Questionario in Model.Questionarios)
+                            {
+                                <li onclick="window.location.href='/Questionario/ExibeComite?Id=@Questionario.ClienteId&DataHora=@Questionario.DataResposta.ToString("yyyy-MM-dd HH:mm:ss")'" style="cursor: pointer;">Data: @Questionario.DataResposta.ToString("dd/MM/yyyy | HH:mm")</li>
+                            }
+                        </ul>
+                        <ul class="table-data">
+                            @foreach (dynamic Questionario in Model.Questionarios)
+                            {
+                                <li><span style="visibility:hidden;">a</span><a href="/Questionario/ExibeComite?Id=@Questionario.ClienteId&DataHora=@Questionario.DataResposta.ToString("yyyy-MM-dd HH:mm:ss")"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                            }
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <li><a href="/Questionario/Comite?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        <ion-icon name="receipt-outline" class="calendario"></ion-icon><h4>NFEs</h4>
+                    </div>
+                    <div class="tarefas-nf">
+                        <ul class="table-inform">
+                            @foreach (dynamic NFE in Model.NFEs)
+                            {
+                                if (NFE.status == "Ativo") //green
+                                {
+                                    <li class="situacao-nfe" id="cor" style="background-color:green;"></li>
+                                }
+                                else if (NFE.status == "Desativado") //red
+                                {
+                                    <li class="situacao-nfe" id="cor" style="background-color:red;"></li>
+                                }
+                            }
+                        </ul>
+
+                        <ul class="table-data">
+                            @foreach (dynamic NFE in Model.NFEs)
+                            {
+                                <li onclick="window.location.href='/NFE/NovaNFE?id=@NFE.ClienteId'" style="cursor: pointer;">Número: @NFE.numero.Substring(0, 25) ...</li>
+                            }
+
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <li><a href="/NFE/NovaNFE?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        <ion-icon name="map-outline" class="calendario"></ion-icon><h4>Visitas</h4>
+                    </div>
+                    <div class="tarefas">
+                        <ul class="table-inform">
+                            @foreach (dynamic Visita in Model.Visitas)
+                            {
+                                <li onclick="window.location.href='/Visita/ExibeVisita?id=@Visita.Id'">Entrevistado: @Visita.nomeEntrevistado.Substring(0, 6) ...</li>
+                            }
+                        </ul>
+                        <ul class="table-data">
+                            @foreach (dynamic Visita in Model.Visitas)
+                            {
+                                <li>@Convert.ToDateTime(Visita.dataVisita).ToString("dd/MM/yyyy") <a href="/Visita/ExibeVisita?id=@Visita.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                            }
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <li><a href="/Visita/Visita?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        <ion-icon name="rocket-outline" class="calendario"></ion-icon><h4>Máquinas</h4>
+                    </div>
+                    <div class="tarefas">
+                        <ul class="table-inform">
+                            @foreach (dynamic Maquina in Model.Maquinas)
+                            {
+                                <li onclick="window.location.href='/Maquina/ExibeMaquina?id=@Maquina.Id'">@Maquina.nomeEquipamento</li>
+                            }
+                        </ul>
+                        <ul class="table-data">
+                            @foreach (dynamic Maquina in Model.Maquinas)
+                            {
+                                <li>@Maquina.valorMaquina<a href="/Maquina/ExibeMaquina?id=@Maquina.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                            }
+
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <li><a href="/Maquina/NovaMaquina?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        <ion-icon name="business-outline" class="calendario"></ion-icon><h4>Imoveis</h4>
+                    </div>
+                    <div class="tarefas">
+                        <ul class="table-inform">
+                            @foreach (dynamic Imovel in Model.Imoveis)
+                            {
+                                <li onclick="window.location.href='/Imovel/ExibeImovel?id=@Imovel.Id'">N° @Imovel.matricula</li>
+                            }
+                        </ul>
+                        <ul class="table-data">
+                            @foreach (dynamic Imovel in Model.Imoveis)
+                            {
+                                <li>@Imovel.valor<a href="/Imovel/ExibeImovel?id=@Imovel.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                            }
+
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <li><a href="/Imovel/NovoImovel?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container-protesto-quod">
+                    <div class="container-title">
+                        <ion-icon name="car-outline" class="calendario"></ion-icon><h4>Automóveis</h4>
+                    </div>
+                    <div class="tarefas">
+                        <ul class="table-inform">
+                            @foreach (dynamic Automovel in Model.Automoveis)
+                            {
+                                <li onclick="window.location.href='/Automovel/ExibeAutomovel?id=@Automovel.Id'">@Automovel.placa</li>
+                            }
+                        </ul>
+                        <ul class="table-data">
+                            @foreach (dynamic Automovel in Model.Automoveis)
+                            {
+                                <li>@Automovel.valorFipe<a href="/Automovel/ExibeAutomovel?id=@Automovel.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></li>
+                            }
+
+                            @foreach (dynamic Cedente in Model.Cedentes)
+                            {
+                                <li><a href="/Automovel/NovoAutomovel?id=@Cedente.Id"><button class="botao-add"><ion-icon name="add-outline" class="mais"></ion-icon></button></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @foreach (dynamic Cedente in Model.Cedentes)
+    {
+        <div class="botoes-cedente">
+            <a href="/Questionario/Comite?id=@Cedente.Id"><button class="btn-new-exibecad"><ion-icon name="add-outline" class="icon-add"></ion-icon> Novo Comitê</button></a>
+            <a href="/Visita/Visita?id=@Cedente.Id"><button class="btn-new-exibecad"><ion-icon name="map-outline" class="icon-visita"></ion-icon> Nova Visita</button></a>
+            <button class="btn-new-exibecad" onclick="openModalload()"><ion-icon name="sync-outline" class="icon-visita"></ion-icon> Atualizar APIs</button>
+            <a href="/Questionario/Coaf?id=@Cedente.Id"><button class="btn-new-exibecad"><ion-icon name="flag-outline" class="icon-visita"></ion-icon>Quest. Coaf</button></a>
+        </div>
+    }
+    <div class="graficos">
+
+        <h3 class="titulo-pagina">Sintese decisão</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildset-decisao">
+            @foreach (var Sintese in Model.DecisaoScores)
+            {
+                <div>
+                    <p>@Sintese.Esclarecimento</p>
+                </div>
+                <div>
+                    <div>
+                        <label>Probabilidade de inadimplencia</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="@Sintese.ProbabilidadeInadimplencia"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Classe de risco</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="@Sintese.ClasseRisco"
+                               disabled />
+                    </div>
+                </div>
+                break;
+            }
+        </fieldset>
+        <h3 class="titulo-pagina">Sistema de Informações de Créditos (SCR)</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildset-scr">
+            @foreach (var Endividamento in Model.EndividamentosSCR)
+            {
+                <div>
+                    <div>
+                        <label>Valor de vencimentos de 30 dias a 14 dias</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.carteiraVencerAte30diasVencidosAte14dias"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Valor de vencimentos de 31 dias a 60 dias</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.carteiraVencer31a60dias"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Valor de vencimentos de 61 dias a 90 dias</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.carteiraVencer61a90dias"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Valor de vencimentos de 91 dias a 180 dias</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.carteiraVencer91a180dias"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Responsabilidade Total</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.responsabilidadeTotal"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Risco Total</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.riscoTotal"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Carteira à vencer prazo indeterminado</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.carteiraVencerPrazoIndeterminado"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Créditos à liberar</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.creditosaLiberar"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Qtd. Operações em discordância</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="@Endividamento.qtdeOperacoesDiscordancia"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Valor sob judice</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="R$: @Endividamento.vlrOperacoesSobJudice"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Início do rel. (Provisor do SCR)</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name=""
+                               value="@Endividamento.dataInicioRelacionamento"
+                               disabled />
+                    </div>
+                </div>
+                break;
+            }
+        </fieldset>
+    </div>
+</div>
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage" style="display: none;">
+        </div>
+        <ion-icon name="close-outline" class="botao-close-modal" onclick="closeModalMessage(true)"></ion-icon>
+        <h2>Upload de Documentos</h2>
+        <div class="linha-horizontal"></div>
+        <button class="btn-next-doc" onclick="doChangeContentArq()" id="rotateButton"><ion-icon name="arrow-forward-outline"></ion-icon></button>
+        <div class="content-arqv" id="content-arqv">
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Contrato Social</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputContratoSocial"
+                               name="inputContratoSocial"
+                               onchange="InsertContratoSocial()" />
+                    </div>
+                </div>
+            </form>
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Comprovante de Endereço</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputComprovanteEndereco"
+                               name="inputComprovanteEndereco"
+                               onchange="InsertComprovanteEndereco()" />
+                    </div>
+                </div>
+            </form>
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Cartão CNPJ</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputCartaoCNPJ"
+                               name="inputCartaoCNPJ"
+                               onchange="InsertCartaoCNPJ()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form>
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Faturamento</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputFaturamento"
+                               name="inputFaturamento"
+                               onchange="InsertFaturamento()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form>
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Faturamento Fiscal</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputFaturamentoFiscal"
+                               name="inputFaturamentoFiscal"
+                               onchange="InsertFaturamentoFiscal()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form>
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">
+                            Contrato de arrendamento de terras / IRF / IPTR / CADPRO / CADESP
+                        </label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputImpostoRenda"
+                               name="inputImpostoRenda"
+                               onchange="InsertImpostoRenda()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form>
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">CPF/RG/CNH</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputCpfRgCnh"
+                               name="inputCpfRgCnh"
+                               onchange="InsertCpfRgCnh()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="contentNewArqv" style="display:none">
+            <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Declaração de aptidão ao Pronaf (DAP)</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputDAP"
+                               name="inputDAP"
+                               onchange="InsertDAP()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form><form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <label class="label-arquivo">Declaração de relacionamento de crédito</label>
+                    </div>
+                    <div class="cinza-documento">
+                        <input class="input-arquivo"
+                               type="file"
+                               id="inputDeclaracaoC"
+                               name="inputDeclaracaoC"
+                               onchange="InsertDeclaracaoC()" />
+                    </div>
+                    <div id="container-barra" class="container-barra">
+                        <div class="barra"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-load" id="modal-load">
+    <div class="modal-message-content">
+
+        <div class="conteudo-modal-load" style="display:block;">
+            <div class="modal-message-header" id="divMessage"><p>Para essa ação é necessario o consumo de APIs, que geram custos, continuar ?</p></div>
+            <div class="modal-conteudo">
+                @foreach (dynamic Cedente in Model.Cedentes)
+                {
+                    <a href="/API/API?id=@Cedente.Id"><button class="botao-load">Sim</button></a>
+                }
+                <button class="botao-load" onclick="closeModalload()">Não</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="message" id="message"></div>
+
+@section Scripts {
+    <script>
+        function InsertContratoSocial() {
+            event.preventDefault();
+
+            var valid = $('#inputContratoSocial').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para o contrato social");
+            }
+            else {
+                $("#inputContratoSocial").prop("disabled", true);
+
+                var fileUpload = $("#inputContratoSocial").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileContratoSocial/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputContratoSocial").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function InsertComprovanteEndereco() {
+            event.preventDefault();
+
+            var valid = $('#inputComprovanteEndereco').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para o comprovante de endereço");
+            }
+            else {
+                $("#inputComprovanteEndereco").prop("disabled", true);
+
+                var fileUpload = $("#inputComprovanteEndereco").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileComprovanteEndereco/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputComprovanteEndereco").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function InsertCartaoCNPJ() {
+            event.preventDefault();
+
+            var valid = $('#inputCartaoCNPJ').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para o Cartão CNPJ");
+            }
+            else {
+                $("#inputCartaoCNPJ").prop("disabled", true);
+
+                var fileUpload = $("#inputCartaoCNPJ").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileCartaoCNPJ/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputCartaoCNPJ").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+
+        function InsertFaturamento() {
+            event.preventDefault();
+
+            var valid = $('#inputFaturamento').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para Faturamento");
+            }
+            else {
+                $("#inputFaturamento").prop("disabled", true);
+
+                var fileUpload = $("#inputFaturamento").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileFaturamento/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputFaturamento").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function InsertFaturamentoFiscal() {
+            event.preventDefault();
+
+            var valid = $('#inputFaturamentoFiscal').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para Faturamento Fiscal");
+            }
+            else {
+                $("#inputFaturamentoFiscal").prop("disabled", true);
+
+                var fileUpload = $("#inputFaturamentoFiscal").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileFaturamentoFiscal/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputFaturamentoFiscal").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function InsertImpostoRenda() {
+            event.preventDefault();
+
+            var valid = $('#inputImpostoRenda').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para Imposto de Renda");
+            }
+            else {
+                $("#inputImpostoRenda").prop("disabled", true);
+
+                var fileUpload = $("#inputImpostoRenda").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileImpostoRenda/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputImpostoRenda").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function InsertCpfRgCnh() {
+            event.preventDefault();
+
+            var valid = $('#inputCpfRgCnh').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para Imposto de Renda");
+            }
+            else {
+                $("#inputCpfRgCnh").prop("disabled", true);
+
+                var fileUpload = $("#inputCpfRgCnh").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileCpfRgCnh/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputCpfRgCnh").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function downloadContratoSocial(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileContratoSocial/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileContratoSocial/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function downloadComprovanteEndereco(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileComprovanteEndereco/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileComprovanteEndereco/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function downloadCartaoCnpj(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileCartaoCnpj/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileCartaoCnpj/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function downloadFaturamento(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileFaturamento/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileFaturamento/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function downloadFaturamentoFiscal(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileFaturamentoFiscal/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileFaturamentoFiscal/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function downloadImpostoRenda(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileImpostoRenda/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileImpostoRenda/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function downloadCPF(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileCpfRgCnh/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileCpfRgCnh/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function GetQuodScore(cpf, Id) {
+            botaosyncscore.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetQuodScore/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        return data;
+                    },
+                    error: function () {
+                        alert(data);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoScore/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        window.location.reload();
+                        return data;
+                    },
+                    error: function (data) {
+                        alert(data);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetQuodScorePJ(cnpj, Id) {
+            botaosyncscore.classList.toggle('animar');
+            debugger;
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetQuodScorePJ/' + cnpj + '/' + Id,
+                    data: null,
+                    success: function () {
+                    },
+                    error: function (data1) {
+                        if (data1 != null) {
+                            alert(data1);
+                        }
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoScorePJ/' + cnpj + '/' + Id,
+                    data: null,
+                    success: function (data2) {
+                        window.location.reload();
+                    },
+                    error: function (data2) {
+                        if (data2 != null) {
+                            alert(data2);
+                        }
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        window.onload = function () {
+
+            // Percorra a lista de QuodScores
+            var scoresArray = [];
+            var consultaDateArray = [];
+        @foreach (var QuodScore in Model.QuodScores)
+        {
+            <text>
+                    scoresArray.push(@QuodScore.Score);
+                consultaDateArray.push('@QuodScore.DataScore.ToString("dd/MM/yyyy")');
+            </text>
+        }
+
+                                                            // Percorra a lista de DecisaoScores
+                                                            var DecisaoSc = [];
+            var DecisaoDate = [];
+        @foreach (var DecisaoScore in Model.DecisaoScores)
+        {
+            <text>
+                    DecisaoSc.push(@DecisaoScore.Score);
+                DecisaoDate.push('@DecisaoScore.DataScore.ToString("dd/MM/yyyy")');
+            </text>
+        }
+                                                            //plota grafico
+                                                             var ctx = document.getElementsByClassName("line-chart");
+            //type, data,options
+            var chartGraph = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: consultaDateArray, DecisaoDate,
+                    datasets: [
+                        {
+                            label: "Quod",
+                            data: scoresArray,
+                            borderWidth: 6,
+                            borderColor: 'rgba(77,166,253,0.45)',
+                            backgroundColor: "transparent"
+                        },
+                        {
+                            label: "Decisão",
+                            data: DecisaoSc,
+                            borderWidth: 6,
+                            borderColor: 'rgba(36,61,105,0.75)',
+                            backgroundColor: "transparent"
+                        },
+                    ]
+                },
+                options: {
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            align: 'right', // você pode escolher 'end', 'start', 'right', 'left', etc.
+                            formatter: (value) => {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    labels: {
+                        fontStyle: "bold"
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true, // começa o eixo Y do zero
+                                max: 1000, // define o valor máximo do eixo Y
+                                // outras configurações de escala...
+                            }
+                        }],
+                    }
+                }
+            });
+
+            //Percorra a lista SCR
+            var carteiraVencer = [];
+            var carteiraVencido = [];
+            var dataConsultaSCR = [];
+
+        @foreach (var Endividamento in Model.EndividamentosSCR)
+        {
+            <text>
+                    carteiraVencer.push('@Endividamento.carteiraVencer.ToString()');
+                carteiraVencido.push('@Endividamento.carteiraVencido.ToString()');
+                dataConsultaSCR.push('@Endividamento.DataConsulta.ToString("dd/MM/yyyy")');
+            </text>
+        }
+
+                                            var ctz = document.getElementsByClassName("pie-chart");
+            //type, data,options
+            var chartGraph = new Chart(ctz, {
+                type: 'line',
+                data: {
+                    labels: dataConsultaSCR,
+                    datasets: [
+                        {
+                            label: "A vencer",
+                            data: carteiraVencer,
+                            borderWidth: 4,
+                            borderColor: 'rgba(36,61,105,0.75)',
+                            backgroundColor: "transparent",
+                            tension: 0.1
+                        },
+                        {
+                            label: "Vencidos",
+                            data: carteiraVencido,
+                            borderWidth: 4,
+                            borderColor: 'rgb(255, 0, 0)',
+                            backgroundColor: "transparent",
+                            tension: 0.1
+                        },
+                    ]
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                // Formatar os valores do eixo Y como moeda
+                                callback: function (value, index, values) {
+                                    return new Intl.NumberFormat('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    }).format(value);
+                                }
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(tooltipItem.yLabel);
+                                return label;
+                            }
+                        }
+                    },
+
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            align: 'right', // você pode escolher 'end', 'start', 'right', 'left', etc.
+                            formatter: (value) => {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    labels: {
+                        fontStyle: "bold"
+                    }
+                }
+            });
+
+
+            // Percorra a lista
+            var ProtestosDecArray = [];
+            var ProtestosDecDateArray = [];
+            var ProtestosDecContArray = [];
+        @foreach (dynamic DecisaoProtesto in Model.DecisaoProtestos)
+        {
+            <text>
+                    ProtestosDecContArray.push('@DecisaoProtesto.Contagem')
+                ProtestosDecArray.push('@DecisaoProtesto.ValorTotal.ToString("C", CultureInfo.CurrentCulture)');
+                ProtestosDecDateArray.push('@DecisaoProtesto.Data.ToString("dd/MM/yyyy")');
+            </text>
+        }
+
+                                                            //plota grafico
+                                                            var cty = document.getElementsByClassName("protestoDec-chart");
+            //type, data,options
+            var chartGraph = new Chart(cty, {
+                type: 'line',
+                data: {
+                    labels: ProtestosDecDateArray,
+                    datasets: [
+                        {
+                            label: "Protestos Decisão",
+                            data: ProtestosDecContArray,
+                            borderWidth: 6,
+                            borderColor: 'rgba(3,61,110,0.25)',
+                            backgroundColor: "transparent"
+                        },
+                    ]
+                },
+                options: {
+                    labels: {
+                        fontStyle: "bold"
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                const label = data.labels[tooltipItem.index];
+                                const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                const additionalInfo = ProtestosDecArray[tooltipItem.index];
+                                return label + ': ' + value + ' (' + additionalInfo + ')';
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 8, // define o valor máximo do eixo Y
+                                stepSize: 1  // Definindo o intervalo da escala para 1
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            // Percorra a lista
+            var ProtestosQuodArray = [];
+            var ProtestosQuodDateArray = [];
+            var ProtestosQuodContArray = [];
+        @foreach (dynamic QuodProtesto in Model.QuodProtestos)
+        {
+            <text>
+                    ProtestosQuodContArray.push('@QuodProtesto.Contagem')
+                ProtestosQuodArray.push('@QuodProtesto.ValorTotal.ToString("C", CultureInfo.CurrentCulture)');
+                ProtestosQuodDateArray.push('@QuodProtesto.Data.ToString("dd/MM/yyyy")');
+            </text>
+        }
+                                                            //plota grafico
+                                                            var ctq = document.getElementsByClassName("protestoQuod-chart");
+            //type, data,options
+            var chartGraph = new Chart(ctq, {
+                type: 'line',
+                data: {
+                    labels: ProtestosQuodDateArray,
+                    datasets: [
+                        {
+                            label: "Protestos Quod",
+                            data: ProtestosQuodContArray,
+                            borderWidth: 6,
+                            borderColor: 'rgba(77,166,253,0.45)',
+                            backgroundColor: "transparent"
+                        },
+                    ]
+                },
+                options: {
+                    labels: {
+                        fontStyle: "bold"
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                const label = data.labels[tooltipItem.index];
+                                const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                const additionalInfo = ProtestosQuodArray[tooltipItem.index];
+                                return label + ': ' + value + ' (' + additionalInfo + ')';
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 8, // define o valor máximo do eixo Y
+                                stepSize: 1  // Definindo o intervalo da escala para 1
+                            }
+                        }]
+                    }
+                }
+            });
+
+            // Percorra a lista
+            var PendenciasDecDateArray = [];
+            var PendenciasDecValorArray = [];
+            var ContPendenciasDecArray = [];
+
+        @foreach (dynamic PendenciaDecisao in Model.PendenciasDecisao)
+        {
+            <text>
+                    PendenciasDecValorArray.push('@(PendenciaDecisao.ValorTotal != null ? PendenciaDecisao.ValorTotal.ToString("C", CultureInfo.CurrentCulture) : "0")');
+                PendenciasDecDateArray.push('@PendenciaDecisao.Data.ToString("dd/MM/yyyy")');
+                ContPendenciasDecArray.push('@PendenciaDecisao.Contagem');
+            </text>
+        }
+
+                                                            //plota grafico
+                                                            var ctq = document.getElementsByClassName("pendenciasDec-chart");
+            //type, data,options
+            var chartGraph = new Chart(ctq, {
+                type: 'line',
+                data: {
+                    labels: PendenciasDecDateArray,
+                    datasets: [
+                        {
+                            label: "Pendencias Decisão",
+                            data: ContPendenciasDecArray,
+                            borderWidth: 6,
+                            borderColor: 'rgba(3,61,110,0.25)',
+                            backgroundColor: "transparent"
+                        },
+                    ]
+                },
+                options: {
+                    labels: {
+                        fontStyle: "bold"
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                const label = data.labels[tooltipItem.index];
+                                const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                const additionalInfo = PendenciasDecValorArray[tooltipItem.index];
+                                return additionalInfo;
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 8, // define o valor máximo do eixo Y
+                                stepSize: 1  // Definindo o intervalo da escala para 1
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            // Percorra a lista
+            var PendenciasQuodDateArray = [];
+            var PendenciasQuodValorArray = [];
+            var PendenciasQuodCompanyArray = [];
+            var ContPendenciasQuodArray = [];
+
+        @foreach (dynamic PendenciaQuod in Model.PendenciasQuod)
+        {
+            <text>
+                    PendenciasQuodValorArray.push('@(PendenciaQuod.ValorTotal != null ? PendenciaQuod.ValorTotal.ToString("C", CultureInfo.CurrentCulture) : "0")');
+                PendenciasQuodDateArray.push('@(PendenciaQuod.Data != null ? PendenciaQuod.Data.ToString("dd/MM/yyyy") : "0/00/0000")');
+                ContPendenciasQuodArray.push('@PendenciaQuod.Contagem');
+            </text>
+        }
+
+                                                            //plota grafico
+                                                             var ctq = document.getElementsByClassName("pendenciasQuod-chart");
+            //type, data,options
+            var chartGraph = new Chart(ctq, {
+                type: 'line',
+                data: {
+                    labels: PendenciasQuodDateArray,
+                    datasets: [
+                        {
+                            label: "Pendencias Quod",
+                            data: ContPendenciasQuodArray,
+                            borderWidth: 6,
+                            borderColor: 'rgba(77,166,253,0.45)',
+                            backgroundColor: "transparent"
+                        },
+                    ]
+                },
+                options: {
+                    labels: {
+                        fontStyle: "bold"
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                const label = data.labels[tooltipItem.index];
+                                const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                const additionalInfo = PendenciasQuodValorArray[tooltipItem.index];
+                                return additionalInfo;
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 8, // define o valor máximo do eixo Y
+                                stepSize: 1  // Definindo o intervalo da escala para 1
+                            }
+                        }]
+                    }
+                }
+            });
+
+        };
+
+        function GetDecisaoProtestosPJ(cpf, Id) {
+            botaosyncscoreDecisaoProtestos.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoProtestosPJ/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetDecisaoProtestosPF(cpf, Id) {
+            botaosyncscoreDecisaoProtestos.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoProtestosPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doStatusCliente(Id) {
+            try {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/StatusCliente/' + Id,
+                    success: function (data) {
+                        alert("Status Alterado");
+                    },
+                    error: function () {
+                        alert("Erro ao alterar status");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetDecisaoPendenciasPJ(cpf, Id) {
+            botaosyncscoreDecisaoPendencias.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoPendenciasPJ/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetDecisaoPendenciasPF(cpf, Id) {
+            botaosyncscoreDecisaoPendencias.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetDecisaoPendenciasPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetPendenciasQuodPF(cpf, Id) {
+            botaosyncscoreQuodPendencias.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetPendenciasQuodPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetProtestosQuodPF(cpf, Id) {
+            botaosyncscoreQuodProtestos.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetProtestosQuodPF/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetPendenciasQuodPJ(cpf, Id) {
+            botaosyncscoreQuodPendencias.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetQuodPendenciasPJ/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (jqXHR) {
+                        var errorMessage = jqXHR.responseText;
+                        alert(errorMessage);
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function GetTokenBancoBMP(cpf, Id) {
+            botaosyncendividamento.classList.toggle('animar');
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetTokenBancoBMP/',
+                    data: null,
+                    success: function (data) {
+                        debugger;
+                        var token = data;
+                        ConsultaSCR(token, cpf, Id);
+                        return data;
+                    },
+                    error: function () {
+                        alert("Não foi possivel consultar as pendencias no sistema quod");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function ConsultaSCR(token, cpf, Id) {
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/ConsultaSCR/' + token + '/' + cpf + '/' + Id,
+                    data: null,
+                    success: function (data) {
+                        var resposta = confirm(data);
+                        if (resposta = true) {
+                            location.reload();
+                        }
+                        return data;
+                    },
+                    error: function () {
+                        alert("Não foi possivel consultar o endividamento por SCR no banco BMP");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function InsertDAP() {
+            event.preventDefault();
+
+            var valid = $('#inputDAP').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para o DAP");
+            }
+            else {
+                $("#inputDAP").prop("disabled", true);
+
+                var fileUpload = $("#inputDAP").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileDAP/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                        sucessAtv("Arquivo salvo")
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#UploadFileDAP").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function downloadDAP(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileDAP/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileDAP/' + Id;
+                    sucessAtv("Arquivo encontrado!")
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    ErrAtv("Erro ao buscar anexo!");
+                    
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function InsertDeclaracaoC() {
+            event.preventDefault();
+
+            var valid = $('#inputDeclaracaoC').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para a Declaração");
+            }
+            else {
+                $("#inputDeclaracaoC").prop("disabled", true);
+
+                var fileUpload = $("#inputDeclaracaoC").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFileDeclaracaoC/" + $("#IdCedente").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                        sucessAtv("Arquivo salvo")
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputDeclaracaoC").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function downloadDeclaracaoC(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileDeclaracaoC/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileDeclaracaoC/' + Id;
+                    sucessAtv("Arquivo encontrado!")
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    ErrAtv("Erro ao buscar anexo!");
+
+                },
+                contentType: "application/json"
+            });
+        }
+
+    </script>
+}

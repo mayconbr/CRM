@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "Detalhes Protestos";
+    @using CRMAudax.Controllers;
+    @model dynamic
+
+}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 2px;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    .tot-prot {
+        font-weight: bold;
+        margin-bottom: -12px;
+    }
+
+    .cab-prot {
+        background-color: #DCE5F3;
+        color: #7B7B7B;
+    }
+
+    p {
+        margin: 10px;
+    }
+
+    .font-prot {
+        font-weight: bold;
+    }
+</style>
+<div class="form-style">
+    <h3 class="titulo-pagina">Detalhamento de protestos no sistema Decisão</h3>
+    <div class="linha-horizontal"></div>
+
+    <div class="form-controle">
+
+        <table>
+            <thead>
+                <tr class="cab-prot">
+                    @{
+                        var datasExibidas = new HashSet<DateTime>();
+
+                        foreach (dynamic protesto in Model.protestos)
+                        {
+                            DateTime protestoDate = protesto.Data;
+
+                            if (!datasExibidas.Contains(protestoDate))
+                            {
+                                datasExibidas.Add(protestoDate);
+                                <th>@protestoDate.ToString("dd/MM/yyyy")</th>
+                            }
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @{
+                        var somaPorData = new Dictionary<DateTime, decimal>();
+
+                        foreach (dynamic protesto in Model.protestos)
+                        {
+                            DateTime protestoDate = protesto.Data;
+                            decimal valor = protesto.Valor;
+
+                            if (somaPorData.ContainsKey(protestoDate))
+                            {
+                                somaPorData[protestoDate] += valor;
+                            }
+                            else
+                            {
+                                somaPorData[protestoDate] = valor;
+                            }
+                        }
+                        foreach (var entry in somaPorData)
+                        {
+                            <td><p>Total: @entry.Value.ToString("F2")</p></td>
+                        }
+                    }
+
+
+
+
+                    @* <div class="accordion">
+                        <button class="accordion-header" type="button">
+                            <span><h3>Segundo sócio +</h3></span>
+                            <ion-icon name="chevron-down-outline" class="arrow"></ion-icon>
+                        </button>
+                        <div class="accordion-body">                          
+                        </div>
+                    </div> *@
+
+
+
+
+
+
+                </tr>
+                <tr>
+                    @{
+                        int cont = 0;
+                        Dictionary<DateTime, int> dateOccurrences = new Dictionary<DateTime, int>();
+
+                        foreach (dynamic protesto in Model.protestos)
+                        {
+                            DateTime protestoDate = protesto.Data;
+
+                            if (dateOccurrences.ContainsKey(protestoDate))
+                            {
+                                cont++;
+                                dateOccurrences[protestoDate]++;
+                            }
+                            else
+                            {
+                                dateOccurrences[protestoDate] = 1;
+                            }
+
+                            if (cont == 0)
+                            {
+                                <td>
+                                    <p class="font-prot">@protesto.Valor.ToString("F2")</p>
+                                    <p>@protesto.Cidade</p>
+                                    <p>@protesto.Cartorio</p>
+                                    <p>Contador @cont</p>
+                                </td>
+                            }
+                            else
+                            {
+                                @for (int i = 1; i <= cont; i++)
+                                {
+                                <tr>
+                                    <td>
+                                        <p class="font-prot">@protesto.Valor.ToString("F2")</p>
+                                        <p>@protesto.Cidade</p>
+                                        <p>@protesto.Cartorio</p>
+                                        <p>Contador @cont</p>
+                                    </td>
+                                </tr>
+
+                                }
+                            }
+
+                        }
+                    }
+                </tr>
+
+            </tbody>
+        </table>
+
+        @{
+            var soma = 0.0m; // Initialize soma as a decimal
+            foreach (dynamic protesto in Model.protestos)
+            {
+                soma = soma + protesto.Valor; // Now both are decimals
+            }
+        }
+        <h2>R$ @soma.ToString("F2")</h2>
+
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    </script>
+}

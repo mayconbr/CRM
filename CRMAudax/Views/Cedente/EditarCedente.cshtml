@@ -1,0 +1,737 @@
+﻿@using CRMAudax.Controllers;
+
+@model IEnumerable<CRMAudax.Models.TableCliente>
+@{
+    ViewData["Title"] = "Editar Cedente";
+}
+@foreach (var element in Model)
+{
+    <div class="form-style">
+        <h3 class="titulo-pagina">Editar Cedente</h3>
+        <div class="linha-horizontal"></div>
+        <form onsubmit="doEditCedente(this); return false;" id="editCedente">
+            <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+                <div>
+                    <div>
+                        <label>Por que recorreu à Audax ? *</label>
+                    </div>
+                    <div>
+                        <input name="recorreu"
+                               id="'recorreu"
+                               class="big-input"
+                               value="@element.recorreu">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="fildsetCadastro">
+                <input type="hidden" value="@element.Id" name="Id" id="IdCedente">
+                <div class="object-input">
+                    <div>
+                        <label>Nome Fantasia*</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="nome"
+                               id="nome"
+                               value="@element.nome" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Razão Social *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="razaoSocialCedente"
+                               id="razaoSocialCedente"
+                               value="@element.razaoSocialCedente" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>CPF/CNPJ *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="cpfCnpj"
+                               id="cpfCnpj"
+                               value="@element.cpfCnpj" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Ramo de Atividade *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="ramoAtividade"
+                               id="ramoAtividade"
+                               value="@element.ramoAtividade" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Telefone *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="telefone"
+                               id="telefone"
+                               value="@element.telefone" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Email</label>
+                    </div>
+                    <div>
+                        <input type="email"
+                               name="email"
+                               id="email"
+                               value="@element.email" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>CEP</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="cep"
+                               id="cep"
+                               value="@element.cep" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Rua</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="rua"
+                               id="rua"
+                               value="@element.rua" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Número</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="numero"
+                               id="numero"
+                               value="@element.numero" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Complemento</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="complemento"
+                               id="complemento"
+                               value="@element.complemento" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Cidade</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="cidade"
+                               id="cidade"
+                               value="@element.cidade" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Estado</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="estado"
+                               id="estado"
+                               value="@element.estado" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Bairro</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="bairro"
+                               id="bairro"
+                               value="@element.bairro" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Nome do responsavel:</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="nomeResponsavel"
+                               id="nomeResponsavel"
+                               value="@element.nomeResponsavel" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Site ou Rede Social</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="site"
+                               id="site"
+                               value="@element.site" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Data da nascimento / Fundação</label>
+                    </div>
+                    <div>
+                        <input placeholder="@Convert.ToDateTime(element.dataFundacaoCedente).ToString("dd/MM/yyyy")"
+                               disabled />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Faturamento</label>
+                    </div>
+                    <div>
+                        <input type="number"
+                               name="faturamento"
+                               placeholder="@element.faturamento"
+                               value="@element.faturamento"
+                               id="faturamento"
+                               required />
+                    </div>
+                </div>
+                <div>
+                    <div class="difere-tooltip">
+                        <label>                          
+                            <div class="tooltip" style="cursor:pointer;">
+                                <div class="tooltip-frente tooltip-compl">
+                                    <span class="tooltiptext">
+                                        Este campo é designado tanto para inscrição estadual referente a circulação de mercadoria e serviços - ICMS em casos de empresas 
+                                        quanto para o numero de inscrição estadual em casos de pessoas fisicas 
+                                        do produtor rural
+                                    </span>
+                                </div>
+                                <a class="ativ-tool">Inscrição estadual / Inscrição estadual do produtor rural 🤔</a>
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="InscricaoEstadual"
+                               id="InscricaoEstadual"
+                               value="@element.InscricaoEstadual" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <h3 class="titulo-pagina">Dados do principal sócio (Proprietário ou Administrador)</h3>
+            <div class="linha-horizontal"></div>
+            @if (element.TipoPessoaSocio != null)
+            {
+                @if (element.TipoPessoaSocio == 1)
+                {
+                    <div class="pjpf">
+                        <input type="radio" id="TipoPessoaSocioPF" name="TipoPessoaSocio" value="1" checked />
+                        <label class="pf" for="PF">Pessoa Física</label>
+                        <input type="radio" id="TipoPessoaSocioPJ" name="TipoPessoaSocio" value="2" />
+                        <label class="pj" for="PJ">Pessoa Juridíca</label>
+                    </div>
+                }
+                @if (element.TipoPessoaSocio == 2)
+                {
+                    <div class="pjpf">
+                        <input type="radio" id="TipoPessoaSocioPF" name="TipoPessoaSocio" value="1" />
+                        <label class="pf" for="PF">Pessoa Física</label>
+                        <input type="radio" id="TipoPessoaSocioPJ" name="TipoPessoaSocio" value="2" checked />
+                        <label class="pj" for="PJ">Pessoa Juridíca</label>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="pjpf">
+                    <input type="radio" id="TipoPessoaSocioPF" name="TipoPessoaSocio" value="1" />
+                    <label class="pf" for="PF">Pessoa Física</label>
+                    <input type="radio" id="TipoPessoaSocioPJ" name="TipoPessoaSocio" value="2" />
+                    <label class="pj" for="PJ">Pessoa Juridíca</label>
+                </div>
+            }
+
+            <fieldset class="fildsetCadastro">
+                <div>
+                    <div>
+                        <label>Nome Sócio *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="nomeSocio"
+                               id="nomeSocio"
+                               value="@element.nomeSocio" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>CPF Sócio *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="cpfSocio"
+                               id="cpfSocio"
+                               value="@element.cpfSocio" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Endereço Sócio</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="enderecoSocio"
+                               id="enderecoSocio"
+                               value="@element.enderecoSocio" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Celular Sócio *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="celularSocio"
+                               id="celularSocio"
+                               value="@element.celularSocio" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Pessoa politicamente exposta ? *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="pep"
+                               id="pep"
+                               value="@element.pep" />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Sócio em outra empresa ? *</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="socio"
+                               id="socio"
+                               value="@element.socio" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="fildset-padrao" style="margin-top:8px;">
+                <div>
+                    <div>
+                        <label>Email</label>
+                    </div>
+                    <div>
+                        <input name="EmailSocio"
+                               id="EmailSocio"
+                               class="big-input"
+                               value="@element.EmailSocio">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="cont-accord">
+                <div class="accordion">
+                    <button class="accordion-header" type="button">
+                        <span><h3>Segundo sócio +</h3></span>
+                        <ion-icon name="chevron-down-outline" class="arrow"></ion-icon>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="pjpf">
+                            @if (element.TipoPessoaSocioSegundo != null)
+                            {
+                                @if (element.TipoPessoaSocioSegundo == 1)
+                                {
+                                    <input type="radio" id="TipoPessoaSocioSegundoPF" name="TipoPessoaSocioSegundo" value="1" checked />
+                                    <label class="pf" for="PF">Pessoa Física</label>
+                                    <input type="radio" id="TipoPessoaSocioSegundoPJ" name="TipoPessoaSocioSegundo" value="2" />
+                                    <label class="pj" for="PJ">Pessoa Juridíca</label>
+                                }
+                                @if (element.TipoPessoaSocioSegundo == 2)
+                                {
+                                    <input type="radio" id="TipoPessoaSocioSegundoPF" name="TipoPessoaSocioSegundo" value="1" />
+                                    <label class="pf" for="PF">Pessoa Física</label>
+                                    <input type="radio" id="TipoPessoaSocioSegundoPJ" name="TipoPessoaSocioSegundo" value="2" checked />
+                                    <label class="pj" for="PJ">Pessoa Juridíca</label>
+                                }
+                            }
+                            else
+                            {
+                                <input type="radio" id="TipoPessoaSocioSegundoPF" name="TipoPessoaSocioSegundo" value="1" />
+                                <label class="pf" for="PF">Pessoa Física</label>
+                                <input type="radio" id="TipoPessoaSocioSegundoPJ" name="TipoPessoaSocioSegundo" value="2" />
+                                <label class="pj" for="PJ">Pessoa Juridíca</label>
+                            }
+
+                        </div>
+                        <fieldset class="fildsetCadastro">
+                            <div>
+                                <div>
+                                    <label>Nome Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="nomeSocioSegundo"
+                                           id="nomeSocioSegundo"
+                                           value="@element.nomeSocioSegundo" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>CPF Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="cpfSocioSegundo"
+                                           id="cpfSocioSegundo"
+                                           value="@element.cpfSocioSegundo" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Endereço Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="enderecoSocioSegundo"
+                                           id="enderecoSocioSegundo"
+                                           value="@element.enderecoSocioSegundo" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Celular Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="celularSocioSegundo"
+                                           id="celularSocioSegundo"
+                                           value="@element.celularSocioSegundo" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Pessoa politicamente exposta ?</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="celularSocioSegundo"
+                                           id="celularSocioSegundo"
+                                           value="@element.celularSocioSegundo" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Sócio em outra empresa ?</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="socioSegundo"
+                                           id="socioSegundo"
+                                           value="@element.socioSegundo" />
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="fildset-padrao" style="margin-top:8px;">
+                            <div>
+                                <div>
+                                    <label>Email</label>
+                                </div>
+                                <div>
+                                    <input name="EmailSegundo"
+                                           id="EmailSegundo"
+                                           value="@element.EmailSegundo"
+                                           class="big-input">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button class="accordion-header" type="button">
+                        <span><h3>Terceiro sócio +</h3></span>
+                        <ion-icon name="chevron-down-outline" class="arrow"></ion-icon>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="pjpf">
+                            @if (element.TipoPessoaSocioTerceiro != null)
+                            {
+                                @if (element.TipoPessoaSocioTerceiro == 1)
+                                {
+                                    <input type="radio" id="TipoPessoaSocioTerceiroPF" name="TipoPessoaSocioTerceiro" value="1" checked />
+                                    <label class="pf" for="PF">Pessoa Física</label>
+                                    <input type="radio" id="TipoPessoaSocioTerceiroPJ" name="TipoPessoaSocioTerceiro" value="2" />
+                                    <label class="pj" for="PJ">Pessoa Juridíca</label>
+                                }
+                                @if (element.TipoPessoaSocioTerceiro == 2)
+                                {
+                                    <input type="radio" id="TipoPessoaSocioTerceiroPF" name="TipoPessoaSocioTerceiro" value="1" />
+                                    <label class="pf" for="PF">Pessoa Física</label>
+                                    <input type="radio" id="TipoPessoaSocioTerceiroPJ" name="TipoPessoaSocioTerceiro" value="2" checked />
+                                    <label class="pj" for="PJ">Pessoa Juridíca</label>
+                                }
+                            }
+                            else
+                            {
+                                <input type="radio" id="TipoPessoaSocioTerceiroPF" name="TipoPessoaSocioTerceiro" value="1" />
+                                <label class="pf" for="PF">Pessoa Física</label>
+                                <input type="radio" id="TipoPessoaSocioTerceiroPJ" name="TipoPessoaSocioTerceiro" value="2" />
+                                <label class="pj" for="PJ">Pessoa Juridíca</label>
+                            }
+
+                        </div>
+                        <fieldset class="fildsetCadastro">
+                            <div>
+                                <div>
+                                    <label>Nome Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="nomeSocioTerceiro"
+                                           id="nomeSocioTerceiro"
+                                           value="@element.nomeSocioTerceiro" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>CPF Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="cpfSocioTerceiro"
+                                           id="cpfSocioTerceiro"
+                                           value="@element.cpfSocioTerceiro" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Endereço Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="enderecoSocioTerceiro"
+                                           id="enderecoSocioTerceiro"
+                                           value="@element.enderecoSocioTerceiro" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Celular Sócio</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="celularSocioTerceiro"
+                                           id="celularSocioTerceiro"
+                                           value="@element.celularSocioTerceiro" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Pessoa politicamente exposta ?</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="pepTerceiro"
+                                           id="pepTerceiro"
+                                           value="@element.pepTerceiro" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Sócio em outra empresa ?</label>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           name="socioTerceiro"
+                                           id="socioTerceiro"
+                                           value="@element.socioTerceiro" />
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="fildset-padrao" style="margin-top:8px;">
+                            <div>
+                                <div>
+                                    <label>Email</label>
+                                </div>
+                                <div>
+                                    <input name="EmailTerceiro"
+                                           id="EmailTerceiro"
+                                           class="big-input"
+                                           value="@element.EmailTerceiro">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+                <div>
+                    <div>
+                        <label>Conta bancária ou chave Pix *</label>
+                    </div>
+                    <div>
+                        <input name="contaBancaria"
+                               id="'contaBancaria"
+                               value="@element.contaBancaria"
+                               class="big-input">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+                <div>
+                    <div>
+                        <label>Referêcia de outras empresas ?</label>
+                    </div>
+                    <div>
+                        <input name="referencia"
+                               id="'referencia"
+                               value="@element.referencia"
+                               class="big-input">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="fildset-padrao" style="margin-top:12px;">
+                <div>
+                    <div>
+                        <label>Parecer:</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="parecer"
+                               id="parecer"
+                               value="@element.parecer" 
+                               required/>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="btn-cad">
+                <button class="btn-cadastrar" type="submit">Salvar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-message" id="modalMessage">
+        <div class="modal-message-content">
+            <div class="modal-message-header" id="divMessage">
+            </div>
+            <div class="modal-conteudo">
+                <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script>
+
+        $("#cpfCnpj").mask("999.999.999-99");
+        $("#telefone").mask("(99)99999-9999");
+        $("#cep").mask("99999-999");
+
+        window.onload = function showSessionStorageData() {
+            let cep = document.getElementById("cep");
+            cep.addEventListener("blur", buscaCep);
+
+            const accordions = document.querySelectorAll('.accordion');
+
+            accordions.forEach(accordion => {
+                const header = accordion.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const body = accordion.querySelector('.accordion-body');
+                    body.classList.toggle('active');
+                });
+            });
+
+            valifaForm('editCedente', ['site', 'complemento', 'InscricaoEstadual']);
+        }
+
+        function buscaCep() {
+            let cep = document.getElementById("cep").value;
+            if (cep !== "") {
+                let url = "https://brasilapi.com.br/api/cep/v1/" + cep;
+                let req = new XMLHttpRequest();
+                req.open("GET", url);
+                req.send();
+
+                //tratar a resposta da requisicao
+                req.onload = function () {
+                    if (req.status === 200) {
+                        let endereco = JSON.parse(req.response);
+                        document.getElementById("rua").value = endereco.street;
+                        document.getElementById("bairro").value = endereco.neighborhood;
+                        document.getElementById("cidade").value = endereco.city;
+                        document.getElementById("estado").value = endereco.state;
+
+                        document.getElementById('cidade').disabled = true;
+                        document.getElementById('estado').disabled = true;
+
+                        if (endereco.street && endereco.neighborhood !== "undefined") {
+                            document.getElementById('rua').readOnly = true;
+                            document.getElementById('bairro').readOnly = true;
+                        }
+                        else {
+                            document.getElementById('rua').readOnly = false;
+                            document.getElementById('bairro').readOnly = false;
+                            $('#rua').val('');
+                            $('#bairro').val('');
+                        }
+                    }
+                    else if (req.status === 404) {
+                        alert("CEP inválido");
+                        $('#Cep').val('');
+                    }
+                    else {
+                        alert("Erro ao fazer a requisição do CEP");
+                        $('#Cep').val('');
+                    }
+                }
+            }
+        }
+
+        function doEditCedente(form) {
+            try {
+                debugger;
+                var IdCedente = document.getElementById("IdCedente").value;
+                var u = parseForm(form);
+                if ($("#faturamento").val() == "") {
+                    u.faturamento = 0;
+                }
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AtualizaProponente',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        window.location.href = '/Cedente/ExibeCadastros' + "?id=" + IdCedente;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel editar o cedente");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+    </script>
+}

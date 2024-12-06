@@ -1,0 +1,1117 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Comitê";
+    IEnumerable<CRMAudax.Models.TableRelatorioVisita> visita = ViewData["visita"] as IEnumerable<CRMAudax.Models.TableRelatorioVisita>;
+}
+
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Relatório de visitas</h3>
+    <div class="linha-horizontal"></div>
+    <fieldset class="fildsetCadastro">
+        <div>
+            <div>
+                <label>Data da visita:</label>
+            </div>
+            <div>
+                
+                <input type="text"
+                       name="dataVisita"
+                       value="@Convert.ToDateTime(visita.FirstOrDefault().dataVisita).ToString("dd/MM/yyyy")"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Nome do entrevistado:</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="nomeEntrevistado"
+                       value="@visita.FirstOrDefault().nomeEntrevistado"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Cargo:</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="cargo"
+                       value="@visita.FirstOrDefault().cargo"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Nome da indicação:</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="nomeIndicacao"
+                       value="@visita.FirstOrDefault().nomeIndicacao"
+                       disabled />
+            </div>
+        </div>
+    </fieldset>
+    <h3 class="titulo-dois">Impressões sobre a estrutura da empresa</h3>
+    <div class="linha-horizontal"></div>
+    <fieldset class="fildsetCadastro">
+        <div>
+            <div>
+                <label class="titulo-termo">Edificações:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().edificacao == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().edificacao == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().edificacao == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().edificacao == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().edificacao == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Estoque:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().estoque == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().estoque == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().estoque == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().estoque == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().estoque == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Equipamentos:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().equipamento == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().equipamento == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().equipamento == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().equipamento == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().equipamento == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Produção:</label>
+            </div>
+            <div>
+                <div>
+                    @if (@visita.FirstOrDefault().producao == 1)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-sad-tear"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="pessimo">Péssimo</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().producao == 2)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="ruim">Ruim</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().producao == 3)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-meh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="regular">Regular</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().producao == 4)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-smile-wink"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="bom">Bom</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().producao == 5)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="otimo">Otimo</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Funcionarios:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().funcionarios == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().funcionarios == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().funcionarios == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().funcionarios == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().funcionarios == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Organização da produção:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().organizacaoProducao == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().organizacaoProducao == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().organizacaoProducao == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().organizacaoProducao == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().organizacaoProducao == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Matéria Prima:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().materiaPrima == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().materiaPrima == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().materiaPrima == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().materiaPrima == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().materiaPrima == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Impressões das mídias sociais:</label>
+            </div>
+            <div>
+                <div>
+                    @if (@visita.FirstOrDefault().impressaoMidia == 1)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-sad-tear"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="pessimo">Péssimo</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().impressaoMidia == 2)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="ruim">Ruim</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().impressaoMidia == 3)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-meh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="regular">Regular</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().impressaoMidia == 4)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-smile-wink"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="bom">Bom</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().impressaoMidia == 5)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="otimo">Otimo</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <h3 class="titulo-dois">Impressões sobre o entrevistado</h3>
+    <div class="linha-horizontal"></div>
+    <fieldset class="fildsetCadastro">
+        <div>
+            <div>
+                <label class="titulo-termo">Apresentação:</label>
+            </div>
+<div>
+                @if (@visita.FirstOrDefault().apresentacao == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().apresentacao == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().apresentacao == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().apresentacao == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().apresentacao == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Franqueza:</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().franqueza == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().franqueza == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().franqueza == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().franqueza == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().franqueza == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Conhecimento do negócio:</label>
+            </div>
+            <div>
+                <div>
+                @if (@visita.FirstOrDefault().conhecimentoNegocio == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().conhecimentoNegocio == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">Ruim</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().conhecimentoNegocio == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">Regular</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().conhecimentoNegocio == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">Bom</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().conhecimentoNegocio == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">Otimo</p>
+                    </div>
+                }
+            </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Carater identificado:</label>
+            </div>
+            <div>
+                <div>
+                    @if (@visita.FirstOrDefault().carater == 1)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-sad-tear"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="pessimo">Péssimo</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().carater == 2)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="ruim">Ruim</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().carater == 3)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-meh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="regular">Regular</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().carater == 4)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-smile-wink"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="bom">Bom</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().carater == 5)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="otimo">Otimo</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Abertura para questionamentos:</label>
+            </div>
+            <div>
+                <div>
+                    @if (@visita.FirstOrDefault().abertura == 1)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-sad-tear"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="pessimo">Péssimo</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().abertura == 2)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="ruim">Ruim</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().abertura == 3)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-meh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="regular">Regular</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().abertura == 4)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-smile-wink"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="bom">Bom</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().abertura == 5)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="otimo">Otimo</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Conhecimento sobre concorrência:</label>
+            </div>
+            <div>
+                <div>
+                    @if (@visita.FirstOrDefault().conhecimentoConcorrencia == 1)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-sad-tear"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="pessimo">Péssimo</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 2)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="ruim">Ruim</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 3)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-meh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="regular">Regular</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 4)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-regular fa-face-smile-wink"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="bom">Bom</p>
+                        </div>
+                    }
+                    else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 5)
+                    {
+                        <div class="container-humor">
+                            <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                        </div>
+                        <div class="container-label">
+                            <p class="otimo">Otimo</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label class="titulo-termo">Tempo de cargo:</label>
+            </div>
+            <div>
+                <div>
+                @if (@visita.FirstOrDefault().tempoCargo == 1)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">1 Ano</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().tempoCargo == 2)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="ruim">2 Anos</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().tempoCargo == 3)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-meh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="regular">3 Anos</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().tempoCargo == 4)
+                {
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="bom">4 Anos</p>
+                    </div>
+                }
+                else if (@visita.FirstOrDefault().tempoCargo == 5)
+                {
+                    <div class="container-humor">
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="otimo">5 Anos +</p>
+                    </div>
+                }
+            </div>
+
+            </div>
+        </div>
+        <div class="container-radio">
+            <div>
+                <label class="titulo-termo">Assumindo negócio familiar ?</label>
+            </div>
+            <div>
+                <div class="container-humor">
+                    @if(@visita.FirstOrDefault().negocioFamiliar == 1){
+                        <input type="radio" id="negocioFamiliar" name="negocioFamiliar" value="1" class="negocioFamiliar" checked >
+                        <input type="radio" id="negocioFamiliar" name="negocioFamiliar" value="2" class="negocioFamiliar" disabled>
+                    }else if (@visita.FirstOrDefault().negocioFamiliar == 2)
+                    {
+                        <input type="radio" id="negocioFamiliar" name="negocioFamiliar" value="1" class="negocioFamiliar" disabled>
+                        <input type="radio" id="negocioFamiliar" name="negocioFamiliar" value="2" class="negocioFamiliar" checked >
+                    }                    
+                </div>
+                <div class="container-label-yesornot">
+                    <label for="1">Sim</label>
+                    <label for="2">Não</label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <h3 class="titulo-dois">Impressões sobre o ramo do negócio</h3>
+    <div class="linha-horizontal"></div>
+    <fieldset class="fildsetCadastro">
+        <div>
+            <div>
+                <label>Sazonalidade</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().sazonalidade == 0)
+                {
+                    <select title="sazonalidade" name="sazonalidade" disabled>                        
+                        <option value="0">Não</option>
+                    </select>
+                }else if (@visita.FirstOrDefault().sazonalidade == 1)
+                {
+                    <select title="sazonalidade" name="sazonalidade" disabled>                        
+                        <option value="1">Sim</option>
+                    </select>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Nivel de atualização do parque industrial</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().parqueIndustrial == 0)
+                {
+                    <select title="parqueIndustrial" name="parqueIndustrial" disabled>                        
+                        <option value="0">Obsoleto</option>
+                    </select>
+                }else if (@visita.FirstOrDefault().parqueIndustrial == 1)
+                {
+                    <select title="parqueIndustrial" name="parqueIndustrial" disabled>
+                        <option value="1">Moderno</option>
+                    </select>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Certificação de Qualidade</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().certificacaoQUalidade == 0)
+                {
+                    <select title="certificacaoQUalidade" name="certificacaoQUalidade" disabled>                        
+                        <option value="0">Não</option>
+                    </select>
+                }else if (@visita.FirstOrDefault().certificacaoQUalidade == 1)
+                {
+                    <select title="certificacaoQUalidade" name="certificacaoQUalidade" disabled>
+                        <option value="1">Sim</option>
+                    </select>
+                }
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Possui ampla concorrência ?</label>
+            </div>
+            <div>
+                @if (@visita.FirstOrDefault().amplaConcorrencia == 0)
+                {
+                    <select title="certificacaoQUalidade" name="certificacaoQUalidade" disabled>
+                        <option value="0">Não</option>
+                    </select>
+                }
+                else if (@visita.FirstOrDefault().amplaConcorrencia == 1)
+                {
+                    <select title="certificacaoQUalidade" name="certificacaoQUalidade" disabled>
+                        <option value="1">Sim</option>
+                    </select>
+                }               
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Regime tributário:</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="margemLiquida"
+                       value="@visita.FirstOrDefault().regimeTributario"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Margem liquida praticada:</label>
+            </div>
+            <div>
+                <input type="number"
+                       step="0.010"
+                       name="margemLiquida"
+                       value="@visita.FirstOrDefault().margemLiquida"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Ultima alteração contratual:</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="alteracaoContratual"
+                       value="@visita.FirstOrDefault().alteracaoContratual"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Data da fundação:</label>
+            </div>
+            <div>
+                <input type="text"
+                       value="@Convert.ToDateTime(visita.FirstOrDefault().fundacao).ToString("dd/MM/yyyy")"
+                       disabled />
+            </div>
+        </div>
+    </fieldset>
+    <h3 class="titulo-dois">Características ou particularidades das vendas</h3>
+    <div class="linha-horizontal"></div>
+    <fieldset class="fildsetCadastro">
+        <div>
+            <div>
+                <label>Porcentagem de recebimentos em cheques:</label>
+            </div>
+            <div>
+                <input type="number"
+                       step="0.010"
+                       name="porcentagemCheque"
+                       value="@visita.FirstOrDefault().porcentagemCheque"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Porcentagem de recebimentos em duplicatas:</label>
+            </div>
+            <div>
+                <input type="number"
+                       step="0.010"
+                       name="porcentagemDuplicata"
+                       value="@visita.FirstOrDefault().porcentagemDuplicata"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Porcentagem consumidor pessoa física:</label>
+            </div>
+            <div>
+                <input type="number"
+                       step="0.010"
+                       name="porcentagemConsumidorFisica"
+                       value="@visita.FirstOrDefault().porcentagemConsumidorFisica"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Porcentagem consumidor pessoa jurídica:</label>
+            </div>
+            <div>
+                <input type="number"
+                       step="0.010"
+                       name="porcentagemConsumidorJuridica"
+                       value="@visita.FirstOrDefault().porcentagemConsumidorJuridica"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Prazo médio com fornecedores (Dias):</label>
+            </div>
+            <div>
+                <input type="number"
+                       name="prazoMedioFornecedores"
+                       value="@visita.FirstOrDefault().prazoMedioFornecedores"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Prazo médio com clientes (Dias):</label>
+            </div>
+            <div>
+                <input type="number"
+                       name="prazoMedioClientes"
+                       value="@visita.FirstOrDefault().prazoMedioClientes"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Forma de entrega (Produto):</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="formaEntregaProduto"
+                       value="@visita.FirstOrDefault().formaEntregaProduto"
+                       disabled />
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Ticket Médio de vendas:</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="ticketMedio"
+                       value="@visita.FirstOrDefault().ticketMedio"
+                       disabled />
+            </div>
+        </div>
+    </fieldset>
+    <a href="/Visita/ExportacaoVisita?id=@visita.FirstOrDefault().Id"><button class="btn-salvar-relatorio">Exportar</button></a>
+    <a href="/Cedente/ExibeCadastros?id=@visita.FirstOrDefault().ClienteId"><button class="btn-salvar-relatorio">Voltar</button></a>ExportacaoVisita
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+    }

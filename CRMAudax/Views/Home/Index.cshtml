@@ -1,0 +1,105 @@
+﻿<body class="estilo-body">
+    <div class="header">
+        <div class="logo">
+            <a href="https://www.gpaudax.com.br/">
+                <img src="/img/logobranco.png" alt="">
+            </a>
+        </div>
+    </div>
+
+    <div class="login_body">
+        <div class="login_box">
+            <h2>Entrar</h2>
+            <form onsubmit="doAutenticacao(this); return false;">
+                <div class="input_box">
+                    <input type="email" placeholder="Email" name="Email" id="Email">
+                </div>
+                <div class="input_box">
+                    <input type="password" placeholder="Senha" name="Senha" id="Senha">
+                </div>
+                <div id="icon" class="hide-key"><ion-icon name="eye-outline" onclick="showHide()"></ion-icon></div>
+                <div id="iconhide" class="hide-key"><ion-icon name="eye-off-outline" onclick="showHide()"></ion-icon></div>
+                <div class="forget">
+                    <p class="no-select" onclick="window.location.href='https://login.gpaudax.com.br/Home/EsqueceuSenha'">Esqueceu a senha ?</p>
+                </div>
+                <div>
+                    <button type="submit">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-message">
+        <div class="modal-message-content">
+            <div class="modal-message-header" id="divMessage">
+            </div>
+            <div class="modal-conteudo">
+                <button class="botao-message" onclick="closeModalMessage(); return false;">Continuar</button>
+            </div>
+        </div>
+    </div>
+    <div class="loading-overlay" style="display:none;" id="loading">
+        <div class="spin"><i class="fa-solid fa-spinner"></i></div>
+    </div>
+    <div class="message" id="message"></div>
+
+    @section Scripts{
+        <script>
+
+            function doAutenticacao(form) {
+                var loading = document.getElementById('loading');
+                loading.style.display = '';
+
+                try {
+                    var u = parseForm(form);
+                    var senha = sha1(u.Senha);
+                    u.Senha = senha;
+                    u.Key = senha;
+                    debugger;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Autenticacao',
+                        data: JSON.stringify(u),
+                        success: function (data) {
+                            debugger;
+                            if (data != null) {
+                                sucessAtv("Login com sucesso!");
+                                setTimeout(() => {
+                                    window.location.replace("/Cedente/TodosCadastros");
+                                }, 3000);
+                            }
+                            else {
+                                loading.style.display = 'none';
+                                ErrAtv("Senha ou email incorretos!");
+                            }
+                        },
+                        error: function () {
+                            loading.style.display = 'none';
+                            ErrAtv("Erro reportado por nosso servidor!");
+                        },
+                        contentType: "application/json"
+                    });
+                } catch (e) {
+                    openModalMessage(e.message);
+                }
+            }
+
+            function showHide() {
+                const Senha = document.getElementById('Senha');
+                const icon = document.getElementById('icon');
+                const iconhide = document.getElementById('iconhide');
+                if (Senha.type === 'password') {
+                    Senha.setAttribute('type', 'text');
+                    icon.style.display = 'none';
+                    iconhide.style.display = 'block';
+                } else {
+                    Senha.setAttribute('type', 'password');
+                    icon.style.display = 'block';
+                    iconhide.style.display = 'none';
+                }
+
+            }
+        </script>
+    }
+
+</body>

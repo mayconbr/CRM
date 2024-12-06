@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Novo Automóvel";
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Automóveis</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doCadastrarMaquina(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Modelo *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="modelo"
+                           id="modelo"
+                           placeholder="Digite o modelo"
+                           required />
+                </div>
+            </div>
+            <div class="object-input">
+                <div>
+                    <label>Marca *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="marca"
+                           id="marca"
+                           placeholder="Ex.: Ford"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ano do automóvel</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="ano"
+                           id="ano"
+                           placeholder="Digite o ano do automóvel"/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Placa</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="placa"
+                           id="placa"
+                           placeholder="Digite a placa " />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor da Tabela FIPE</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorFipe"
+                           id="valorFipe"
+                           placeholder="R$: 0,00"
+                           required/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor Alienado </label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorOnus"
+                           id="valorOnus"
+                           placeholder="R$: 0,00"/>
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="btn-cad">
+            <button class="btn-cadastrar" type="submit">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+ 
+@section Scripts{
+    <script>
+        $("#placa").mask("AAA-AAAA");
+        $("#valorFipe").mask("R$: 00000000000000");
+        $("#valorOnus").mask("R$: 00000000000000");
+
+        function doCadastrarMaquina(form) {
+            try {
+                var u = parseForm(form);
+                const urlParams = new URLSearchParams(window.location.search);
+                u.ClienteId = urlParams.get('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarAutomovel',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Automóvel adicionado");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar o veiculo");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+    }

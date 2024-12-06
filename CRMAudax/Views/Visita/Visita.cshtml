@@ -1,0 +1,770 @@
+﻿@{
+    ViewData["Title"] = "Relátorio de visita";
+}
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Relatório de visitas</h3>
+    <div class="linha-horizontal"></div>
+    <form onsubmit="doNovaVisita(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div>
+                <div>
+                    <label>Data da visita:</label>
+                </div>
+                <div>
+                    <input type="date"
+                           name="dataVisita"
+                           required/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Nome do entrevistado:</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="nomeEntrevistado"
+                           placeholder="Ex.: Nome do entrevistado"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Cargo:</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="cargo"
+                           placeholder="Ex.: Cargo do entrevistado" 
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Nome da indicação:</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="nomeIndicacao"
+                           placeholder="Digite o nome da indicação" 
+                           required />
+                </div>
+            </div>
+        </fieldset>
+        <h3 class="titulo-dois">Impressões sobre a estrutura da empresa</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildsetCadastro">
+            <div>
+                <div>
+                    <label class="titulo-termo">Edificações:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="edificacao" name="edificacao" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="edificacao" name="edificacao" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="edificacao" name="edificacao" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="edificacao" name="edificacao" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="edificacao" name="edificacao" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Estoque:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="estoque" name="estoque" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="estoque" name="estoque" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="estoque" name="estoque" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="estoque" name="estoque" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="estoque" name="estoque" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Equipamentos:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="equipamento" name="equipamento" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="equipamento" name="equipamento" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="equipamento" name="equipamento" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="equipamento" name="equipamento" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="equipamento" name="equipamento" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Produção:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="producao" name="producao" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="producao" name="producao" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="producao" name="producao" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="producao" name="producao" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="producao" name="producao" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Funcionarios:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="funcionarios" name="funcionarios" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="funcionarios" name="funcionarios" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="funcionarios" name="funcionarios" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="funcionarios" name="funcionarios" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="funcionarios" name="funcionarios" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Organização da produção:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="organizacaoProducao" name="organizacaoProducao" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="organizacaoProducao" name="organizacaoProducao" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="organizacaoProducao" name="organizacaoProducao" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="organizacaoProducao" name="organizacaoProducao" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="organizacaoProducao" name="organizacaoProducao" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Matéria Prima:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="materiaPrima" name="materiaPrima" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="materiaPrima" name="materiaPrima" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="materiaPrima" name="materiaPrima" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="materiaPrima" name="materiaPrima" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="materiaPrima" name="materiaPrima" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Impressões das mídias sociais:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="impressaoMidia" name="impressaoMidia" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="impressaoMidia" name="impressaoMidia" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="impressaoMidia" name="impressaoMidia" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="impressaoMidia" name="impressaoMidia" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="impressaoMidia" name="impressaoMidia" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <h3 class="titulo-dois">Impressões sobre o entrevistado</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildsetCadastro">
+            <div>
+                <div>
+                    <label class="titulo-termo">Apresentação:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="apresentacao" name="apresentacao" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="apresentacao" name="apresentacao" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="apresentacao" name="apresentacao" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="apresentacao" name="apresentacao" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="apresentacao" name="apresentacao" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Franqueza:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="franqueza" name="franqueza" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="franqueza" name="franqueza" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="franqueza" name="franqueza" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="franqueza" name="franqueza" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="franqueza" name="franqueza" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Conhecimento do negócio:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="conhecimentoNegocio" name="conhecimentoNegocio" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoNegocio" name="conhecimentoNegocio" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoNegocio" name="conhecimentoNegocio" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoNegocio" name="conhecimentoNegocio" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoNegocio" name="conhecimentoNegocio" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Carater identificado:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="carater" name="carater" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="carater" name="carater" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="carater" name="carater" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="carater" name="carater" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="carater" name="carater" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Abertura para questionamentos:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="abertura" name="abertura" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="abertura" name="abertura" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="abertura" name="abertura" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="abertura" name="abertura" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="abertura" name="abertura" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Conhecimento sobre concorrência:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">Péssimo</p>
+                        <p class="ruim">Ruim</p>
+                        <p class="regular">Regular</p>
+                        <p class="bom">Bom</p>
+                        <p class="otimo">Otimo</p>
+
+                        <input type="radio" id="conhecimentoConcorrencia" name="conhecimentoConcorrencia" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoConcorrencia" name="conhecimentoConcorrencia" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoConcorrencia" name="conhecimentoConcorrencia" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoConcorrencia" name="conhecimentoConcorrencia" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="conhecimentoConcorrencia" name="conhecimentoConcorrencia" value="5" class="negocioFamiliar" required>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="titulo-termo">Tempo de cargo:</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <i class="fa-regular fa-face-sad-tear"></i>
+                        <i class="fa-sharp fa-regular fa-face-frown"></i>
+                        <i class="fa-regular fa-face-meh"></i>
+                        <i class="fa-regular fa-face-smile-wink"></i>
+                        <i class="fa-sharp fa-regular fa-face-laugh"></i>
+                    </div>
+                    <div class="container-label">
+                        <p class="pessimo">1 ano</p>
+                        <p class="ruim">2 anos</p>
+                        <p class="regular">3 anos</p>
+                        <p class="bom">4 anos</p>
+                        <p class="otimo">5 anos +</p>
+
+                        <input type="radio" id="tempoCargo" name="tempoCargo" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="tempoCargo" name="tempoCargo" value="2" class="negocioFamiliar" required>
+                        <input type="radio" id="tempoCargo" name="tempoCargo" value="3" class="negocioFamiliar" required>
+                        <input type="radio" id="tempoCargo" name="tempoCargo" value="4" class="negocioFamiliar" required>
+                        <input type="radio" id="tempoCargo" name="tempoCargo" value="5" class="negocioFamiliar" required>
+                    </div>
+
+                </div>
+            </div>
+            <div class="container-radio">
+                <div>
+                    <label class="titulo-termo">Assumindo negócio familiar ?</label>
+                </div>
+                <div>
+                    <div class="container-humor">
+                        <input type="radio" id="negocioFamiliar" name="negocioFamiliar" value="1" class="negocioFamiliar" required>
+                        <input type="radio" id="negocioFamiliar" name="negocioFamiliar" value="2" class="negocioFamiliar" required>
+                    </div>
+                    <div class="container-label-yesornot">
+                        <label for="1">Sim</label>
+                        <label for="0">Não</label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <h3 class="titulo-dois">Impressões sobre o ramo do negócio</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildsetCadastro">
+            <div>
+                <div>
+                    <label>Sazonalidade</label>
+                </div>
+                <div>
+                    <select title="sazonalidade" name="sazonalidade" required>
+                        <option value="">Selecione</option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Nivel de atualização do parque industrial</label>
+                </div>
+                <div>
+                    <select title="parqueIndustrial" name="parqueIndustrial" required>
+                        <option value="">Selecione</option>
+                        <option value="0">Obsoleto</option>
+                        <option value="1">Moderno</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Certificação de Qualidade</label>
+                </div>
+                <div>
+                    <select title="certificacaoQUalidade" name="certificacaoQUalidade" required>
+                        <option value="">Selecione</option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Possui ampla concorrência ?</label>
+                </div>
+                <div>
+                    <select title="amplaConcorrencia" name="amplaConcorrencia" required>
+                        <option value="">Selecione</option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Regime tributário:</label>
+                </div>
+                <div>
+                    <select title="regimeTributario" name="regimeTributario" required>
+                        <option value="">Selecione</option>
+                        <option value="MEI">MEI</option>
+                        <option value="Simples Nacional">Simples Nacional</option>
+                        <option value="Lucro Presumido">Lucro Presumido</option>
+                        <option value="Lucro Real">Lucro Real</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Margem liquida praticada:</label>
+                </div>
+                <div>
+                    <input type="number"
+                           step="0.010"
+                           name="margemLiquida"
+                           placeholder="Digite a margem liquida da empresa"
+                           required/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ultima alteração contratual:</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="alteracaoContratual"
+                           placeholder="Digite a ultima alteração" 
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Data da fundação:</label>
+                </div>
+                <div>
+                    <input type="date"
+                           name="fundacao" 
+                           required />
+                </div>
+            </div>
+        </fieldset>
+        <h3 class="titulo-dois">Características ou particularidades das vendas</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildsetCadastro">
+            <div>
+                <div>
+                    <label>Porcentagem de recebimentos em cheques:</label>
+                </div>
+                <div>
+                    <input type="number"
+                           step="0.010"
+                           name="porcentagemCheque"
+                           placeholder="Ex.: 10,5%"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Porcentagem de recebimentos em duplicatas:</label>
+                </div>
+                <div>
+                    <input type="number"
+                           step="0.010"
+                           name="porcentagemDuplicata"
+                           placeholder="Ex.: 10,5%" 
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Porcentagem consumidor pessoa física:</label>
+                </div>
+                <div>
+                    <input type="number"
+                           step="0.010"
+                           name="porcentagemConsumidorFisica"
+                           placeholder="Ex.: 10,5%" 
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Porcentagem consumidor pessoa jurídica:</label>
+                </div>
+                <div>
+                    <input type="number"
+                           step="0.010"
+                           name="porcentagemConsumidorJuridica"
+                           placeholder="Ex.: 10,5%" 
+                           required/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Prazo médio com fornecedores (Dias):</label>
+                </div>
+                <div>
+                    <input type="number"
+                           name="prazoMedioFornecedores"
+                           placeholder="Ex.: 30" 
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Prazo médio com clientes (Dias):</label>
+                </div>
+                <div>
+                    <input type="number"
+                           name="prazoMedioClientes"
+                           placeholder="Ex.: 30" 
+                           required/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Forma de entrega (Produto):</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="formaEntregaProduto"
+                           placeholder="Digite a forma de entrega dos produtos" 
+                           required/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ticket Médio de vendas:</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="ticketMedio"
+                           placeholder="Digite o ticket médio de vendas" 
+                           required />
+                </div>
+            </div>            
+        </fieldset>
+        <fieldset class="fildset-padrao" style="margin-top:12px;">
+            <div>
+                <div>
+                    <label>Parecer:</label>
+                </div>
+                <div>
+                    <textarea rows="6"
+                              name="Parecer"
+                              id="Parecer"
+                              placeholder="Dê um breve parecer sobre esse possivel cedente."
+                              class="big-input">
+                    </textarea>
+                </div>
+            </div>
+        </fieldset>
+        <button class="btn-salvar-relatorio" type="submit">Salvar</button>
+    </form>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function doNovaVisita(form) {            
+                try {
+                debugger;                    
+                var u = parseForm(form);
+
+                var edificacao = $("input[name='edificacao']:checked").val();
+                var estoque = $("input[name='estoque']:checked").val();
+                var equipamento = $("input[name='equipamento']:checked").val();
+                var producao = $("input[name='producao']:checked").val();
+                var funcionarios = $("input[name='funcionarios']:checked").val();
+                var organizacaoProducao = $("input[name='organizacaoProducao']:checked").val();
+                var materiaPrima = $("input[name='materiaPrima']:checked").val();
+                var impressaoMidia = $("input[name='impressaoMidia']:checked").val();
+                var apresentacao = $("input[name='apresentacao']:checked").val();
+                var franqueza = $("input[name='franqueza']:checked").val();
+                var conhecimentoNegocio = $("input[name='conhecimentoNegocio']:checked").val();
+                var carater = $("input[name='carater']:checked").val();
+                var abertura = $("input[name='abertura']:checked").val();
+                var conhecimentoConcorrencia = $("input[name='conhecimentoConcorrencia']:checked").val();
+                var tempoCargo = $("input[name='tempoCargo']:checked").val();
+                var negocioFamiliar = $("input[name='negocioFamiliar']:checked").val();
+
+                const urlParams = new URLSearchParams(window.location.search);
+                u.ClienteId = urlParams.get('id');
+
+                u.edificacao = edificacao;
+                u.estoque = estoque;
+                u.equipamento = equipamento;
+                u.producao = producao;
+                u.funcionarios = funcionarios;
+                u.organizacaoProducao = organizacaoProducao;
+                u.materiaPrima = materiaPrima;
+                u.apresentacao = apresentacao;
+                u.franqueza = franqueza;
+                u.conhecimentoNegocio = conhecimentoNegocio;
+                u.carater = carater;
+                u.abertura = abertura;
+                u.conhecimentoConcorrencia = conhecimentoConcorrencia;
+                u.tempoCargo = tempoCargo;
+                u.negocioFamiliar = negocioFamiliar;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/CadastrarVisita',
+                        data: JSON.stringify(u),
+                        success: function (data) {
+                            openModalMessage("Visita registrada");
+                            return data;
+                        },
+                        error: function () {
+                            openModalMessage("Erro em registrar visita");
+                        },
+                        contentType: "application/json"
+                    });
+                } catch (e) {
+                    openModalMessage(e.message);
+                }                           
+        }
+    </script>
+    }

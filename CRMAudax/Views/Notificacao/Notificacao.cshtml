@@ -1,0 +1,178 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+<div class="form-style">
+    <h3 class="titulo-pagina"><ion-icon name="notifications-outline"></ion-icon>Central de Notificações</h3>
+    <div class="linha-horizontal"></div>
+    <div class="form-controle">
+        <div class="table-wrapper" style="margin-top:-20px !important; ">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Tipo</th>
+                        <th>Situação</th>
+                        <th>Data / Hora</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (dynamic Notificacao in Model.Notificacoes)
+                    {
+                        string novaString = Notificacao.Informacao.Length > 10 ? Notificacao.Informacao.Substring(0, Notificacao.Informacao.Length - 10) : Notificacao.Informacao;
+
+                        <tr>
+                            <td onclick="window.location.href='/Cedente/ExibeCadastros?id=@Notificacao.ClienteId'" style="cursor: pointer;">@Notificacao.Cliente.nome</td>
+                            <td>@novaString</td>
+                            <td>
+                                @if (Notificacao.Score == true)
+                                {
+                                    if (Notificacao.Status == true)
+                                    {
+                                        <div class="status sucess"></div>
+                                    }
+                                    if (Notificacao.Status == false)
+                                    {
+                                        <div class="status cancelled"></div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="status cancelled"></div>
+                                }                               
+                            </td>
+                            <td>@Notificacao.DataNotificacao</td>
+                            <td><span class="icon-del" onclick="doVisualizar(@Notificacao.Id);"><ion-icon name="close-outline"></ion-icon></span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+
+    .table-wrapper {
+        overflow-x: auto;
+        /* Permite rolagem horizontal para tabelas largas */
+    }
+
+    .icon-del {
+        color: red;
+    }
+
+        .icon-del:hover {
+            cursor: pointer;
+        }
+
+    .status {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-left: 22px;
+    }
+
+        .status.sucess {
+            background-color: #86bae4;
+            color: green;
+        }
+
+        .status.cancelled {
+            background-color: #d893a3;
+            color: #b30021;
+        }
+
+        .status.pending {
+            background-color: #ebc474;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #00326b;
+        color: #fff;
+    }
+
+    th,
+    td {
+        padding: 15px 15px;
+        border: none;
+    }
+
+    th {
+        border-bottom: solid 1px #464646;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    @@media (max-width: 768px) {
+        table {
+            font-size: 16px;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        table {
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 8px 10px;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function doVisualizar(Id) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: '/VisualizarNotificacao/' + Id,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        openModalMessage("Erro em alterar notificação");
+                    },
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+    </script>
+}

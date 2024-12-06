@@ -1,0 +1,171 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+@{
+    ViewData["Title"] = "Nova Atividade";
+}
+
+@if (Model.StatusRotinas != null)
+{
+    int Total = Convert.ToInt32(Model.StatusRotinas.QtdCpf) + Convert.ToInt32(Model.StatusRotinas.QtdCnpj);
+
+    int RealizaCPF = Convert.ToInt32(Model.StatusRotinas.QuodScorePFisica) +
+                     Convert.ToInt32(Model.StatusRotinas.DecisaoScorePFisica) +
+                     Convert.ToInt32(Model.StatusRotinas.DecisaoProtestosPFisica) +
+                     Convert.ToInt32(Model.StatusRotinas.QuodProtestosPFisica) +
+                     Convert.ToInt32(Model.StatusRotinas.DecisaoPendenciasPFisica) +
+                     Convert.ToInt32(Model.StatusRotinas.QuodPendenciasPFisica);
+
+    int RealizaCNPJ = Convert.ToInt32(Model.StatusRotinas.QuodScorePJuridica) +
+                      Convert.ToInt32(Model.StatusRotinas.DecisaoScorePJuridica) +
+                      Convert.ToInt32(Model.StatusRotinas.DecisaoProtestosPJuridica) +
+                      Convert.ToInt32(Model.StatusRotinas.QuodProtestosPJuridica) +
+                      Convert.ToInt32(Model.StatusRotinas.DecisaoPendenciasPJuridica) +
+                      Convert.ToInt32(Model.StatusRotinas.QuodPendenciasPJuiridica);
+
+    int RealizaTotal = RealizaCPF + RealizaCNPJ;
+    int Porcentagem = 0;
+
+    if (RealizaTotal > 0 && Total > 0)
+    {
+        Porcentagem = (RealizaTotal / Total * 100);
+    }
+
+    <div id="arrayContainer">
+        <div class="form-style">
+            <h3 class="titulo-pagina">Monitoramento de rotina</h3>
+            <div class="linha-horizontal"></div>
+
+            <div class="barra-porcentagem">
+                <div class="loader" id="loader"></div>
+            </div>
+            <h2 class="porcentagem-rotina" id="PorcentagemDiv">@Porcentagem%</h2>
+
+            <div class="info-cabecalho-rotina">
+                <div class="info-qtdCpf">
+                    <h4 class="valor-rotina" id="QtdCpf">@Model.StatusRotinas.QtdCpf</h4>
+                    <h4 class="label-rotina">Quantidade de Cpfs</h4>
+                </div>
+                <div class="info-QtdCnpj">
+                    <h4 class="valor-rotina">@Model.StatusRotinas.QtdCnpj</h4>
+                    <h4 class="label-rotina">Quantidade de Cnpjs</h4>
+                </div>
+                <div class="info-total">
+                    <h4 class="valor-rotina">@Total</h4>
+                    <h4 class="label-rotina-total">Total</h4>
+                </div>
+            </div>
+            <div class="painel-cpfCnpj-1">
+                <div class="cartao-horario-rotina">
+                    <p class="rotina-titulo">Data e horário inícial / final</p>
+                    <h2 class="rotina-valor">@Model.StatusRotinas.DataInicio</h2>
+                    <div class="linha-azul-1"></div>
+                    <h2 class="rotina-valor">@Model.StatusRotinas.DataFinal</h2>
+                </div>
+                <div class="cartao-custo-cpf">
+                    <p class="rotina-titulo">Custo CPF</p>
+                    <h2 class="rotina-valor">R$ 9,90</h2>
+                    <h4 class="rotina-unitario">Unitário</h4>
+                    <div class="linha-azul"></div>
+                    <h2 class="rotina-valor">R$ 5000,00</h2>
+                    <h4 class="rotina-unitario">Total</h4>
+                </div>
+                <div class="cartao-custo-cnpj">
+                    <p class="rotina-titulo">Custo CNPJ</p>
+                    <h2 class="rotina-valor"> R$ 9,90</h2>
+                    <h4 class="rotina-unitario">Unitário</h4>
+                    <div class="linha-azul"></div>
+                    <h2 class="rotina-valor">R$ 3000,00</h2>
+                    <h4 class="rotina-unitario">Total</h4>
+                </div>
+            </div>
+            <div class="painel-cpfCnpj-2">
+                <div class="rotina-pf">
+                    <h4 class="rotina-con-realizadas">Consultas realizadas</h4>
+                    <ion-icon name="person" class="person-rotina"></ion-icon>
+                    <div class="rotina-espaco">
+                        <h2 class="numero-cartao-rotina" id="RealizaCPF">@RealizaCPF</h2>
+                        <h2 class="rotulo-rotina-pf">Pessoa Física</h2>
+                    </div>
+                </div>
+                <div class="rotina-pj">
+                    <h4 class="rotina-con-realizadas">Consultas realizadas</h4>
+                    <ion-icon name="business" class="person-rotina"></ion-icon>
+                    <div class="rotina-espaco">
+                        <h2 class="numero-cartao-rotina" id="RealizaCNPJ">@RealizaCNPJ</h2>
+                        <h2 class="rotulo-rotina">Pessoa Jurídica</h2>
+                    </div>
+                </div>
+                <div class="rotina-erros">
+                    <ion-icon name="sad" class="person-rotina"></ion-icon>
+                    <div class="rotina-espaco-erros">
+                        <h2 class="numero-cartao-rotina">0</h2>
+                        <h2 class="rotulo-rotina-erro">Erros</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateArray() {
+
+            var RealizaCPFDiv = document.getElementById("RealizaCPF");
+            var RealizaCNPJDiv = document.getElementById("RealizaCNPJ");
+            var PorcentagemDiv = document.getElementById("PorcentagemDiv");
+
+            const progresso = document.getElementById("loader");
+
+            $.ajax({
+                url: '@Url.Action("VisualizarRotina", "Notificacao")',
+                type: 'GET',
+                success: function (result) {
+
+                    debugger;
+
+                    var realizaCPF = result.quodScorePFisica +
+                        result.decisaoScorePFisica +
+                        result.decisaoProtestosPFisica +
+                        result.quodProtestosPFisica +
+                        result.decisaoPendenciasPFisica +
+                        result.quodPendenciasPFisica;
+
+                    var realizaCNPJ = result.quodScorePJuridica +
+                        result.decisaoScorePJuridica +
+                        result.decisaoProtestosPJuridica +
+                        result.quodProtestosPJuridica +
+                        result.decisaoPendenciasPJuridica +
+                        result.quodPendenciasPJuiridica;
+
+                    var realizaTotal = realizaCPF + realizaCNPJ;
+
+                    var Total = result.qtdCpf + result.qtdCnpj * 12;
+                    var Porcentagem = 0;
+                    if (realizaTotal > 0 && Total > 0) {
+                        var PorcentagemValor = (realizaTotal / Total * 100);
+                    }
+
+                    RealizaCPFDiv.innerHTML = realizaCPF;
+                    RealizaCNPJDiv.innerHTML = realizaCNPJ;
+                    PorcentagemDiv.innerHTML = PorcentagemValor.toFixed(0) + "%";
+
+                    progresso.setAttribute("style", "width:" + PorcentagemValor.toFixed(0) + "%");
+
+                }
+            });
+        }
+
+        setInterval(updateArray, 5000);
+    </script>
+}

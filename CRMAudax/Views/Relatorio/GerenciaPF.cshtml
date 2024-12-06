@@ -1,0 +1,556 @@
+﻿@model dynamic
+@using System.Globalization;
+@using CRMAudax.Controllers;
+
+<style>
+    .table-gere {
+        position: absolute;
+        left: 6%;
+        width: 90vw;
+        height: 90vh;
+        background-color: #fff5;
+        backdrop-filter: blur(7px);
+        box-shadow: 0 .4rem .8rem #0005;
+        border-radius: .8rem;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+
+    .table__header {
+        width: 100%;
+        height: 10%;
+        background-color: #fff4;
+        padding: .8rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .table__header .input-group {
+            width: 35%;
+            height: 100%;
+            background-color: #fff5;
+            padding: 0 .8rem;
+            border-radius: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: .2s;
+            box-shadow: 0 .1rem .4rem #0002;
+        }
+
+            .table__header .input-group:hover {
+                width: 45%;
+                background-color: #fff8;
+                box-shadow: 0 .1rem .4rem #0002;
+            }
+
+            .table__header .input-group img {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+
+            .table__header .input-group input {
+                width: 100%;
+                padding: 0 .5rem 0 .3rem;
+                background-color: transparent;
+                border: none;
+                outline: none;
+            }
+
+    .table__body {
+        width: 99%;
+        height: 98%;
+        max-height: calc(89% - 1.6rem);
+        background-color: #fffb;
+        margin: .8rem auto;
+        border-radius: .6rem;
+        overflow: auto;
+        overflow: overlay;
+    }
+
+
+        .table__body::-webkit-scrollbar {
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+
+        .table__body::-webkit-scrollbar-thumb {
+            border-radius: .5rem;
+            background-color: #0004;
+            visibility: hidden;
+        }
+
+        .table__body:hover::-webkit-scrollbar-thumb {
+            visibility: visible;
+        }
+
+
+    table {
+        width: 100%;
+    }
+
+    td img {
+        width: 36px;
+        height: 36px;
+        margin-right: .5rem;
+        border-radius: 50%;
+        vertical-align: middle;
+    }
+
+    table, th, td {
+        border-collapse: collapse;
+        padding: 1rem;
+        text-align: left;
+    }
+
+    thead th {
+        position: sticky;
+        top: 0;
+        left: 0;
+        background-color: #243d69;
+        color: #fff;
+        text-transform: capitalize;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #0000000b;
+    }
+
+    tbody tr {
+        --delay: .1s;
+        transition: .5s ease-in-out var(--delay), background-color 0s;
+    }
+
+        tbody tr.hide {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        tbody tr:hover {
+            background-color: #fff6 !important;
+        }
+
+        tbody tr td,
+        tbody tr td p,
+        tbody tr td img {
+            transition: .2s ease-in-out;
+        }
+
+        tbody tr.hide td,
+        tbody tr.hide td p {
+            padding: 0;
+            font: 0 / 0 sans-serif;
+            transition: .2s ease-in-out .5s;
+        }
+
+            tbody tr.hide td img {
+                width: 0;
+                height: 0;
+                transition: .2s ease-in-out .5s;
+            }
+
+    .status {
+        padding: .4rem 0;
+        border-radius: 2rem;
+        text-align: center;
+    }
+
+        .status.delivered {
+            background-color: #86e49d;
+            color: #006b21;
+        }
+
+        .status.cancelled {
+            background-color: #d893a3;
+            color: #b30021;
+        }
+
+        .status.pending {
+            background-color: #ebc474;
+        }
+
+        .status.shipped {
+            background-color: #6fcaea;
+        }
+
+
+    @@media (max-width: 1000px) {
+        td:not(:first-of-type) {
+            min-width: 12.1rem;
+        }
+    }
+
+
+    .export__file {
+        position: relative;
+    }
+
+        .export__file .export__file-btn {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            background: #fff6 url(/img/export.png) center / 80% no-repeat;
+            border-radius: 50%;
+            transition: .2s ease-in-out;
+            margin-left: -90px;
+        }
+
+            .export__file .export__file-btn:hover {
+                background-color: #fff;
+                transform: scale(1.15);
+                cursor: pointer;
+            }
+
+        .export__file input {
+            display: none;
+        }
+
+        .export__file .export__file-options {
+            position: absolute;
+            right: 0;
+            width: 12rem;
+            border-radius: .5rem;
+            overflow: hidden;
+            text-align: center;
+            opacity: 0;
+            transform: scale(.8);
+            transform-origin: top right;
+            box-shadow: 0 .2rem .5rem #0004;
+            transition: .2s;
+        }
+
+        .export__file input:checked + .export__file-options {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 100;
+        }
+
+        .export__file .export__file-options label {
+            display: block;
+            width: 100%;
+            padding: .6rem 0;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            transition: .2s ease-in-out;
+        }
+
+            .export__file .export__file-options label:first-of-type {
+                padding: 1rem 0;
+                background-color: #86e49d !important;
+            }
+
+            .export__file .export__file-options label:hover {
+                transform: scale(1.05);
+                background-color: #fff;
+                cursor: pointer;
+            }
+
+        .export__file .export__file-options img {
+            width: 2rem;
+            height: auto;
+        }
+</style>
+
+<div class="background-gere">
+    <div class="table-gere" id="customers_table">
+        <section class="table__header">
+            <div class="pjpf" style="margin-left:20px;">
+                <h1 style="margin-bottom:5px;">Documentação de Clientes</h1>
+                <input type="radio" id="TipoPessoa" name="TipoPessoa" value="1" checked />
+                <label class="pf" for="PF" style="font-size:15px;">Pessoa Física</label>
+                <input type="radio" id="TipoPessoa" name="TipoPessoa" onclick="window.location.href = this.checked ? '/Relatorio/GerenciaPJ' : '';" />
+                <label class="pj" for="PJ" style="font-size:15px;">Pessoa Juridíca</label>
+            </div>
+            <div class="input-group">
+                <input type="search" placeholder="Pesquisa ..." id="input-gere">
+                <img src="~/img/search.png" alt="">
+            </div>
+            <div class="export__file">
+                <label for="export-file" class="export__file-btn" title="Export File"></label>
+                <input type="checkbox" id="export-file">
+                <div class="export__file-options">
+                    <label>Exportar &nbsp; &#10140;</label>
+                    <label for="export-file" id="toPDF">PDF <img src="~/img/pdf.png" alt=""></label>
+                    <label for="export-file" id="toJSON">JSON <img src="~/img/json.png" alt=""></label>
+                    <label for="export-file" id="toCSV">CSV <img src="~/img/csv.png" alt=""></label>
+                    <label for="export-file" id="toEXCEL">EXCEL <img src="~/img/excel.png" alt=""></label>
+                </div>
+            </div>
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">Cliente</th>
+                        <th style="text-align:left;">Região</th>
+                        <th>Cadastro</th>
+                        <th>Documento</th>
+                        <th>C. Endere</th>                                                                       
+                        <th>D. Crédito</th>
+                        <th>IRF / Outros </th>
+                        <th>Fat. Fiscal</th>
+                        <th>Fat. Real</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (dynamic Documento in Model.Documentos)
+                    {
+                        <tr>
+                            @if (Documento.nome.Length > 12)
+                            {
+                                <td>@Documento.nome.Substring(0, 10) ...</td>
+                            }
+                            else
+                            {
+                                <td>@Documento.nome</td>
+                            }
+                            @if (Documento.Regiao.Nome.Length > 9)
+                            {
+                                <td>@Documento.Regiao.Nome.Substring(0, 10) ...</td>
+                            }
+                            else
+                            {
+                                <td>@Documento.Regiao.Nome</td>
+                            }
+                            <td>
+                                @if (Documento.tipo == "Cedente")
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                else{
+                                     <p class="status cancelled">Não</p>
+                                }
+                            </td>
+                            <td>
+                                @if (Documento.TemDocumento == true)
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                @if (Documento.TemDocumento == false)
+                                {
+                                    <p class="status cancelled">Não</p>
+                                }
+                            </td>
+                            <td>
+                                @if (Documento.TemEndereco == true)
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                @if (Documento.TemEndereco == false)
+                                {
+                                    <p class="status cancelled">Não</p>
+                                }
+                            </td>                                                                               
+                            <td>
+                                @if (Documento.TemDeclaracao == true)
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                @if (Documento.TemDeclaracao == false)
+                                {
+                                    <p class="status cancelled">Não</p>
+                                }
+                            </td>
+                            <td>
+                                @if (Documento.TemImposto == true || Documento.TemDAP == true)
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                @if (Documento.TemImposto == false && Documento.TemDAP == false)
+                                {
+                                    <p class="status cancelled">Não</p>
+                                }
+                            </td>
+                            <td>
+                                @if (Documento.TemFiscal == true)
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                @if (Documento.TemFiscal == false)
+                                {
+                                    <p class="status pending">Não</p>
+                                }
+                            </td>
+                            <td>
+                                @if (Documento.TemFaturamento == true)
+                                {
+                                    <p class="status delivered">Sim</p>
+                                }
+                                @if (Documento.TemFaturamento == false)
+                                {
+                                    <p class="status pending">Não</p>
+                                }
+                            </td>                           
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<div class="loading-overlay" style="display:none;" id="loading">
+    <div class="spin"><i class="fa-solid fa-spinner"></i></div>
+</div>
+<div class="message" id="message"></div>
+
+@section Scripts {
+    <script>
+        window.onload = function showSessionStorageData() {
+            let table_rows = document.querySelectorAll('tbody tr');
+            let table_headings = document.querySelectorAll('thead th');
+
+            // 1. Searching for specific data of HTML table
+            let search = document.getElementById("input-gere");
+            search.addEventListener("input", searchTable);
+
+            function searchTable() {
+                table_rows.forEach((row, i) => {
+                    let table_data = row.textContent.toLowerCase();
+                    let search_data = search.value.toLowerCase();
+
+                    row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+                    row.style.setProperty('--delay', i / 25 + 's');
+                });
+
+                document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+                    visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+                });
+            }
+
+            // 3. Converting HTML table to PDF
+            const pdf_btn = document.querySelector('#toPDF');
+            const customers_table = document.querySelector('#customers_table');
+
+            const toPDF = function (customers_table) {
+                // Clonar o conteúdo da tabela
+                const tableClone = customers_table.cloneNode(true);
+
+                // Remover todas as imagens do clone da tabela
+                const images = tableClone.querySelectorAll('img');
+                images.forEach(image => image.remove());
+
+                const inputs = tableClone.querySelectorAll('input');
+                inputs.forEach(input => input.remove());
+
+                const labels = tableClone.querySelectorAll('label');
+                labels.forEach(label => label.remove());
+
+                // Gerar o código HTML sem imagens
+                const html_code = `
+                <!DOCTYPE html>
+                <link rel="stylesheet" type="text/css" href="style.css">
+                <main class="table" id="customers_table">${tableClone.innerHTML}</main>`;
+
+                const new_window = window.open();
+                new_window.document.write(html_code);
+
+                setTimeout(() => {
+                    new_window.print();
+                    new_window.close();
+                }, 400);
+            };
+
+            pdf_btn.onclick = () => {
+                toPDF(customers_table);
+            };
+
+            // 4. Converting HTML table to JSON
+            const json_btn = document.querySelector('#toJSON');
+
+            const toJSON = function (table) {
+                let table_data = [];
+                let t_head = [];
+                let t_headings = table.querySelectorAll('th');
+                let t_rows = table.querySelectorAll('tbody tr');
+
+                t_headings.forEach(t_heading => {
+                    let actual_head = t_heading.textContent.trim().split(' ');
+                    t_head.push(actual_head.join(' ').toLowerCase());
+                });
+
+                t_rows.forEach(row => {
+                    const row_object = {};
+                    let t_cells = row.querySelectorAll('td');
+
+                    t_cells.forEach((t_cell, cell_index) => {
+                        row_object[t_head[cell_index]] = t_cell.textContent.trim();
+                    });
+
+                    table_data.push(row_object);
+                });
+
+                return JSON.stringify(table_data, null, 4);
+            };
+
+            json_btn.onclick = () => {
+                const json = toJSON(customers_table);
+                downloadFile(json, 'json');
+            };
+
+            // 5. Converting HTML table to CSV File
+            const csv_btn = document.querySelector('#toCSV');
+
+            const toCSV = function (table) {
+                const t_heads = table.querySelectorAll('th');
+                const tbody_rows = table.querySelectorAll('tbody tr');
+
+                const headings = [...t_heads].map(head => head.textContent.trim().toLowerCase()).join(',');
+                const table_data = [...tbody_rows].map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return [...cells].map(cell => cell.textContent.trim()).join(',');
+                }).join('\n');
+
+                return headings + '\n' + table_data;
+            };
+
+            csv_btn.onclick = () => {
+                const csv = toCSV(customers_table);
+                downloadFile(csv, 'csv', 'customer_orders');
+            };
+
+            // 6. Converting HTML table to EXCEL File
+            const excel_btn = document.querySelector('#toEXCEL');
+
+            const toExcel = function (table) {
+                const t_heads = table.querySelectorAll('th');
+                const tbody_rows = table.querySelectorAll('tbody tr');
+
+                const headings = [...t_heads].map(head => head.textContent.trim().toLowerCase()).join('\t');
+                const table_data = [...tbody_rows].map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return [...cells].map(cell => cell.textContent.trim()).join('\t');
+                }).join('\n');
+
+                return headings + '\n' + table_data;
+            };
+
+            excel_btn.onclick = () => {
+                const excel = toExcel(customers_table);
+                downloadFile(excel, 'excel');
+            };
+
+            const downloadFile = function (data, fileType, fileName = '') {
+                const a = document.createElement('a');
+                a.download = fileName;
+                const mime_types = {
+                    'json': 'application/json',
+                    'csv': 'text/csv',
+                    'excel': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                };
+                a.href = `data:${mime_types[fileType]};charset=utf-8,${encodeURIComponent(data)}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+        };
+
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Detalhes Protestos";
+    @using CRMAudax.Controllers;
+    @model dynamic
+
+    int soma = 0;
+}
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Detalhamento de protestos no sistema Quod</h3>
+    <div class="linha-horizontal"></div>
+    
+    <div class="form-controle">
+        <div class="container-title">
+            <h4>Valor</h4>
+            <h4>Data</h4>
+            <h4>Cidade</h4>
+            <h4>Cartorio</h4>
+            <h4>Cliente</h4>
+        </div>
+        <div class="tables" id="tables">
+            <ul class="table-nome" id="table-nome">
+                @foreach (dynamic protesto in Model.protestos)
+                {
+                    soma+= protesto.Valor;
+                    <li>@protesto.Valor.ToString("C")</li>
+                }
+            </ul>
+            <ul class="table-cpf">
+                @foreach (dynamic protesto in Model.protestos)
+                {
+                    <li>@protesto.Data.ToString("dd/MM/yyyy")</li>
+                }
+            </ul>
+            <ul class="table-tipo">
+                @foreach (dynamic protesto in Model.protestos)
+                {
+                    <li>@protesto.Cidade</li>
+                }
+            </ul>
+            <ul class="table-situacao">
+                @foreach (dynamic protesto in Model.protestos)
+                {
+                    <li>@protesto.NomeCartorio.Substring(0, 20) ...</li>
+                }
+            </ul>
+            <ul class="table-status" style="align-items:center;">
+                @foreach (dynamic protesto in Model.protestos)
+                {
+                    <li>@protesto.Cliente.nome</li>
+                }
+            </ul>
+        </div>
+
+        <h2>@soma.ToString("C")</h2>
+
+    </div>                      
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    </script>
+}

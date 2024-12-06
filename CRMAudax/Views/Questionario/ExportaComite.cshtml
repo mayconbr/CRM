@@ -1,0 +1,125 @@
+﻿@model dynamic;
+@using System;
+@using CRMAudax.Controllers;
+
+<style>
+
+    table {
+        margin-top: 5px;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9px;
+    }
+
+    th, td {
+        border: 1px solid #595656;
+        padding: 2px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #;
+    }
+
+
+    .coluna-relatorio-fixa {
+        width: 82% !important
+    }
+
+    .agrup {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Define duas colunas de igual tamanho */
+        width: 100%;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .negrito {
+        font-weight: bold;
+    }
+
+    @@media print {
+        @@page {
+            margin: 20px;
+            size: portrait;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    }
+</style>
+
+<div class="form-style">
+    <div class="back-img-gp">
+        <span style="float:right;">
+            <img src="~/img/logo-azul.png" alt="Audax" style="height: 40px; margin-top:-20px">
+        </span>
+        <h5>Dados do cliente</h5>
+        <div class="linha-horizontal"></div>
+        <table style="margin-bottom:10px;">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Documento</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (dynamic Pergunta in Model.Perguntas)
+                    {
+                        <td>@Pergunta.Cliente.nome</td>
+                        <td>@Pergunta.Cliente.cpfCnpj</td>
+                        <td>@Pergunta.Cliente.telefone</td>
+
+                        break;
+                    }
+                </tr>
+            </tbody>
+        </table>
+        <div class="container-comite">
+            <div class="cabecalho">
+                <h5>Comitê de crédito</h5>
+            </div>
+
+            <table style="margin-bottom:15px;">
+                <thead>
+                    <tr>
+                        <th>Questionamento</th>
+                        <th>Resposta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (dynamic Pergunta in Model.Perguntas)
+                    {
+                        var classeNegrito = Pergunta.PerguntaCoaf == "Limite" ? "negrito" : "";
+
+                        <tr class="@classeNegrito">
+                            @if (Pergunta.PerguntaCoaf != "Parecer")
+                            {
+                                <td class="coluna-relatorio-fixa">@Pergunta.PerguntaCoaf</td>
+                                @if ((Pergunta.TipoPergunta == 1) || (Pergunta.TipoPergunta == 2))
+                                {
+                                    <td>@Pergunta.RespostaPergunta</td>
+                                }
+                                else
+                                {
+                                    <td>@Pergunta.RespostaAberta</td>
+                                }
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.onload = function () { window.print(); };
+    </script>
+}

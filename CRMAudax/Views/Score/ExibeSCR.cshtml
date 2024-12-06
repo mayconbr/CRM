@@ -1,0 +1,250 @@
+﻿@{
+    ViewData["Title"] = "Detalhes SCR";
+    @using CRMAudax.Controllers;
+    @model dynamic
+     
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Detalhamento do sistema de informações de créditos</h3>
+    <div class="linha-horizontal"></div>
+     @foreach (dynamic scr in Model.scr)
+     {
+        string dataString = scr.dataInicioRelacionamento;
+
+        // Converte a string de data para DateTime
+        DateTime data = DateTime.ParseExact(dataString, "yyyy-MM-dd", null);
+
+        // Formata a data no formato brasileiro (dd/MM/yyyy)
+        string dataFormatada = data.ToString("dd/MM/yyyy");
+
+    <div class="detalhe-scr">
+        <div class="quadrante-um-scr">
+            <canvas class="bar-chart" id="bar-chart"></canvas>
+        </div>
+        <div class="quadrante-dois-scr">
+            <div class="subcard-um">
+                <div class="quadrado-avisos-scr">
+                    <ion-icon name="sad" class="person-rotina"></ion-icon>
+                    <div class="rotina-espaco-erros">
+                        <h2 class="numero-cartao-rotina">@scr.qtdeOperacoesDiscordancia</h2>
+                        <h2 class="rotulo-rotina-erro">Discordância</h2>
+                    </div>
+                </div>
+
+                <div class="quadrado-avisos-scr">
+                    <ion-icon name="skull-outline" class="person-rotina"></ion-icon>
+                    <div class="rotina-espaco-erros">
+                        <h2 class="numero-cartao-rotina">@scr.vlrOperacoesSobJudice</h2>
+                        <h2 class="rotulo-rotina-erro">Judice</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="subcard-dois">
+                <div class="quadrado-avisos-scr-full">
+                    <ion-icon name="fitness-outline" class="person-rotina"></ion-icon>
+                    <div class="rotina-espaco-erros">
+                        <h2 class="numero-cartao-rotina">@scr.carteiraVencido</h2>
+                        <h2 class="rotulo-rotina-erro">Vencidos</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="quadrante-tres-scr">
+            <div class="quadrante-tres-fildset">
+                <fieldset class="fildset-scr">
+                    <div>
+                        <div>
+                            <label>Responsabilidade Total</label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name=""
+                                   value="R$: @scr.responsabilidadeTotal"
+                                   disabled />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <label>Risco Total</label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name=""
+                                   value="R$: @scr.riscoTotal"
+                                   disabled />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <label>Carteira à vencer sob prazo indeterminado</label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name=""
+                                   value="R$: @scr.carteiraVencerPrazoIndeterminado"
+                                   disabled />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="quadrante-quatro-scr">
+            <div class="subquadrante-quatro-um">
+                <div>
+                    <div>
+                        <label>Início do relacionamento</label>
+                    </div>
+                    <div>
+                        <h4>
+                            @dataFormatada
+                        </h4>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Créditos à liberar</label>
+                    </div>
+                    <div>
+                        <h4>
+                            R$: @scr.creditosaLiberar
+                        </h4>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label>Carteira total à vencer</label>
+                    </div>
+                    <div>
+                        <h4>
+                            R$: @scr.carteiraVencer
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="subquadrante-quatro-dois">
+                <h2 class="responsabilidade-scr">Percentual de responsabilidade</h2>
+                <canvas class="pie-chart-scr" id="pie-chart-scr"></canvas>
+            </div>
+        </div>
+        </div>
+        break;
+    }
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.onload = function () {
+
+            var vencimento14a30 = [];
+            var vencimento31a60 = [];
+            var vencimento61a90 = [];
+            var vencimento91a180 = [];
+            var vencimento181a360 = [];
+
+        @foreach (dynamic scr in Model.scr)
+        {
+            <text>
+                    vencimento14a30.push('@scr.carteiraVencerAte30diasVencidosAte14dias');
+                    vencimento31a60.push('@scr.carteiraVencer31a60dias')
+                    vencimento61a90.push('@scr.carteiraVencer61a90dias')
+                    vencimento91a180.push('@scr.carteiraVencer91a180dias')
+                    vencimento181a360.push('@scr.carteiraVencer181a360dias')
+            </text>
+            break;
+        }
+
+            let arrayJunto = vencimento14a30.concat(vencimento31a60).concat(vencimento61a90).concat(vencimento91a180).concat(vencimento181a360);
+
+            const ctx = document.getElementById('bar-chart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['30 dias', '60 dias', '90 dias', '180 dias', '360 dias'],
+                    datasets: [{
+                        label: 'Endividamento por período',
+                        data: arrayJunto,
+                        backgroundColor: [
+                            'rgb(220,229,243)',
+                            'rgb(220,229,243)',
+                            'rgb(220,229,243)',
+                            'rgb(220,229,243)',
+                            'rgb(220,229,243)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        datalabels: {
+                            display: true,
+                            align: 'end', // você pode escolher 'end', 'start', 'right', 'left', etc.
+                            formatter: (value) => {
+                                return value.toString();
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                              ticks: {
+                                    beginAtZero:true
+                              }
+                        }]
+                    
+                    },
+
+                    text: {
+                            position: 'top'
+                    }
+                }
+            });
+
+            var diferencaResponsabilidade = [];
+            var responsabilidadeTotal = [];
+            var riscoTotal = [];
+            var arrayJuntoResponsabilidade = [];
+
+            @foreach (dynamic scr in Model.scr)
+            {
+                <text>
+                    responsabilidadeTotal.push('@scr.responsabilidadeTotal');
+                    riscoTotal.push('@scr.riscoTotal')                    
+                </text>
+            break;
+            }
+
+            diferencaResponsabilidade = (riscoTotal[0] - responsabilidadeTotal[0]).toFixed(2);
+
+            arrayJuntoResponsabilidade.push(diferencaResponsabilidade);
+            let arraygraphrisco = arrayJuntoResponsabilidade.concat(responsabilidadeTotal);
+
+            const cty = document.getElementById('pie-chart-scr');
+            new Chart(cty, {
+                type: 'pie',
+                data: {
+                    labels: ['Livre', 'Em uso'],
+                    datasets: [{
+                        label: 'My First Dataset',
+                        data: arraygraphrisco,
+                        backgroundColor: [
+                            'rgb(154, 190, 245)',
+                            'rgb(245, 209, 154)',
+                        ],
+                        hoverOffset: 1
+                    }]
+                },
+                options: {                   
+                }
+            });
+        }
+    </script>
+}

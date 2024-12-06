@@ -1,0 +1,53 @@
+﻿<div class="form-style">
+    <img src="~/img/logo-azul.png" alt="Audax" class="logo-azul-shared">
+    <h3 class="titulo-pagina">Pasta Compartilhada</h3>
+    <div class="linha-horizontal"></div>
+    <div>
+        <div class="container-pastas">
+            @foreach (dynamic Arquivo in Model.Arquivos)
+            {
+                <div class="pasta-un">                   
+                    <div class="pastas-icon">
+                        <ion-icon name="cloud-download-outline" onclick="downloadArquivoPasta(@Arquivo.Id)"></ion-icon>
+                    </div>
+                    <div class="titulo-pasta">
+                        <p>@Arquivo.nomeArquivo</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function downloadArquivoPasta(Id) {
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFileShared/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFileShared/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+    </script>
+    }

@@ -1,0 +1,96 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Atividade";
+    IEnumerable<CRMAudax.Models.TableAutomoveis> automovel = ViewData["automovel"] as IEnumerable<CRMAudax.Models.TableAutomoveis>;
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Automóveis</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doCadastrarMaquina(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Modelo *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="modelo"
+                           id="modelo"
+                           value="@automovel.FirstOrDefault().modelo"
+                           disabled />
+                </div>
+            </div>
+            <div class="object-input">
+                <div>
+                    <label>Marca *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="marca"
+                           id="marca"
+                           value="@automovel.FirstOrDefault().marca"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ano do automóvel</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="ano"
+                           id="ano"
+                           value="@automovel.FirstOrDefault().ano"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Placa</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="placa"
+                           id="placa"
+                           value="@automovel.FirstOrDefault().placa"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor da Tabela FIPE</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorFipe"
+                           id="valorFipe"
+                           value="@automovel.FirstOrDefault().valorFipe"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor Alienado </label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorOnus"
+                           id="valorOnus"
+                           value="@automovel.FirstOrDefault().valorOnus"
+                           disabled />
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="btn-cad">
+            @*<button class="btn-cadastrar" type="submit">Salvar</button>*@
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+},

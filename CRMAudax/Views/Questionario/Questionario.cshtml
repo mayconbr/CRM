@@ -1,0 +1,55 @@
+﻿@using CRMAudax.Controllers;
+
+@model IEnumerable<CRMAudax.Models.TableQuestionario>
+@{
+    ViewData["Title"] = "Questionários";
+}
+
+<div class="form-style">
+    <div class="container-comite">
+            <div class="cabecalho">
+                <a href="/Questionario/NovoQuestionario"><button class="btn-new"><ion-icon name="add-outline" class="icon-add"></ion-icon>Novo Questionário</button></a>
+                <h3 class="titulo-pagina">Questionários</h3>
+                <div class="linha-horizontal"></div>
+            </div>
+    </div>
+
+    <div class="form-controle">
+        <div class="container-title-dois">
+            <h4>Questionário</h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables-dois">
+            <ul id="tags1">
+                @foreach (var element in Model)
+                {
+                        <li class="dropzone" draggable="true" id="@element.Id" onclick="window.location.href='/Questionario/EditarQuestionario?id=@element.Id'" style="cursor: pointer;">
+                            <span type="hidden" id="@element.Id"></span>
+                            <span class="span-nome" id="nomeKanban">@element.Nome</span>
+                            <span class="span-btn"><a href="/Questionario/EditarQuestionario?id=@element.Id"><ion-icon name="eye-outline" class="icon-eye"></ion-icon></a></span>
+                        </li>                    
+                }
+            </ul>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+       
+    </script>
+}

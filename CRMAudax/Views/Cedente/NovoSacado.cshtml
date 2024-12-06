@@ -1,0 +1,481 @@
+﻿@{
+    ViewData["Title"] = "Cadastro de Sacado";
+}
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Sacado</h3>
+    <div class="linha-horizontal"></div>
+    <fieldset class="fildset-padrao" style="margin-top:12px;">
+        <div>
+            <div>
+                <label>Documento</label>
+            </div>
+            <div>
+                <input type="text"
+                       name="documento"
+                       id="documento"
+                       placeholder="Ex: 000.000.000 - 00" />
+                <p id="validacaodocnpj"></p>
+            </div>
+        </div>
+        <input type="hidden" id="ValorIdSacado"/>
+    </fieldset>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage"></div>
+        <button class="botao-close-pasta" onclick="closeModalMessage(true)"><ion-icon name="close-outline"></ion-icon></button>
+        <div class="divConsultaOculta" style="display:none;" id="divConsultaOculta">
+            <h3 class="titulo-pagina">Consultas disponíveis</h3>
+            <div class="linha-horizontal"></div>
+            <div class="consultas-disponiveis">
+                <div>
+                    <input type="checkbox" class="input-consulta" name="quodComplet" id="quodComplet"/>
+                    <span>Quod Completa</span>
+                </div>
+                <div>
+                    <input type="checkbox" class="input-consulta" name="scoreDecisao" id="scoreDecisao" />
+                    <span>Score Decisão</span>
+                </div>
+                <div>
+                    <input type="checkbox" class="input-consulta" name="pendenciasDecisao" id="pendenciasDecisao" />
+                    <span>Pendencias Decisão</span>
+                </div>
+                <div>
+                    <input type="checkbox" class="input-consulta" name="protestDecisao" id="protestDecisao" />
+                    <span>Protestos Decisão </span>
+                </div>
+                <div>
+                    <input type="checkbox" class="input-consulta" name="ScrComplet" id="ScrComplet" />
+                    <span>Sistema de Informações de Créditos (SCR)</span>
+                    <button class="btn-new" onclick="doAllQueries()" ><ion-icon name="arrow-forward-outline"></ion-icon></button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-conteudo">
+            <a href="/Cedente/TodosCadastros"><button class="botao-message" onclick="window.location.href =/Cedente/TodosCadastros" id="botao-message">Continuar</button></a>
+        </div>
+    </div>
+</div>
+
+<div class="modal-load" id="modal-load">
+    <div class="modal-message-content">
+        <div class="conteudo-modal-load" style="display:block;">
+            <button class="botao-close-pasta" onclick="closeModalload()"><ion-icon name="close-outline"></ion-icon></button>
+            <div class="modal-message-header" id="divMessage">
+                <fieldset class="fildsettres">
+                    <div class="container-modal-copy">
+                        <h2>Confirmação de dados</h2>
+                        <div class="linha-horizontal"></div>
+                        <form onsubmit="doNovoProponente(this); return false;">
+                            <fieldset class="fildsetCadastro-Sacado">
+                                <div>
+                                    <div>
+                                        <label>Documento</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="cpfCnpj"
+                                               id="cpfCnpj" />
+                                    </div>
+                                </div>
+                                <div class="object-input">
+                                    <div>
+                                        <label>Nome Fantasia</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="nome"
+                                               id="nome" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Ramo de Atividade</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="ramoAtividadeCedente"
+                                               id="ramoAtividadeCedente" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Telefone</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="telefone"
+                                               id="telefone" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Email</label>
+                                    </div>
+                                    <div>
+                                        <input type="email"
+                                               name="email"
+                                               id="email" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>CEP</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="cep"
+                                               id="cep" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Rua</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="rua"
+                                               id="rua" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Número</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="numero"
+                                               id="numero" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Complemento</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="complemento"
+                                               id="complemento" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Cidade</label>
+                                    </div>
+                                    <div>
+                                        <input type="text"
+                                               name="cidade"
+                                               id="cidade" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Estado</label>
+                                    </div>
+                                    <div>
+                                        <select title="Estados" name="estado" id="estado">
+                                            <option value="">Selecione o estado</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espirito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Data da fundação / nascimento</label>
+                                    </div>
+                                    <div>
+                                        <input type="date"
+                                               id="dataFundacaoCedente"
+                                               name="dataFundacaoCedente" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="btn-cad-sacado">
+                                <button class="btn-cadastrar" type="submit" id="btnCad">Cadastrar</button>
+                                <button class="btn-new" id="btnSeg" style="display:none;" onclick="doWindowRedirect()"><ion-icon name="arrow-forward-outline"></ion-icon></button>
+                            </div>
+                        </form>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loading-overlay" style="display:none;" id="loading">
+    <div class="spin"><i class="fa-solid fa-spinner"></i></div>
+</div>
+
+<div class="message" id="message"></div>
+
+@section Scripts {
+    <script>
+
+        window.onload = function chamaFunctionBlur() {
+
+            let CpfCnpjTomador = document.getElementById("documento");
+            CpfCnpjTomador.addEventListener("blur", doDecideDocument);
+        }
+
+        function doDecideDocument() {
+            var documento = document.getElementById("documento").value;
+
+            if (documento.length == 11) {
+                $("#documento").mask("999.999.999-99");
+                doLemit();
+            }
+            if (documento.length == 14) {
+                $("#documento").mask("99.999.999/9999-99");
+                BuscaCNPJ();
+            }
+        }
+
+        function BuscaCNPJ() {
+            let cnpj = document.getElementById("documento").value;
+            cnpj = cnpj.replace(/[^\d]+/g, "").replace("/", "");
+            if (cnpj !== "") {
+                let url = "https://brasilapi.com.br/api/cnpj/v1/" + cnpj;
+                let req = new XMLHttpRequest();
+                req.open("GET", url);
+                req.send()
+
+                //tratar a resposta da requisicao
+                req.onload = function () {
+                    if (req.status === 200) {
+                        let busca = JSON.parse(req.response);
+
+                        if (busca.descricao_situacao_cadastral == "BAIXADA") {
+                            var validacaodocnpj = document.getElementById("validacaodocnpj");
+                            validacaodocnpj.style.color = 'red';
+                            document.getElementById("validacaodocnpj").innerHTML = "Situação do CNPJ " + busca.descricao_situacao_cadastral;
+
+                            openModalload();
+
+                            var documento = document.getElementById("cpfCnpj").value = cnpj;
+                            var nome = document.getElementById("nome").value = busca.razao_social;
+                            var cnaee = document.getElementById("ramoAtividadeCedente").value = busca.cnae_fiscal_descricao;
+                            var telefone = document.getElementById("telefone").value = busca.ddd_telefone_1;
+                            var email = document.getElementById("email").value = busca.email;
+                            var cep = document.getElementById("cep").value = busca.cep;
+                            var logradora = document.getElementById("rua").value = busca.logradouro;
+                            var numero = document.getElementById("numero").value = busca.numero;
+                            var complemento = document.getElementById("complemento").value = busca.complemento;
+                            var municipio = document.getElementById("cidade").value = busca.municipio;
+                            var uf = document.getElementById("estado").value = busca.uf;
+                            var data = document.getElementById("dataFundacaoCedente").value = busca.data_inicio_atividade;
+
+                        }
+
+                        if (busca.descricao_situacao_cadastral == "ATIVA") {
+                            var validacaodocnpj = document.getElementById("validacaodocnpj");
+                            validacaodocnpj.style.color = 'green';
+                            document.getElementById("validacaodocnpj").innerHTML = "CNPJ valido na receita federal";
+
+                            openModalload();
+
+                            var documento = document.getElementById("cpfCnpj").value = cnpj;
+                            var nome = document.getElementById("nome").value = busca.razao_social;
+                            var cnaee = document.getElementById("ramoAtividadeCedente").value = busca.cnae_fiscal_descricao;
+                            var telefone = document.getElementById("telefone").value = busca.ddd_telefone_1;
+                            var email = document.getElementById("email").value = busca.email;
+                            var cep = document.getElementById("cep").value = busca.cep;
+                            var logradora = document.getElementById("rua").value = busca.logradouro;
+                            var numero = document.getElementById("numero").value = busca.numero;
+                            var complemento = document.getElementById("complemento").value = busca.complemento;
+                            var municipio = document.getElementById("cidade").value = busca.municipio;
+                            var uf = document.getElementById("estado").value = busca.uf;
+                            var data = document.getElementById("dataFundacaoCedente").value = busca.data_inicio_atividade;
+                        }
+
+                        $("#cpfCnpj").mask("99.999.999/9999-99");
+                        $("#telefone").mask("(99)99999-9999");
+                        $("#cep").mask("99999-999");
+
+                    } else if (req.status === 404) {
+                        var validacaodocnpj = document.getElementById("validacaodocnpj");
+                        validacaodocnpj.style.color = 'red';
+                        document.getElementById("validacaodocnpj").innerHTML = ("CNPJ não encontrado na receita federal");
+                        $('#cpfCnpj').val('');
+                    }
+                    else {
+                        var validacaodocnpj = document.getElementById("validacaodocnpj");
+                        validacaodocnpj.style.color = 'red';
+                        document.getElementById("validacaodocnpj").innerHTML = ("CNPJ não encontrado na receita federal");
+                        $('#cpfCnpj').val('');
+                    }
+                }
+            }
+        }
+
+        function doNovoProponente(form) {
+            try {
+                var u = parseForm(form);
+
+                if ($('#dataFundacaoCedente').val() == "") {
+                    u.dataFundacaoCedente = null;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarSacado',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        closeModalload();
+                        var ValorIdSacado = document.getElementById("ValorIdSacado").value = data;
+                        doModalCkeck()
+                        
+                    },
+                    error: function(data) {
+                        closeModalload();
+                        ErrAtv(data.responseText.replace('"', '').replace('"', ''))                       
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+
+        function doModalCkeck() {
+            openModalMessage();
+            var botao = document.getElementById("botao-message");
+            botao.style.display = 'none';
+            var divmsg = document.getElementById("divMessage");
+            divmsg.style.display = 'none';
+            var divConsultaOculta = document.getElementById("divConsultaOculta");
+            divConsultaOculta.style.display = 'block';
+        }
+        
+
+        function doWindowRedirect() {
+            closeModalload();
+            var idSacado = document.getElementById("ValorIdSacado").value
+            window.location.href = "/Cedente/ExibeCadastros?id=" + idSacado;
+        }
+
+        function doLemit() {
+            debugger;
+            var documento = document.getElementById("documento").value;
+            try {
+                $.ajax({
+                    type: 'GET',
+                    url: '/GetInfoLemit/' + documento,
+                    success: function (data) {                        
+                            var json = JSON.stringify(data);
+                            const objetoJSON = JSON.parse(json);
+
+                            const cpfJson = objetoJSON.cpf;
+                            const nomeJson = objetoJSON.nome;
+                            const telefoneJson = objetoJSON.telefone;
+                            const emailJson = objetoJSON.email;
+                            const cepJson = objetoJSON.cep;
+                            const ruaJson = objetoJSON.rua;
+                            const numeroJson = objetoJSON.numero;
+                            const complementoJson = objetoJSON.complemento;
+                            const cidadeJson = objetoJSON.cidade;
+                            const estadoJson = objetoJSON.estado;                            
+                            var dataHora = objetoJSON.nascimento.split(' ');
+                            var data = dataHora[0];
+                            var partesData = data.split('/');
+                            var dia = partesData[0];
+                            var mes = partesData[1];
+                            var ano = partesData[2];
+
+                            // Formatando a data no formato desejado "dd-mm-yyyy"
+                            var dataFormatada = ano + '-' + dia + '-' + mes;
+
+                            openModalload();
+                           
+                            var documentoM = document.getElementById("cpfCnpj").value = cpfJson;
+                            $("#cpfCnpj").mask("999.999.999-99");
+                            var nome = document.getElementById("nome").value = nomeJson;
+                            var telefone = document.getElementById("telefone").value = telefoneJson;
+                            var email = document.getElementById("email").value = emailJson;
+                            var cep = document.getElementById("cep").value = cepJson;
+                            var logradora = document.getElementById("rua").value = ruaJson;
+                            var numero = document.getElementById("numero").value = numeroJson;
+                            var complemento = document.getElementById("complemento").value = complementoJson;
+                            var municipio = document.getElementById("cidade").value = cidadeJson;
+                            var uf = document.getElementById("estado").value = estadoJson;
+                            var dataNasc = document.getElementById("dataFundacaoCedente").value = dataFormatada.toString();
+                    },
+                    error: function () {
+                        closeModalload();
+                        ErrAtv("Não foi possivel cadastrar o sacado");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+         function doAllQueries(){
+             openLoading();
+
+            var IdSacado = document.getElementById("ValorIdSacado").value;
+            var documento = document.getElementById("cpfCnpj").value;
+
+            var quodComplet = document.getElementById("quodComplet").checked;
+            var scoreDecisao = document.getElementById("scoreDecisao").checked;
+            var pendenciasDecisao = document.getElementById("pendenciasDecisao").checked;
+            var protestDecisao = document.getElementById("protestDecisao").checked;
+            var ScrComplet = document.getElementById("ScrComplet").checked;
+            var documentoSP = documento.replace(/[.-/]/g, '');
+
+
+            try {              
+                $.ajax({
+                    type: 'POST',
+                    url: '/DecideConsulta/' + IdSacado + "/" + documentoSP + "/" + quodComplet + "/" + scoreDecisao + "/" + pendenciasDecisao + "/" + protestDecisao + "/" + ScrComplet,
+                    success: function () {
+                        doWindowRedirect()
+                    },
+                    error: function () {
+                        closeModalload();
+                        openModalMessage("Não foi possivel realizar as consultas");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function openLoading() {
+            closeModalMessage();
+            closeModalload();
+            var loading = document.getElementById("loading");
+            loading.style.display = '';
+        }
+
+    </script>
+}

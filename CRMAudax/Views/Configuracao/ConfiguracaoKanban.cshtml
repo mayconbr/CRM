@@ -1,0 +1,274 @@
+﻿@using CRMAudax.Controllers;
+@model dynamic
+@{
+    ViewData["Title"] = "Configurações";
+}
+<div class="form-style">
+    <a href="/Relatorio/Relatorios"><button class="btn-new-monitor"><i class="fa-regular fa-file icon-constru"></i>Exportações</button></a>
+    <a href="/Notificacao/Monitoramento"><button class="btn-new-monitor"><ion-icon name="analytics-outline" class="icon-constru"></ion-icon></ion-icon>Monitoramento</button></a>
+    <a href="/Questionario/Questionario"><button class="btn-new"><ion-icon name="build-outline" class="icon-constru"></ion-icon>Questionários</button></a>
+    <h3 class="titulo-pagina">Configuração de Região</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doNovaRegiao(this); return false;">
+        <fieldset class="fildsettres">
+            <div class="object-input">
+                <div>
+                    <label>Nome da Região</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="Nome"
+                           id="Nome"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label></label>
+                </div>
+                <div>
+                    <input type="hidden" />
+                </div>
+            </div>
+            <button class="btn-new-big" type="submit"><ion-icon name="add-outline"></ion-icon></button>
+        </fieldset>
+    </form>
+
+    <div class="form-controle">
+        <div class="container-title-dois">
+            <h4>Região</h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables-dois">
+            <ul id="tags1">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    @if (Regiao.Id == 1)
+                    {
+                        <li id="@Regiao.Id">
+                            <span type="hidden" id="@Regiao.Id"></span>
+                            <span class="span-nome" id="nomeKanban">@Regiao.Nome</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <span type="hidden" id="@Regiao.Id"></span>
+                            <span class="span-nome" id="nomeKanban">@Regiao.Nome</span>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    <h3 class="titulo-pagina">Configuração Kanban</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doNovoBoard(this); return false;">
+        <fieldset class="fildsettres">
+            <div class="object-input">
+                <div>
+                    <label>Nome da Board</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="nome"
+                           id="nome"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label></label>
+                </div>
+                <div>
+                    <input type="hidden"
+                           name="ordem"
+                           id="ordem"
+                           value="0" />
+                </div>
+            </div>
+            <button class="btn-new-big" type="submit"><ion-icon name="add-outline"></ion-icon></button>
+        </fieldset>
+    </form>
+
+    <div class="form-controle">
+        <div class="container-title-dois">
+            <h4>Nome</h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables-dois">
+            <ul id="tags1">
+                @foreach (dynamic Board in Model.Boards)
+                {
+                    @if (@Board.Id == 1)
+                    {
+                        <li id="@Board.Id">
+                            <span type="hidden" id="@Board.Id"></span>
+                            <span class="span-nome" id="nomeKanban">@Board.nome</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropzone" draggable="true" id="@Board.Id">
+                            <span type="hidden" id="@Board.Id"></span>
+                            <span class="span-nome" id="nomeKanban">@Board.nome</span>
+                            <span class="span-btn"><button class="btn-trash" onclick="doExcluir(@Board.Id); return false;"><ion-icon name="trash-outline"></ion-icon></button></span>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <button class="btn-salvar" onclick="doJson()">Salvar</button>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage(true)">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function doNovaRegiao(form) {
+            try {
+                var u = parseForm(form);
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarRegiao',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Região adicionada");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar a nova região");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doJson() {
+            var form = new FormData();
+            var count = 0;
+            $('#tags1 li').each(function () {
+                form.append("AuxOrderKanban[" + count++ +"]", this.id);
+            });
+
+            try {            
+                var settings = {
+                    "url": "/OrderTabelasKanban",
+                    "method": "PUT",
+                    "timeout": 0,
+                    "processData": false,
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": form
+                };
+
+                $.ajax(settings)
+                    .done(function (response) {
+                        openModalMessage("Configuração Salva!");
+                    }
+                    )
+                    .fail(function (response) {
+                        openModalMessage("Erro!");
+                    }
+                    );
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+
+        function doNovoBoard(form) {
+            try {
+                var u = parseForm(form);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarKanban',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Board Criada!");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel alterar as configurações da board");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doExcluir(Id) {
+            try {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/DeleteTabelasKanban/' + Id,
+                    success: function () {
+                        openModalMessage("Coluna Excluida");
+                    },
+                    error: function () {
+                        openModalMessage("Erro em excluir coluna");
+                    },
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        let dragged;
+        let id;
+        let index;
+        let indexDrop;
+        let list;
+
+        document.addEventListener("dragstart", ({ target }) => {
+            dragged = target;
+            id = target.id;
+            list = target.parentNode.children;
+            for (let i = 0; i < list.length; i += 1) {
+                if (list[i] === dragged) {
+                    index = i;
+                }
+            }
+        });
+
+        document.addEventListener("dragover", (event) => {
+            event.preventDefault();
+        });
+
+        document.addEventListener("drop", ({ target }) => {
+            if (target.className == "dropzone" && target.id !== id) {
+                dragged.remove(dragged);
+                for (let i = 0; i < list.length; i += 1) {
+                    if (list[i] === target) {
+                        indexDrop = i;
+                    }
+                }
+                console.log(index, indexDrop);
+                if (index > indexDrop) {
+                    target.before(dragged);
+                } else {
+                    target.after(dragged);
+                }
+            }
+        });
+    </script>
+}

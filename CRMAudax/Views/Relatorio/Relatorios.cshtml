@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Relatórios";
+    @using CRMAudax.Controllers;
+    @model dynamic
+}
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Exportações disponíveis</h3>
+    <div class="linha-horizontal"></div>
+    <div class="background-relatorio">
+
+        <div style="display:flex; gap:20px;">
+            <div class="card-relatorio">
+                <div class="content-relatorio">
+                    <h5>Assinatura digital <i class="fa-solid fa-signature"></i></h5>
+                    <div class="linha-relatorio"></div>
+                    <p>Início</p>
+                    <input type="date" id="inicioAssinatura" />
+                    <p>Final</p>
+                    <input type="date" id="finalAssinatura" />
+                    <button type="button" onclick="RelatorioAssinaturaDigital()">Emitir</button>
+                </div>
+            </div>           
+        </div>
+        
+    </div>
+</div>
+<div class="loading-overlay" style="display:none;" id="loading">
+    <div class="spin"><i class="fa-solid fa-spinner"></i></div>
+</div>
+<div class="message" id="message"></div>
+
+@section Scripts {
+    <script>
+        function RelatorioAssinaturaDigital() {
+            var loading = document.getElementById('loading');
+            loading.style.display = '';
+            $.ajax(
+                {
+                    type: "GET",
+                    url: '/RelatorioAssinaturaDigital/' + $("#inicioAssinatura").val() + '/' + $("#finalAssinatura").val(),
+                    datatype: 'json',
+                    data: ({
+                    }),
+                    success: function (data) {
+                        window.location = '/RelatorioAssinaturaDigital/' + $("#inicioAssinatura").val() + '/' + $("#finalAssinatura").val();
+                        sucessAtv("Relatório emitido!");
+                        setTimeout(() => {
+                            loading.style.display = 'none';
+                        }, 1000);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        loading.style.display = 'none';
+                        ErrAtv("Erro em gerar o relatório");
+                    },
+                    contentType: "application/json"
+                });
+        }
+    </script>
+}

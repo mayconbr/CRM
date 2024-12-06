@@ -1,0 +1,455 @@
+﻿@{
+    ViewData["Title"] = "Cadastro de Proponente";
+}
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Proponente</h3>
+    <div class="linha-horizontal"></div>
+    <form onsubmit="doNovoProponente(this); return false;">
+        <div class="pjpf">
+            <input type="radio" id="TipoPessoa" name="TipoPesssoa" value="1" checked />
+            <label class="pf" for="PF">Pessoa Física</label>
+            <input type="radio" id="TipoPessoa" name="TipoPesssoa" onclick="window.location.href = this.checked ? '/Cedente/NovoProponentePJ' : '';" value="2" />
+            <label class="pj" for="PJ">Pessoa Juridíca</label>
+        </div>
+        <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+            <div>
+                <div>
+                    <label>Por que recorreu à Audax ? *</label>
+                </div>
+                <div>
+                    <input name="recorreu"
+                           id="'recorreu"
+                           placeholder="Dê um breve parecer sobre."
+                           class="big-input"
+                           required>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Nome *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="nome"
+                           id="nome"
+                           placeholder="Digite o nome do proponente"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>CPF *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="cpfCnpj"
+                           id="cpfCnpj"
+                           placeholder="Ex: 000.000.000-00"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ramo de Atividade *</label>
+                </div>
+                <div>
+                    <select title="Ramo de Atividade" name="ramoAtividade" id="ramoAtividadeCedente" required>
+                        <option value="">Selecione o ramo de atividade</option>
+                        <option value="Financas">Finanças</option>
+                        <option value="Agronegocio">Agronegócio</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Varejo">Varejo</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Telefone *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="telefone"
+                           id="telefone"
+                           placeholder="Ex. (35) 99999 - 9999"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Email</label>
+                </div>
+                <div>
+                    <input type="email"
+                           name="email"
+                           id="email"
+                           placeholder="Ex. gpaudax@gpaudax.com.br" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>CEP</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="cep"
+                           id="cep"
+                           placeholder="Ex: 00000 - 000" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Rua</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="rua"
+                           id="rua"
+                           placeholder="Digite o endereço" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Número</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="numero"
+                           id="numero"
+                           placeholder="Digite o número " />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Complemento</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="complemento"
+                           id="complemento"
+                           placeholder="Ex: S/Complemento" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Cidade</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="cidade"
+                           id="cidade"
+                           placeholder="Digite o municipio" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Estado</label>
+                </div>
+                <div>
+                    <select title="Estados" name="estado" id="estado">
+                        <option value="">Selecione o estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espirito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Bairro</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="bairro"
+                           id="bairro"
+                           placeholder="Ex.: Bairro" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Data da nascimento</label>
+                </div>
+                <div>
+                    <input type="date"
+                           id="dataFundacaoCedente"
+                           name="dataFundacaoCedente"
+                           placeholder="Ex.:00/00/0000" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Faturamento</label>
+                </div>
+                <div>
+                    <input type="number"
+                           name="faturamento"
+                           id="faturamento"
+                           placeholder="Ex.:Digite o faturamento anual" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Site ou Rede Social</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="site"
+                           id="site"
+                           placeholder="Ex.: www.gpaudax.com.br" />
+                </div>
+            </div>
+            <div>
+                <div class="difere-tooltip">
+                    <label>
+                        <div class="tooltip" style="cursor:pointer;">
+                            <div class="tooltip-frente tooltip-compl" id="tooltip-frente">
+                                <span class="tooltiptext">
+                                    A inscrição estadual do produtor rural é um registro obrigatório para agricultores e pecuaristas
+                                    junto à Secretaria da Fazenda estadual. Esse cadastro permite emitir notas fiscais, obter benefícios
+                                    fiscais, e acessar programas de incentivo, regularizando a atividade e facilitando a obtenção de créditos rurais.
+                                </span>
+                            </div>
+                            <a>Inscrição estadual do produtor rural 🤔</a>
+                        </div>
+                    </label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="InscricaoEstadual"
+                           id="InscricaoEstadual"
+                           placeholder="Ex.: 0000000000000" />
+                </div>
+            </div>
+        </fieldset>
+
+        <h3 class="titulo-pagina">Dados do principal sócio</h3>
+        <div class="linha-horizontal"></div>
+        <fieldset class="fildsetCadastro">
+            <div>
+                <div>
+                    <label>Pessoa politicamente exposta ?</label>
+                </div>
+                <div>
+                    <select title="pep" name="pep" id="pep">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Sócio em outra empresa ?</label>
+                </div>
+                <div>
+                    <select title="socio" name="socio" id="socio">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+            <div>
+                <div>
+                    <label>Referêcia de outras empresas ?</label>
+                </div>
+                <div>
+                    <input name="referencia"
+                           id="'referencia"
+                           placeholder="Dê uma referência."
+                           class="big-input"
+                           required>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+            <div>
+                <div>
+                    <label>Região *</label>
+                </div>
+                <div>
+                    <select class="filtro-tipos" title="Regiao" id="RegiaoId" name="RegiaoId" required>
+                        
+                        @foreach (dynamic Regiao in Model.Regioes)
+                        {
+                            if (Regiao.Id == 1)
+                            {
+                                <option value="">Selecione uma região</option>
+                            }
+                            else
+                            {
+                                <option value="@Regiao.Id">@Regiao.Nome</option>
+                            }
+                           
+                        }
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="fildset-padrao" style="margin-top:12px; margin-bottom:-8px;">
+            <div>
+                <div>
+                    <label>Operador Responsável *</label>
+                </div>
+                <div>
+                    <select class="filtro-tipos" title="Operador" id="UsuarioId" name="UsuarioId" required>
+                            <option value="">Selecione um operador</option>
+                        @foreach (dynamic Operador in Model.Operadores)
+                        {
+                            <option value="@Operador.Id">@Operador.Nome</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="fildset-padrao" style="margin-top:12px;">
+            <div>
+                <div>
+                    <label>Parecer:</label>
+                </div>
+                <div>
+                    <textarea rows="6"
+                              name="parecer"
+                              id="´parecer"
+                              placeholder="Dê um breve parecer sobre esse possivel cedente."
+                              class="big-input"></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="btn-cad">
+            <button class="btn-cadastrar" type="submit">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <a href="/Cedente/TodosCadastros"><button class="botao-message">Continuar</button></a>
+        </div>
+    </div>
+</div>
+
+<div class="message" id="message"></div>
+
+@section Scripts{
+    <script>
+        window.onload = function showSessionStorageData() {
+
+            $("#cpfCnpj").mask("999.999.999-99");
+            $("#telefone").mask("(99)99999-9999");
+            $("#cep").mask("99999-999");
+
+            let cep = document.getElementById("cep");
+            cep.addEventListener("blur", buscaCep);
+        }
+
+        function doNovoProponente(form) {
+            try {
+                var u = parseForm(form);
+                u.tipoPessoa = 1;
+                if (document.getElementById("faturamento").value == "") {
+                    u.faturamento = null;
+                }
+                debugger;
+                if ($('#dataFundacaoCedente').val() == "") {
+                    u.dataFundacaoCedente = null;
+
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarProponente',
+                    data: JSON.stringify(u), 
+                    success: function (data) {                       
+                            openModalMessage("Proponente cadastrado!");                                          
+                        return data;
+                    },
+                    error: function (data) {
+                        ErrAtv(data.responseText.replace('"', '').replace('"', ''));
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+
+        function buscaCep() {
+            let cep = document.getElementById("cep").value;
+            if (cep !== "") {
+                let url = "https://brasilapi.com.br/api/cep/v1/" + cep;
+                let req = new XMLHttpRequest();
+                req.open("GET", url);
+                req.send();
+
+                //tratar a resposta da requisicao
+                req.onload = function () {
+                    if (req.status === 200) {
+                        let endereco = JSON.parse(req.response);
+                        document.getElementById("rua").value = endereco.street;
+                        document.getElementById("bairro").value = endereco.neighborhood;
+                        document.getElementById("cidade").value = endereco.city;
+                        document.getElementById("estado").value = endereco.state;
+
+                        document.getElementById('cidade').disabled = true;
+                        document.getElementById('estado').disabled = true;
+
+                        if (endereco.street && endereco.neighborhood !== "undefined") {
+                            document.getElementById('rua').readOnly = true;
+                            document.getElementById('bairro').readOnly = true;
+                        }
+                        else {
+                            document.getElementById('rua').readOnly = false;
+                            document.getElementById('bairro').readOnly = false;
+                            $('#rua').val('');
+                            $('#bairro').val('');
+                        }
+                    }
+                    else if (req.status === 404) {
+                        alert("CEP inválido");
+                        $('#Cep').val('');
+                    }
+                    else {
+                        alert("Erro ao fazer a requisição do CEP");
+                        $('#Cep').val('');
+                    }
+                }
+            }
+        }
+    </script>
+}

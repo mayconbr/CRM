@@ -1,0 +1,96 @@
+﻿@model dynamic
+
+<div class="form-style">
+    <h3 class="titulo-pagina">Gerenciador de Regiões</h3>
+    <div class="linha-horizontal"></div>
+
+    <div class="form-controle">
+        <div class="container-title">
+            <h4>Id</h4>
+            <h4>Região</h4>
+            <h4></h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables" id="tables">
+            <ul class="table-nome" id="table-nome">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>@Regiao.Id</li>
+                }
+            </ul>
+            <ul class="table-cpf">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>@Regiao.Nome</li>
+                }
+            </ul>
+            <ul class="table-tipo">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li style="color:aliceblue;">.</li>
+                }
+            </ul>
+            <ul class="table-situacao">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li style="color:aliceblue;">.</li>
+                }
+            </ul>
+            <ul class="table-status">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li style="color:aliceblue;">.</li>
+                }
+            </ul>
+        </div>
+    </div>
+    <h3 class="titulo-pagina">Usuário por Região</h3>
+    <div class="linha-horizontal"></div>
+    <div class="form-controle">
+        <div class="container-title">
+            <h4>Id</h4>
+            <h4>Região</h4>
+            <h4></h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables" id="tables">
+            <ul class="table-nome" id="table-nome">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>@Regiao.Id</li>
+                }
+            </ul>
+            <ul class="table-cpf">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>@Regiao.Nome</li>
+                }
+            </ul>
+            <ul class="table-tipo">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>.</li>
+                }
+            </ul>
+            <ul class="table-situacao">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>.</li>
+                }
+            </ul>
+            <ul class="table-status">
+                @foreach (dynamic Regiao in Model.Regioes)
+                {
+                    <li>.</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+    </script>
+}

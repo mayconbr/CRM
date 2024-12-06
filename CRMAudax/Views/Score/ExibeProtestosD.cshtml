@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Detalhes Protestos";
+    @using CRMAudax.Controllers;
+    @model dynamic
+
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Detalhamento de protestos no sistema Decisão</h3>
+    <div class="linha-horizontal"></div>
+    @{
+        var datasExibidas = new HashSet<DateTime>();
+
+        foreach (dynamic protesto in Model.protestos)
+        {
+            DateTime protestoDate = protesto.Data;
+
+            if (!datasExibidas.Contains(protestoDate))
+            {
+                datasExibidas.Add(protestoDate);
+                <div class="cont-accord">
+                    <div class="accordion">
+                        <button class="accordion-header" type="button">
+                            <span><h3>@protestoDate.ToString("dd/MM/yyyy")</h3></span>
+                            <ion-icon name="chevron-down-outline" class="arrow"></ion-icon>
+                        </button>
+                        <div class="accordion-body">
+                            <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:50px;">
+                                @foreach (dynamic protestu in Model.protestos)
+                                {
+                                    string protestDatt = protestu.Data.ToString("dd/MM/yyyy");
+                                    if (protestDatt == protestoDate.ToString("dd/MM/yyyy"))
+                                    {
+                                        <div class="notChild" style="display:flex; flex-direction:column;">
+                                            <p><span style="font-weight:bold">Cidade:</span> @protestu.Cidade</p>
+                                            <p><span style="font-weight:bold">Cartório:</span> @protestu.Cartorio</p>
+                                            <p class="font-prot"><span style="font-weight:bold">R$:</span> @protestu.Valor.ToString("F2")</p>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        var soma = 0.0m;
+        foreach (dynamic protestoSoma in Model.protestos)
+        {
+            soma = soma + protestoSoma.Valor;
+        }
+        <h2 style="margin-left:10px;">R$ @soma.ToString("F2")</h2>
+    }
+</div>
+
+@section Scripts {
+    <script>
+
+        window.onload = function showSessionStorageData() {
+            const accordions = document.querySelectorAll('.accordion');
+
+            accordions.forEach(accordion => {
+                const header = accordion.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const body = accordion.querySelector('.accordion-body');
+                    body.classList.toggle('active');
+                });
+            });
+        }
+    </script>
+}

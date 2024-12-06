@@ -1,0 +1,282 @@
+﻿@model dynamic
+@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "kanban";
+}
+<div class="form-style">
+    @using (Html.BeginForm("Kanban", "Configuracao", FormMethod.Get))
+    {
+    <input class="input-pesquisa"
+           id="nomeDoCliente"
+           name="nomeDoCliente"
+           ondrop="false"
+           placeholder="Pesquisa por nome ..."
+           draggable="false" />
+        <button type="submit" class="botao-pesquisa-kanban"><ion-icon name="search-outline"></ion-icon></button>
+    }
+    <div class="container-boards" ondrop="false" draggable="false">
+        @foreach (dynamic Board in Model.Boards)
+        {
+            var ultimaBoard = 5;
+            <div class="quadrado-board" ondragover="onDragOver(event);" ondrop="onDrop(event);" id="@Board.Id" draggable="false">
+                <h3 draggable="false" style="margin-bottom:18px;">@Board.nome</h3>
+                @foreach (dynamic Cliente in Model.Clientes)
+                {
+                    if (Cliente.situacao == "Analise")
+                    {
+                        if (Board.Id == Cliente.ColunaId)
+                        {
+                            <div class="card"
+                                 name="@Cliente.nome"
+                                 draggable="true"
+                                 id="@Cliente.Id"
+                                 ondragstart="onDragStart(event)"
+                                 ondrop="false" dropzone="false">
+                                @if (Cliente.nome.Length > 6)
+                                {
+                                    <p draggable="false" ondrop="false"><a style="font-weight: bold;">Cliente:</a> @Cliente.nome.Substring(0, 6) ...</p>
+                                }
+                                else
+                                {
+                                    <p draggable="false" ondrop="false"><a style="font-weight: bold;">Cliente:</a> @Cliente.nome</p>
+                                }
+
+                                @* //Erro *@
+                                @if (Cliente.Usuario != null)
+                                {
+                                    @if (Cliente.Usuario.Nome.Length > 6)
+                                    {
+                                        <p draggable="false"><a style="font-weight: bold;">Operador:</a> @Cliente.Usuario.Nome.Substring(0, 7) ...</p>
+                                    }
+                                    else
+                                    {
+                                        <p draggable="false"><a style="font-weight: bold;">Operador:</a> @Cliente.Usuario.Nome</p>
+                                    }
+                                }
+                                                     
+                                <ion-icon name="close-outline" class="close-kanban" onclick="openModalMessageReprova(@Cliente.Id)"></ion-icon>
+
+                                @if (Board.Id == ultimaBoard)
+                                {
+                                    <ion-icon name="checkmark-outline" class="ckeck-kanban" onclick="openModalMessageAprova(@Cliente.Id)"></ion-icon>
+                                }
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage(true)">Continuar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-message-reprova">
+    <div class="modal-message-content-reprova">
+        <div class="modal-message-header">
+            <ion-icon name="close-outline" class="botao-close-modal" onclick="closeModalMessageReprova(true)"></ion-icon>
+            <div><h1 class="titulo-reprova">Reprovar cliente?</h1>  </div>
+            <div class="linha-horizontal"></div>
+            <div><p class="texto-reprova">Você tem certeza de que deseja prosseguir com essa ação? Estamos aqui para garantir que suas decisões sejam tomadas com cuidado e que você tenha a melhor experiência possível. Por favor, digite uma justificativa e confirme sua escolha antes de continuarmos.</p></div>
+            <textarea class="justificativa-reprova" id="justificativaReprova" maxlength="500" rows="9" cols="86" ></textarea>
+            <input id="ClienteIdReprova" type="hidden" />
+            <div class="couter">500 caracteres restantes</div>
+            <button class="botao-justificativa" onclick="doReprovarCedente()"><ion-icon name="checkmark-outline" class="ckeck-reprova"></ion-icon></button>
+        </div>
+        <div class="modal-conteudo-reprova">
+        </div>
+    </div>
+</div>
+
+<div class="modal-message-aprova">
+    <div class="modal-message-content-aprova">
+        <div class="modal-message-header">
+            <ion-icon name="close-outline" class="botao-close-modal" onclick="closeModalMessageAprova(true)"></ion-icon>
+            <div><h1 class="titulo-reprova">Aprovar cliente?</h1></div>
+            <div class="linha-horizontal"></div>
+            <div><p class="texto-reprova">Você tem certeza de que deseja prosseguir com essa ação? O card do cliente desaparecerá e seu status mudará para Cedente e Ativo.</p></div>
+            <input id="ClienteIdAprova" type="hidden" />
+        </div>
+        <div class="modal-conteudo">
+            <div class="botoes-aprova">
+                <button class="botao-aprova-cliente" onclick="closeModalMessageAprova(true)">Cancelar</button>
+                <button class="botao-aprova-cliente" onclick="doAprovarCedente()">Aprovar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-message-quatro">
+    <div class="modal-message-content-quatro">
+        <div class="modal-message-header">
+            <ion-icon name="close-outline" class="botao-close-modal" onclick="closeModalMessageQuatro(true)"></ion-icon>
+            <div><h1 style="color:red; text-align:center; font-size:25px;">Atenção!</h1></div>
+            <div class="linha-horizontal"></div>
+            <div><p class="texto-reprova">O cliente que você esta tentando aprovar não esta com o cadastro completo, todas as informações como endereço, email da empresa e socio, conta bancária e ao menos um socio (em caso de proponentes cadastrados como pessoa juridica), devem conter para um proponente se tornar um cedente ativo. 
+                Clique no botão abaixo para completar o cadastro.
+            </p></div>
+            <input id="IdclienteEdit" type="hidden" />
+        </div>
+        <div class="modal-conteudo">
+            <div class="botoes-aprova">             
+                <button class="botao-aprova-cliente" onclick="redirecionarPagina()" style="font-size:16px; width:100px; height:45px; margin-left:10%;"><i class="fa-solid fa-pen-to-square" style="margin-right:5px;"></i>Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        window.onload = function () {
+            const input = document.querySelector("#justificativaReprova");
+            const counter = document.querySelector(".couter");
+
+            input.addEventListener('input', function () {             
+                let count = 0;
+                count = input.value.length
+                counter.textContent = `${500 - count} caracteres restantes`;
+            });
+        }
+
+        function redirecionarPagina() {
+            window.location.href = "/Cedente/EditarCedente?id=" + $("#IdclienteEdit").val();
+        }
+
+        function doReprovarCedente() {
+            try {
+                debugger;
+                $.ajax({
+                    type: 'PUT',
+                    url: '/ReprovarCedente/' + $("#ClienteIdReprova").val() + '/' + $("#justificativaReprova").val(),
+                    success: function (data) {
+                        closeModalMessageReprova();
+                        openModalMessage("Cliente Reprovado");
+                    },
+                    error: function () {
+                        closeModalMessageReprova();
+                        openModalMessage("Erro em reprovar cliente");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doAprovarCedente() {
+            try {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AprovarCedente/' + $("#ClienteIdAprova").val(),
+                    success: function (data) {
+                        closeModalMessageAprova();
+
+                        if(data == true){
+                            openModalMessage("Cliente aprovado");
+                        }
+                        if(data  == false){
+                            edit = $("#ClienteIdAprova").val();
+                            openModalMessageQuatro(edit);
+                        }                
+                    },
+                    error: function () {
+                        closeModalMessageAprova();
+                        openModalMessage("Erro ao aprovar cliente");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function onDragStart(event) {
+            event
+                .dataTransfer
+                .setData('text/plain', event.target.id);
+            event
+                .currentTarget
+                .style;
+        }
+
+        function onDragOver(event) {
+            event.preventDefault();
+        }
+
+
+        function onDrop(event) {
+            const ClienteId = event
+                .dataTransfer
+                .getData('text');
+
+            //ordena board cartao
+            const draggableElement = document.getElementById(ClienteId);
+
+            const dropzone = event.target;
+
+            dropzone.appendChild(draggableElement);
+            event
+                .dataTransfer
+                .clearData();
+            MoveCardColuna(ClienteId, dropzone.id);
+
+            // ordena sequencia
+            var form = new FormData();
+            var count = 0;
+            $('.card').each(function () {
+                form.append("ArrayOrdemcartao[" + count++ + "]", this.id);
+            });
+            OrdenaSequenciacartao(form);
+        }
+
+        function MoveCardColuna(ColunaId, ClienteId) {
+            try {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/MoveCardColuna/' + ColunaId + '/' + ClienteId,
+                    success: function (data) {
+                        window.location.reload();
+                        return data;
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function OrdenaSequenciacartao(form) {
+            //criar condição para pegar somente uma board, esta pegando todas no foreach
+            try {
+                debugger;
+                var settings = {
+                    "url": "/OrdenaSequenciacartao",
+                    "method": "PUT",
+                    "timeout": 0,
+                    "processData": false,
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": form
+                };
+                $.ajax(settings)
+                    .done(function (response) {
+                    }
+                    )
+                    .fail(function (response) {
+                    }
+                    );
+
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+    </script>
+}

@@ -1,0 +1,535 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Comitê";
+}
+
+<div class="form-style">
+    <div class="container-comite">
+        <form onsubmit="doCadastrarComite(this); return false;">
+            <div class="cabecalho">
+                <h3 class="titulo-pagina">Comitê de Crédito</h3>
+                <div class="linha-horizontal"></div>
+            </div>
+            <fieldset class="fildsetCadastro">
+                <div class="object-input">
+                    <div>
+                        <label>Limite</label>
+                    </div>
+                    <div>
+                        <input type="number"
+                               name="limite"
+                               id="limite"
+                               placeholder="Digite o limite para o comite"
+                               required />
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Tipo de titulos negociados</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="tipoTitulos"
+                               id="tipoTitulos"
+                               placeholder="Ex.: boletos, duplicatas ..."
+                               required />
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Faturamento fiscal anual</label>
+                    </div>
+                    <div>
+                        <input type="number"
+                               name="faturamentoFiscal"
+                               id="faturamentoFiscal"
+                               placeholder="Digite o valor para o faturamento fiscal"
+                               required />
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Faturamento real anual (comprovado)</label>
+                    </div>
+                    <div>
+                        <input type="number"
+                               name="faturamentoReal"
+                               id="faturamentoReal"
+                               placeholder="Digite o valor para o faturamento real"
+                               required />
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Total negativado em orgãos de crédito</label>
+                    </div>
+                    <div>
+                        <input type="number"
+                               name="valorTotalNegativado"
+                               id="valorTotalNegativado"
+                               placeholder="Valor total de negativados"
+                               required />
+                    </div>
+                </div>
+                <div class="object-input">
+                    <div>
+                        <label>Total negativado protestos</label>
+                    </div>
+                    <div>
+                        <input type="number"
+                               name="valorTotalProtestos"
+                               id="valorTotalProtestos"
+                               placeholder="Valor total de protestos"
+                               required />
+                    </div>
+                </div>
+            </fieldset>
+            <div class="container-perguntas">
+                <div class="formulario">
+                    <h4>Documentação </h4>
+                    <div class="linha-horizontal"></div>
+                    <p>Contrato social possui alterações ?</p>
+                    <p>Comprovante de endereço da empresa e dos socios? </p>
+                    <p>Possui inscrição estadual?</p>
+                    <p>Possui RG e CPF dos Socios ?</p>
+                    <p>Imposto de renda dos Socios ?</p>
+                    <p>Cartão CNPJ ?</p>
+                    <p>Existe demonstrativo de faturamento? meses do ano corrente + ultimos 2 anos ?</p>
+                    <p>Possui balanço patrimonial dos ultimos 2 anos +  balancete ano corrente ?</p>
+
+                    <h4>Dados do Cedente</h4>
+                    <div class="linha-horizontal"></div>
+                    <p>Tempo de fundação da empresa maior do que 5 anos ?</p>
+                    <p>Houve mudança de atividade nos ultimos 12 meses ?</p>
+                    <p>houve mudança de socios nos ultimos 12 meses ?</p>
+
+                    <h4>Informações das operações do cliente</h4>
+                    <div class="linha-horizontal"></div>
+                    <p>Limite está acima de 30% do valor do faturamento apresentado ?</p>
+                    <p>Possui indicativos de que haverá concentração de sacados ?</p>
+                    <p>Cedente vai realizar antecipação de venda de imóveis ?</p>
+                    <p>Operações sem entrega de mercadoria ?</p>
+                    <p>Operações podem ser confirmadas através de notas fiscais ?</p>
+
+                    <h4>Consulta Bureaux de Crédito</h4>
+                    <div class="linha-horizontal"></div>
+                    <p>Cliente com aumento significativo de consultas acima da média dos ultimos 3 meses ?</p>
+                    <p>Cliente apresenta consultas no CNPJ ?</p>
+                    <p>Cedente possui pedência fincanceira em Factoring ou Securtizadora ? </p>
+                    <p>Cedente possui aumento repentino de protestos ?</p>
+                    <p>Cedente possui protestos de contas de consumo ? (Água, energia elétrica, gás, etc)</p>
+                    <p>Perfil de protestos condizentes à fornecedores do cedente ? (Se houver protestos)</p>
+                    <p>Cedente possui CCF sem devida apresentação de anuência ?</p>
+                    <p>Cedente possui alto risco na pontualidade de pagamento ?</p>
+                    <p>Cedente possui endividamento em linhas emergenciais ?</p>
+                    <p>Cedente possui aumento de contratações de crédito no mercado ?</p>
+                    <p>Cedente apresenta pico de consultas ao CNPJ ?</p>
+
+                    <h4>Ações Judiciais</h4>
+                    <div class="linha-horizontal"></div>
+                    <p>Clientes com ações juduciais?</p>
+                    <p>Cliente com ações de recuperação judicial, falência ou qualquer ação com outra securitização ?</p>
+                    <p>Cedente com ações de execução fiscal em geral ?</p>
+                    <p>Cedente com ações movidas por bancos ?</p>
+                    <p>Cedente com ações de reclamação do serviço / rescição de contrato ? (analisar o motivo da ação com o cedente)</p>
+                    <p>Cedente com ações para retirada de apontamento restritivo ?</p>
+
+                    <h4>Sócios</h4>
+                    <div class="linha-horizontal"></div>
+                    <p>Sócio possui participação em demais empresas inadimplentes ?</p>
+                    <p>Algum sócio possui outra empresa do mesmo ramo ?</p>
+                    <p>Sócios possuem protestos ?</p>
+                    <p>Sócios possuem cheques sem fundo ?</p>
+                    <p>Sócios com ações judiciais ?</p>
+                    <p>Sócios com apontamentos no CPF ?</p>
+                    <p>Sócios com perfil ostentador ?</p>
+                    <p>Herdeiros assumindo a empresa ?</p>
+                    <p>Sócio ou empresa possui garantias adicionais ?</p>
+                </div>
+                <div class="container-yesornot">
+                    <div class="linha-horizontal"></div>
+                    <div class="linha-simnao">
+
+                        <input type="radio" id="contratoSocial" name="contratoSocial" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="contratoSocial" name="contratoSocial" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="comprovanteEndereco" name="comprovanteEndereco" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="comprovanteEndereco" name="comprovanteEndereco" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="inscricaoEstadual" name="inscricaoEstadual" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="inscricaoEstadual" name="inscricaoEstadual" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="rgCpf" name="rgCpf" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="rgCpf" name="rgCpf" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="impostoRenda" name="impostoRenda" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="impostoRenda" name="impostoRenda" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="cartaoCnpj" name="cartaoCnpj" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="cartaoCnpj" name="cartaoCnpj" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="faturamento" name="faturamento" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="faturamento" name="faturamento" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="linha-simnao">
+                        <input type="radio" id="balanco" name="balanco" value="true" required>
+                        <label for="Sim">Sim</label>
+                        <input type="radio" id="balanco" name="balanco" value="" required>
+                        <label for="Nao">Não</label>
+                    </div>
+                    <div class="form-simnao">
+                        <div>
+                            <div class="linha-horizontal"></div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="tempoFundacao" name="tempoFundacao" value="true" required>
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="tempoFundacao" name="tempoFundacao" value="" required>
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="mudancaAtividade" name="mudancaAtividade" value="true" required>
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="mudancaAtividade" name="mudancaAtividade" value="" required>
+                                <label for="Nao">Não</label>
+                            </div>
+                            <div class="linha-simnao">
+                                <input type="radio" id="mudancaSocios" name="mudancaSocios" value="true" required>
+                                <label for="Sim">Sim</label>
+                                <input type="radio" id="mudancaSocios" name="mudancaSocios" value="" required>
+                                <label for="Nao">Não</label>
+                            </div>
+                        </div>
+                        <div class="form-simnao">
+                            <div>
+                                <div class="linha-horizontal"></div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="limiteAcima" name="limiteAcima" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="limiteAcima" name="limiteAcima" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="concentracaoSacados" name="concentracaoSacados" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="concentracaoSacados" name="concentracaoSacados" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="antecipacaoImoveis" name="antecipacaoImoveis" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="antecipacaoImoveis" name="antecipacaoImoveis" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="entregaMercadoria" name="entregaMercadoria" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="entregaMercadoria" name="entregaMercadoria" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="confirmaNota" name="confirmaNota" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="confirmaNota" name="confirmaNota" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-simnao">
+                            <div>
+                                <div class="linha-horizontal"></div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="consultaAcimaMedia" name="consultaAcimaMedia" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="consultaAcimaMedia" name="consultaAcimaMedia" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="consultaCnpj" name="consultaCnpj" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="consultaCnpj" name="consultaCnpj" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="pendenciaFinanceira" name="pendenciaFinanceira" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="pendenciaFinanceira" name="pendenciaFinanceira" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="aumentoProtesto" name="aumentoProtesto" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="aumentoProtesto" name="aumentoProtesto" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="protestoConsumo" name="protestoConsumo" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="protestoConsumo" name="protestoConsumo" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="perfilProtesto" name="perfilProtesto" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="perfilProtesto" name="perfilProtesto" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="ccf" name="ccf" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="ccf" name="ccf" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="riscoPagamento" name="riscoPagamento" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="riscoPagamento" name="riscoPagamento" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="endividamentoEmergencial" name="endividamentoEmergencial" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="endividamentoEmergencial" name="endividamentoEmergencial" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="aumentoContratoCredito" name="aumentoContratoCredito" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="aumentoContratoCredito" name="aumentoContratoCredito" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="picoConsulta" name="picoConsulta" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="picoConsulta" name="picoConsulta" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-simnao">
+                            <div>
+                                <div class="linha-horizontal"></div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="acoesJudiciais" name="acoesJudiciais" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="acoesJudiciais" name="acoesJudiciais" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="recuperacaoJudicial" name="recuperacaoJudicial" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="recuperacaoJudicial" name="recuperacaoJudicial" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="execucaoFiscal" name="execucaoFiscal" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="execucaoFiscal" name="execucaoFiscal" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="acaoPorBanco" name="acaoPorBanco" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="acaoPorBanco" name="acaoPorBanco" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="recisaoServico" name="recisaoServico" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="recisaoServico" name="recisaoServico" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="apontamentoRestritivo" name="apontamentoRestritivo" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="apontamentoRestritivo" name="apontamentoRestritivo" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-simnao">
+                            <div>
+                                <div class="linha-horizontal"></div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="maisempresas" name="maisempresas" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="maisempresas" name="maisempresas" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="empresaMesmoRamo" name="empresaMesmoRamo" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="empresaMesmoRamo" name="empresaMesmoRamo" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="socioProtesto" name="socioProtesto" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="socioProtesto" name="socioProtesto" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="socioCheque" name="socioCheque" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="socioCheque" name="socioCheque" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="socioAcao" name="socioAcao" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="socioAcao" name="socioAcao" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="socioApontamentoCPF" name="socioApontamentoCPF" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="socioApontamentoCPF" name="socioApontamentoCPF" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="simnao" name="socioOstentador" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="simnao" name="socioOstentador" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="socioHerdeiro" name="socioHerdeiro" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="socioHerdeiro" name="socioHerdeiro" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                                <div class="linha-simnao">
+                                    <input type="radio" id="socioGarantiaAdd" name="socioGarantiaAdd" value="true" required>
+                                    <label for="Sim">Sim</label>
+                                    <input type="radio" id="socioGarantiaAdd" name="socioGarantiaAdd" value="" required>
+                                    <label for="Nao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="fildset-padrao">
+                <div>
+                    <div>
+                        <label>Observações:</label>
+                    </div>
+                    <div>
+                        <textarea rows="6"
+                                  name="observacoes"
+                                  id="observacoes"
+                                  class="big-input"
+                                  required>
+                    </textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button class="btn-salvar" type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <a asp-controller="Cedente" asp-action="TodosCadastros"><button class="botao-message" onclick="closeModalMessage()">Continuar</button></a>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function doCadastrarComite(form) {
+
+            try {
+
+                var u = parseForm(form);
+
+                u.contratoSocial = Boolean($("input[type='radio'][name='contratoSocial']:checked").val());
+                u.comprovanteEndereco = Boolean($("input[type='radio'][name='comprovanteEndereco']:checked").val());
+                u.inscricaoEstadual = Boolean($("input[type='radio'][name='inscricaoEstadual']:checked").val());
+                u.rgCpf = Boolean($("input[type='radio'][name='rgCpf']:checked").val());
+                u.impostoRenda = Boolean($("input[type='radio'][name='impostoRenda']:checked").val());
+                u.cartaoCnpj = Boolean($("input[type='radio'][name='cartaoCnpj']:checked").val());
+                u.faturamento = Boolean($("input[type='radio'][name='faturamento']:checked").val());
+                u.balanco = Boolean($("input[type='radio'][name='balanco']:checked").val());
+                u.tempoFundacao = Boolean($("input[type='radio'][name='tempoFundacao']:checked").val());
+                u.mudancaAtividade = Boolean($("input[type='radio'][name='mudancaAtividade']:checked").val());
+                u.mudancaSocios = Boolean($("input[type='radio'][name='mudancaSocios']:checked").val());
+                u.limiteAcima = Boolean($("input[type='radio'][name='limiteAcima']:checked").val());
+                u.concentracaoSacados = Boolean($("input[type='radio'][name='concentracaoSacados']:checked").val());
+                u.antecipacaoImoveis = Boolean($("input[type='radio'][name='antecipacaoImoveis']:checked").val());
+                u.entregaMercadoria = Boolean($("input[type='radio'][name='entregaMercadoria']:checked").val());
+                u.confirmaNota = Boolean($("input[type='radio'][name='confirmaNota']:checked").val());
+                u.consultaAcimaMedia = Boolean($("input[type='radio'][name='consultaAcimaMedia']:checked").val());
+                u.consultaCnpj = Boolean($("input[type='radio'][name='consultaCnpj']:checked").val());
+                u.pendenciaFinanceira = Boolean($("input[type='radio'][name='pendenciaFinanceira']:checked").val());
+                u.aumentoProtesto = Boolean($("input[type='radio'][name='aumentoProtesto']:checked").val());
+                u.protestoConsumo = Boolean($("input[type='radio'][name='protestoConsumo']:checked").val());
+                u.perfilProtesto = Boolean($("input[type='radio'][name='perfilProtesto']:checked").val());
+                u.ccf = Boolean($("input[type='radio'][name='ccf']:checked").val());
+                u.riscoPagamento = Boolean($("input[type='radio'][name='riscoPagamento']:checked").val());
+                u.endividamentoEmergencial = Boolean($("input[type='radio'][name='endividamentoEmergencial']:checked").val());
+                u.aumentoContratoCredito = Boolean($("input[type='radio'][name='aumentoContratoCredito']:checked").val());
+                u.picoConsulta = Boolean($("input[type='radio'][name='picoConsulta']:checked").val());
+                u.acoesJudiciais = Boolean($("input[type='radio'][name='acoesJudiciais']:checked").val());
+                u.recuperacaoJudicial = Boolean($("input[type='radio'][name='recuperacaoJudicial']:checked").val());
+                u.execucaoFiscal = Boolean($("input[type='radio'][name='execucaoFiscal']:checked").val());
+                u.acaoPorBanco = Boolean($("input[type='radio'][name='acaoPorBanco']:checked").val());
+                u.recisaoServico = Boolean($("input[type='radio'][name='recisaoServico']:checked").val());
+                u.apontamentoRestritivo = Boolean($("input[type='radio'][name='apontamentoRestritivo']:checked").val());
+                u.maisempresas = Boolean($("input[type='radio'][name='maisempresas']:checked").val());
+                u.empresaMesmoRamo = Boolean($("input[type='radio'][name='empresaMesmoRamo']:checked").val());
+                u.socioProtesto = Boolean($("input[type='radio'][name='socioProtesto']:checked").val());
+                u.socioCheque = Boolean($("input[type='radio'][name='socioCheque']:checked").val());
+                u.socioAcao = Boolean($("input[type='radio'][name='socioAcao']:checked").val());
+                u.socioApontamentoCPF = Boolean($("input[type='radio'][name='socioApontamentoCPF']:checked").val());
+                u.socioOstentador = Boolean($("input[type='radio'][name='socioOstentador']:checked").val());
+                u.socioHerdeiro = Boolean($("input[type='radio'][name='socioHerdeiro']:checked").val());
+                u.socioGarantiaAdd = Boolean($("input[type='radio'][name='socioGarantiaAdd']:checked").val());
+
+                const urlParams = new URLSearchParams(window.location.search);
+                u.ClienteId = urlParams.get('id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarComite',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Comite Salvo!");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar o comitete");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+    </script>
+}

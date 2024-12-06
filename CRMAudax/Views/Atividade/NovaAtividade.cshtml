@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Nova Atividade";
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Nova Atividade</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doCadastrarAtividade(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Atividade</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="atividade"
+                           id="atividade"
+                           placeholder="Qual é a atividade?"
+                           required />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Data</label>
+                </div>
+                <div>
+                    <input type="date"
+                           name="dataAtividade"
+                           id="dataAtividade"
+                           required />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="fildset-padrao">
+            <div>
+                <div>
+                    <label>Descrição:</label>
+                </div>
+                <div>
+                    <textarea rows="6"
+                              name="descricao"
+                              id="descricao"
+                              class="big-input">
+                    </textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="btn-cad">
+            <button class="btn-cadastrar" type="submit">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function doCadastrarAtividade(form) {
+            try {
+                var u = parseForm(form);
+                const urlParams = new URLSearchParams(window.location.search);
+                u.ClienteId = urlParams.get('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarAtividade',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Tarefa adiciona");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar a tarefa");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+    }

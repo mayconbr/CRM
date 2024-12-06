@@ -1,0 +1,127 @@
+﻿@model dynamic
+@using System.Security.Claims
+@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Todos os Cadastros ";
+}
+
+<div class="form-style">
+    <a asp-controller="Cedente" asp-action="NovoProponentePF"><button class="btn-new"><ion-icon name="add-outline" class="icon-add"></ion-icon>Novo Cadastro</button></a>
+    <h3 class="titulo-pagina">Todos os Cadastros</h3>
+    <div class="linha-horizontal"></div>
+    @using (Html.BeginForm("TodosCadastros", "Cedente", FormMethod.Get))
+    {
+        @if (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.System)?.Value) == 1)
+        {
+            <div class="container-filter-adm">
+                <select class="filtro-tipos" title="Regiao" id="RegiaoId" name="RegiaoId">
+
+                    @foreach (dynamic Regiao in Model.Regioes)
+                    {
+                        if (Regiao.Id == 1)
+                        {
+                            <option value="">Selecione uma região</option>
+                        }
+                        else
+                        {
+                            <option value="@Regiao.Id">@Regiao.Nome</option>
+                        }
+                    }
+                </select>
+                <select class="filtro-tipos" title="Operador" id="UsuarioId" name="UsuarioId">
+                    <option value="">Selecione um operador</option>
+                    @foreach (dynamic Operador in Model.Operadores)
+                    {
+                        <option value="@Operador.Id">@Operador.Nome</option>
+                    }
+                </select>
+            </div>
+        }
+        <div class="container-filter">
+            <input type="text"
+                   id="nomeDoCliente"
+                   name="nomeDoCliente"                  
+                   placeholder="Pesquisa  por Nome"/>           
+            <select name="tipoDoCliente" id="tipoDoCliente" class="select-filter">
+                <option value="">Tipo</option>
+                <option value="Proponente">Proponente</option>
+                <option value="Cedente">Cedente</option>
+            </select>
+            <select name="situacaoDoCliente" id="situacaoDoCliente" class="select-filter">
+                <option value="">Situação</option>
+                <option value="Aprovado">Aprovado</option>
+                <option value="Reprovado">Reprovado</option>
+                <option value="Analise">Analise</option>
+            </select>
+            <select name="statusDoCliente" id="statusDoCliente" class="select-filter-menor">
+                <option value="">Status</option>
+                <option value="true">Ativo</option>
+                <option value="false">Inativo</option>
+            </select>
+            <button type="submit" class="botao-search"><ion-icon name="search-outline"></ion-icon></button>
+        </div>
+        
+    }
+    <div class="form-controle">
+        <div class="container-title">
+            <h4>Nome</h4>
+            <h4>CPF / CNPJ</h4>
+            <h4>Tipo</h4>
+            <h4>Situação</h4>
+            <h4>Status</h4>
+        </div>
+        <div class="tables" id="tables">
+            <ul class="table-nome" id="table-nome">
+                @foreach (var Proponentes in Model.Proponente)
+                {
+                    @if (Proponentes.nome.Length > 25)
+                    {
+                        <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;">@Proponentes.nome.Substring(0, 22) ...</li>
+                    }
+                    else
+                    {
+                        <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;">@Proponentes.nome</li>
+                    }
+                    
+                }
+            </ul>
+            <ul class="table-cpf">
+                @foreach (var Proponentes in Model.Proponente)
+                {
+                    <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;">@Proponentes.cpfCnpj</li>
+                }
+            </ul>
+            <ul class="table-tipo">
+                @foreach (var Proponentes in Model.Proponente)
+                {
+                    <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;">@Proponentes.tipo</li>
+                }
+            </ul>
+            <ul class="table-situacao">
+                @foreach (var Proponentes in Model.Proponente)
+                {
+                    <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;">@Proponentes.situacao</li>
+                }
+            </ul>
+            <ul class="table-status">
+                @foreach (var Proponentes in Model.Proponente)
+                {
+                    if (Proponentes.status == false)
+                    {
+
+                        <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;" >Inativo<ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                    }
+                    else
+                    {
+                        <li onclick="window.location.href='/Cedente/ExibeCadastros?id=@Proponentes.Id'" style="cursor: pointer;">Ativo<ion-icon name="eye-outline" class="icon-eye"></ion-icon></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+    </script>
+}

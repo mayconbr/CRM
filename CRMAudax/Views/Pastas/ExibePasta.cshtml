@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "Todas as Pastas";
+}
+<div class="form-style">
+    @foreach (dynamic Pasta in Model.Pastas)
+    {
+        <button class="icon-upload" onclick="openModalMessage()"><ion-icon name="cloud-upload-outline"></ion-icon></button>
+        <h3 class="titulo-pagina">@Pasta.NomePasta</h3>
+        <input type="hidden" value="@Pasta.Id" id="PastaId" name="PastaId"/>
+        <div class="linha-horizontal"></div>
+    }
+    <div>
+        <div class="container-pastas">
+            @foreach (dynamic Arquivo in Model.Arquivos)
+            {
+                <div class="pasta-un">
+                    <div class="share-file-pasta" onclick="doShareFile(@Arquivo.Id)">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </div>                  
+                    <div class="pastas-icon">
+                        <ion-icon name="cloud-download-outline" onclick="downloadArquivoPasta(@Arquivo.Id)"></ion-icon>
+                    </div>
+                    <div class="titulo-pasta">
+                        <p>@Arquivo.nomeArquivo</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal-message" id="modal-message">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage" style="display: none;">
+        </div>
+        <ion-icon name="close-outline" class="botao-close-modal" onclick="closeModalMessage(true)"></ion-icon>
+        <h2>Upload de Documentos</h2>
+        <div class="linha-horizontal"></div>
+        <form id="formDocumento" name="formDocumento" enctype="multipart/form-data">
+            <div>              
+                <div class="cinza-documento">
+                    <input class="input-arquivo"
+                           type="file"
+                           id="inputArquivoPasta"
+                           name="inputArquivoPasta"
+                           onchange="InsertArquivoPasta()" />
+                </div>
+            </div>
+        </form>                                         
+    </div>
+</div>
+
+<div class="modal-load" id="modal-load">
+    <div class="modal-message-content">
+        <div class="conteudo-modal-load" style="display:block;">
+            <button class="botao-close-pasta" onclick="closeModalload()"><ion-icon name="close-outline"></ion-icon></button>
+            <div class="modal-message-header" id="divMessage">
+                <form onsubmit="doCriarPasta(this); return false;">
+                    <fieldset class="fildsettres">
+                        <div class="container-modal-copy">
+                            <h2>Link de compartilhamento</h2>
+                            <div class="linha-horizontal"></div>
+                            <div class="copy-line">
+                                <input type="text" id="linkCompartilhamento" name="linkCompartilhamento" class="linkCompartilhamento"/>
+                                <ion-icon name="copy-outline" id="botaoCopiar" class="botaoCopiar" onclick="doCopy()"></ion-icon>
+                            </div>
+                            <p class="confirmacao-copy" id="confirmacao-copy">Link copiado</p>
+                        </div>                        
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function InsertArquivoPasta() {
+            event.preventDefault();
+
+            var valid = $('#inputArquivoPasta').val();
+            var len = valid.length;
+            if (len < 1) {
+                alert("Selecione um arquivo para upload");
+            }
+            else {
+                $("#inputArquivoPasta").prop("disabled", true);
+
+                var fileUpload = $("#inputArquivoPasta").get(0);
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    url: "/UploadFilePasta/" + $("#PastaId").val(),
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                        container.style.display = "none"
+                        alert("Erro em enviar, tente novamente");
+                        $("#inputArquivoPasta").prop("disabled", false);
+                    }
+                });
+            }
+        }
+
+        function downloadArquivoPasta(Id) {
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: '/DownloadFilePasta/' + Id,
+                datatype: 'json',
+                data: ({
+                    Id: Id
+                }),
+                success: function (data) {
+                    window.location = '/DownloadFilePasta/' + Id;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Erro ao buscar anexo!");
+                },
+                contentType: "application/json"
+            });
+        }
+
+        function doShareFile(Id) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: '/ShareFile/' + Id,
+                    success: function (data) {
+                        openModalload();
+                        var caminhoRaiz = window.location.protocol + "//" + window.location.host;
+                        var input = document.getElementById("linkCompartilhamento");
+                        input.value = caminhoRaiz + "/ConfirmShareFile/" + data;
+                    },
+                    error: function () {
+                        alert("Erro ao compartilhar");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doCopy() {
+            debugger;
+            var input = document.getElementById('linkCompartilhamento');
+
+            // Seleciona e copia o valor do campo de entrada para a área de transferência
+            input.select();
+            document.execCommand('copy');
+
+            var confirma = document.getElementById("confirmacao-copy");
+            confirma.style.display = 'block';
+        }
+         
+    </script>
+}

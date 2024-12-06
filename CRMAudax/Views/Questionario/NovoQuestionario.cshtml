@@ -1,0 +1,76 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Questionários";
+}
+
+<div class="form-style">
+    <div class="container-comite">
+        <div class="cabecalho">
+            <h3 class="titulo-pagina">Novo Questionário</h3>
+            <div class="linha-horizontal"></div>
+        </div>
+
+        <form onsubmit="doNovaQuestionario(this); return false;">
+            <fieldset class="fildsettres">
+                <div class="object-input">
+                    <div>
+                        <label>Digite a pergunta</label>
+                    </div>
+                    <div>
+                        <input type="text"
+                               name="Nome"
+                               id="Nome"
+                               required />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label></label>
+                    </div>
+                    <div>
+                        <input type="hidden" />
+                    </div>
+                </div>
+                <button class="btn-new-big" type="submit"><ion-icon name="add-outline"></ion-icon></button>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage(true)">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        function doNovaQuestionario(form) {
+            try {
+                var u = parseForm(form);
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastraQuestionario',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Questionário Criado");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar o novo questionário");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+}

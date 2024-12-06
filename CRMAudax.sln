@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMAudax", "CRMAudax\CRMAudax.csproj", "{FBAAE6FB-8381-487A-BA89-03069AAD799A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotinaConsulta", "RotinaConsulta\RotinaConsulta.csproj", "{AABD1115-1E44-470C-991D-A4932BFC1B08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBAAE6FB-8381-487A-BA89-03069AAD799A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBAAE6FB-8381-487A-BA89-03069AAD799A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBAAE6FB-8381-487A-BA89-03069AAD799A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBAAE6FB-8381-487A-BA89-03069AAD799A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AABD1115-1E44-470C-991D-A4932BFC1B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AABD1115-1E44-470C-991D-A4932BFC1B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AABD1115-1E44-470C-991D-A4932BFC1B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AABD1115-1E44-470C-991D-A4932BFC1B08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {232BC961-A3CF-4918-986E-62C4642E4AEB}
+	EndGlobalSection
+EndGlobal

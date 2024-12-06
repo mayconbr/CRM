@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Cadastro de Nota Fiscal";
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Nota Fiscal</h3>
+    <div class="linha-horizontal"></div>
+        <fieldset class="fildsetCadastro"></fieldset>
+        <fieldset class="fildset-padrao">
+            <div>
+                <div>
+                    <label>Número da Nota Fiscal (44 digitos):</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="numero"
+                           id="numero"
+                           placeholder="Numero da nota com 44 digitos"
+                           required />
+                </div>
+            </div>
+        </fieldset>
+        <div class="btn-cad">
+        <button class="btn-cadastrar" onclick="GetToken()">Salvar</button>
+        </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="modal-message-header" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+            function GetToken() {
+                try {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/GetToken',
+                        data: null,
+                        success: function (data) {
+                            $.ajax({
+                                type: 'GET',
+                                url: 'https://gateway.apiserpro.serpro.gov.br/consulta-nfe-df/api/v1/nfe/' + document.getElementById("numero").value,
+                                headers: {
+                                    'accept': 'application/json',
+                                    'Authorization': 'Bearer ' + data,
+                                },
+                                success: function (data) {
+                                console.log(data);
+                                debugger;
+                                    var cStat = data.nfeProc.protNFe.infProt.cStat;
+
+                                    if (cStat === "101") {
+                                        openModalMessage("A NFE está cancelada!");
+                                    } else {
+                                        doCadastrarNFE(document.getElementById("numero").value);                                  
+                                    }
+                                },
+                                error: function () {
+                                    openModalMessage("Nota Fiscal com não encontrada na Serpro");
+                                }
+                            });
+                        },
+                        error: function () {
+                            openModalMessage("Erro");
+                        },
+                        contentType: "application/json"
+                    });
+                } catch (e) {
+                    openModalMessage(e.message);
+                }
+            }
+         
+        function doCadastrarNFE(u) {
+            try {
+                debugger;
+                const urlParams = new URLSearchParams(window.location.search);
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastrarNFE/' + urlParams.get('id') + '/' + u,
+                    data: null,
+                    success: function (data) {
+                        openModalMessage("Nota fiscal verificada e salva");
+                        return data;
+                    },
+                    error: function () {
+                        openModalMessage("Não foi possivel cadastrar a nota fiscal");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+    </script>
+    }

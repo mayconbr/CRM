@@ -1,0 +1,641 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Comitê";
+    IEnumerable<CRMAudax.Models.TableRelatorioVisita> visita = ViewData["visita"] as IEnumerable<CRMAudax.Models.TableRelatorioVisita>;
+}
+<style>
+
+    table {
+        margin-top: 5px;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+    }
+
+    th, td {
+        border: 1px solid #595656;
+        padding: 3px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #;
+    }
+
+    .coluna-relatorio-fixa {
+        width: 70%;
+    }
+
+    .agrup {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Define duas colunas de igual tamanho */
+        width: 100%;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    @@media print {
+        @@page {
+            margin: 20px;
+            size: portrait;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    }
+</style>
+
+
+<div class="form-style">
+    <div class="back-img-gp">
+        <span style="float:right;">
+            <img src="~/img/logo-azul.png" alt="Audax" style="height: 40px; margin-top:-20px">
+        </span>
+        <h4>Dados do cliente</h4>
+        <div class="linha-horizontal"></div>
+        <table style="margin-bottom:15px;">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Documento</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@visita.FirstOrDefault().Cliente.nome</td>
+                    <td>@visita.FirstOrDefault().Cliente.cpfCnpj</td>
+                    <td>@visita.FirstOrDefault().Cliente.telefone</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Relatório de visitas</h4>
+        <div class="linha-horizontal"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data da Visita</th>
+                    <th>Nome do Entrevistado</th>
+                    <th>Cargo</th>
+                    <th>Indicação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Convert.ToDateTime(visita.FirstOrDefault().dataVisita).ToString("dd/MM/yyyy")</td>
+                    <td>@visita.FirstOrDefault().nomeEntrevistado</td>
+                    <td>@visita.FirstOrDefault().cargo</td>
+                    <td>@visita.FirstOrDefault().nomeIndicacao</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="agrup">
+            <div>
+                <h4 class="titulo-dois">Estrutura da empresa</h4>
+                <div class="linha-horizontal"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Avaliação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="coluna-relatorio-fixa">Edificações</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().edificacao == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().edificacao == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().edificacao == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().edificacao == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().edificacao == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Estoque</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().estoque == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().estoque == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().estoque == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().estoque == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().estoque == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Equipamentos</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().equipamento == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().equipamento == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().equipamento == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().equipamento == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().equipamento == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Produção</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().producao == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().producao == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().producao == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().producao == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().producao == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Funcionários</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().funcionarios == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().funcionarios == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().funcionarios == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().funcionarios == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().funcionarios == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Organização da Produção</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().organizacaoProducao == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().organizacaoProducao == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().organizacaoProducao == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().organizacaoProducao == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().organizacaoProducao == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Materia Prima</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().materiaPrima == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().materiaPrima == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().materiaPrima == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().materiaPrima == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().materiaPrima == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Impressão das Midias Sociais</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().impressaoMidia == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().impressaoMidia == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().impressaoMidia == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().impressaoMidia == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().impressaoMidia == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h4 class="titulo-dois">Impressões sobre o entrevistado</h4>
+                <div class="linha-horizontal"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Avaliação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="coluna-relatorio-fixa">Apresentação</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().apresentacao == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().apresentacao == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().apresentacao == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().apresentacao == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().apresentacao == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Franqueza</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().franqueza == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().franqueza == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().franqueza == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().franqueza == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().franqueza == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Conhecimento do negócio</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().conhecimentoNegocio == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoNegocio == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoNegocio == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoNegocio == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoNegocio == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Caráter identificado</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().carater == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().carater == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().carater == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().carater == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().carater == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Abertura para questionamentos</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().abertura == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().abertura == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().abertura == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().abertura == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().abertura == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Conhecimento sobre concorrência</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().conhecimentoConcorrencia == 1)
+                                {
+                                    <span>Péssimo</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 2)
+                                {
+                                    <span>Ruim</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 3)
+                                {
+                                    <span>Regular</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 4)
+                                {
+                                    <span>Bom</span>
+                                }
+                                else if (@visita.FirstOrDefault().conhecimentoConcorrencia == 5)
+                                {
+                                    <span>Ótimo</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tempo de cargo</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().tempoCargo == 1)
+                                {
+                                    <span>1 Ano</span>
+                                }
+                                else if (@visita.FirstOrDefault().tempoCargo == 2)
+                                {
+                                    <span>2 Anos</span>
+                                }
+                                else if (@visita.FirstOrDefault().tempoCargo == 3)
+                                {
+                                    <span>3 Anos</span>
+                                }
+                                else if (@visita.FirstOrDefault().tempoCargo == 4)
+                                {
+                                    <span>4 Anos</span>
+                                }
+                                else if (@visita.FirstOrDefault().tempoCargo == 5)
+                                {
+                                    <span>5 Anos ou mais </span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Assumindo negócio familiar</td>
+                            <td>
+                                @if (@visita.FirstOrDefault().negocioFamiliar == 1)
+                                {
+                                    <span>Sim</span>
+                                }
+                                else if (@visita.FirstOrDefault().negocioFamiliar == 2)
+                                {
+                                    <span>Não</span>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="margin-top:15px;">
+            <h4 class="titulo-dois">Impressões sobre o ramo do negócio</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="coluna-relatorio-fixa">Sazonalidade</td>
+                        @if (@visita.FirstOrDefault().sazonalidade == 0)
+                        {
+                            <td>Não</td>
+                        }
+                        else if (@visita.FirstOrDefault().sazonalidade == 1)
+                        {
+                            <td>Sim</td>
+
+                        }
+                    </tr>
+                    <tr>
+                        <td>Nivel do parque industrial</td>
+                        @if (@visita.FirstOrDefault().parqueIndustrial == 0)
+                        {
+                            <td>Obsoleto</td>
+                        }
+                        else if (@visita.FirstOrDefault().parqueIndustrial == 1)
+                        {
+                            <td>Moderno</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Certificação de Qualidade</td>
+                        @if (@visita.FirstOrDefault().certificacaoQUalidade == 0)
+                        {
+                            <td>Não</td>
+                        }
+                        else if (@visita.FirstOrDefault().certificacaoQUalidade == 1)
+                        {
+                            <td>Sim</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Possui ampla concorrência?</td>
+
+                        @if (@visita.FirstOrDefault().amplaConcorrencia == 0)
+                        {
+                            <td>Não</td>
+                        }
+                        else if (@visita.FirstOrDefault().amplaConcorrencia == 1)
+                        {
+                            <td>Sim</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>Regime tributário</td>
+                        <td>@visita.FirstOrDefault().regimeTributario</td>
+                    </tr>
+                    <tr>
+                        <td>Margem líquida praticada</td>
+                        <td>@visita.FirstOrDefault().margemLiquida</td>
+                    </tr>
+                    <tr>
+                        <td>Ultima alteração contratual</td>
+                        <td>@visita.FirstOrDefault().alteracaoContratual</td>
+                    </tr>
+                    <tr>
+                        <td>Data da fundação</td>
+                        <td>@Convert.ToDateTime(visita.FirstOrDefault().fundacao).ToString("dd/MM/yyyy")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top:15px;">
+            <h4 class="titulo-dois">Características ou particularidades das vendas</h4>
+            <div class="linha-horizontal"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="coluna-relatorio-fixa">Porcentagem de recebimentos em cheques</td>
+                        <td>@visita.FirstOrDefault().porcentagemCheque</td>
+                    </tr>
+                    <tr>
+                        <td>Porcentagem de recebimentos em duplicatas</td>
+                        <td>@visita.FirstOrDefault().porcentagemDuplicata</td>
+                    </tr>
+                    <tr>
+                        <td>Porcentagem consumidor pessoa física</td>
+                        <td>@visita.FirstOrDefault().porcentagemConsumidorFisica</td>
+                    </tr>
+                    <tr>
+                        <td>Porcentagem consumidor pessoa jurídica</td>
+                        <td>@visita.FirstOrDefault().porcentagemConsumidorJuridica</td>
+                    </tr>
+                    <tr>
+                        <td>Prazo médio com fornecedores (Dias)</td>
+                        <td>@visita.FirstOrDefault().prazoMedioFornecedores</td>
+                    </tr>
+                    <tr>
+                        <td>Prazo médio com clientes (Dias)</td>
+                        <td>@visita.FirstOrDefault().prazoMedioClientes</td>
+                    </tr>
+                    <tr>
+                        <td>Forma de entrega (Produto)</td>
+                        <td>@visita.FirstOrDefault().formaEntregaProduto</td>
+                    </tr>
+                    <tr>
+                        <td>Ticket Médio de vendas</td>
+                        <td>@visita.FirstOrDefault().ticketMedio</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.onload = function () { window.print(); };
+    </script>
+}

@@ -1,0 +1,96 @@
+﻿@{
+    @using CRMAudax.Controllers;
+    ViewData["Title"] = "Atividade";
+    IEnumerable<CRMAudax.Models.TableMaquinasEquipamentos> maquina = ViewData["maquina"] as IEnumerable<CRMAudax.Models.TableMaquinasEquipamentos>;
+}
+<div class="form-style">
+    <h3 class="titulo-pagina">Cadastro de Maquinas e Equipamentos</h3>
+    <div class="linha-horizontal"></div>
+
+    <form onsubmit="doCadastrarMaquina(this); return false;">
+        <fieldset class="fildsetCadastro">
+            <div class="object-input">
+                <div>
+                    <label>Descrição *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="nomeEquipamento"
+                           id="nomeEquipamento"
+                           placeholder="@maquina.FirstOrDefault().nomeEquipamento"
+                           disabled />
+                </div>
+            </div>
+            <div class="object-input">
+                <div>
+                    <label>Marca *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="marca"
+                           id="marca"
+                           placeholder="@maquina.FirstOrDefault().marca"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Ano da compra</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="ano"
+                           id="ano"
+                           placeholder="@maquina.FirstOrDefault().ano"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor Financiado (se houver)</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorFinanciado"
+                           id="valorFinanciado"
+                           placeholder="@maquina.FirstOrDefault().valorFinanciado"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor de Onus (se houver)</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorOnus"
+                           id="valorOnus"
+                           placeholder="@maquina.FirstOrDefault().valorOnus"
+                           disabled />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Valor do Equipamento *</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="valorMaquina"
+                           id="valorMaquina"
+                           placeholder="@maquina.FirstOrDefault().valorMaquina"
+                           disabled />
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="btn-cad">
+            @*<button class="btn-cadastrar" type="submit">Salvar</button>*@
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+}

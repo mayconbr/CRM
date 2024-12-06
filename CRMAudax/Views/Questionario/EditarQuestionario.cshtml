@@ -1,0 +1,179 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+<div class="form-style">
+    <div class="container-comite">
+        <div class="cabecalho">
+            @foreach (dynamic Questionario in Model.Questionarios)
+            {
+                <h3 class="titulo-pagina">@Questionario.Nome</h3>
+                <div class="linha-horizontal"></div>
+            }
+
+        </div>
+    </div>
+
+    <form onsubmit="doNovaPergunta(this); return false;">
+        <fieldset class="fildsetnovapergunta">
+            <div class="object-input">
+                <div>
+                    <label>Nova Pergunta</label>
+                </div>
+                <div>
+                    <input type="text"
+                           name="Pergunta"
+                           id="Pergunta"
+                           required />
+                </div>
+            </div>
+            <div>
+                <select title="TipoPergunta" name="TipoPergunta" id="TipoPergunta" required>
+                    <option value="">Selecione o tipo da pergunta</option>
+                    <option value="1">Objetiva</option>
+                    <option value="2">Multipla escolha</option>
+                    <option value="3">Aberta</option>
+                </select>
+            </div>
+            <div>                
+                <div style="display:hidden">
+                    @foreach (dynamic Questionario in Model.Questionarios)
+                    {
+                        <input value="@Questionario.Id" type="hidden" name="QuestionarioId" id="QuestionarioId" />
+                    }
+                </div>
+            </div>
+            <button class="btn-new-big" type="submit"><ion-icon name="add-outline"></ion-icon></button>
+        </fieldset>
+    </form>
+
+    <div class="form-controle">
+        <div class="container-title-dois">
+            <h4>Perguntas</h4>
+            <h4></h4>
+            <h4></h4>
+        </div>
+        <div class="tables-dois">
+            <ul id="tags1">
+                @foreach (dynamic Pergunta in Model.Perguntas)
+                {
+                    <li class="dropzone" draggable="false" id="@Pergunta.PerguntaId">
+                        <span type="hidden" id="@Pergunta.PerguntaId"></span>
+                        <span class="span-nome" id="nomeKanban">@Pergunta.Pergunta</span>
+                        <span class="span-btn"><a><ion-icon name="add-outline" class="icon-eye" onclick="openModalquest(@Pergunta.PerguntaId)"></ion-icon></a></span>
+                        @foreach (var item in Pergunta.Respostas)
+                        {
+                            <div class="respostas-questao">
+                                <span class="resposta-pergunta">@item.RespostaTexto</span>
+                            </div>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage(true)">Continuar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-load" id="modal-load">
+    <div class="modal-message-content">
+
+        <div class="conteudo-modal-load" style="display:block;">
+            <div class="modal-message-header" id="divMessage">
+                <form onsubmit="doNovaResposta(this); return false;">
+                    <fieldset class="fildsettres">
+                        <div class="object-input">
+                            <div>
+                                <label>Nova Pergunta</label>
+                            </div>
+                            <div>
+                                <input type="text" id="Resposta" name="Resposta" required />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>
+
+                                </label>
+                            </div>
+                            <div>
+                                <input type="hidden" id="PerguntaId" name="PerguntaId" />
+                            </div>
+                        </div>
+                        <button class="btn-new-big" type="submit"><ion-icon name="add-outline"></ion-icon></button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="modal-conteudo">
+                <button class="botao-message" onclick="closeModalload()">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function doNovaPergunta(form) {
+            try {
+                var u = parseForm(form);
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastroPergunta',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        openModalMessage("Pergunta Adicionada");
+                        return data;
+                    },
+                    error: function () {
+                        closeModalload();
+                        openModalMessage("Não foi possivel cadastrar a nova pergunta");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function doNovaResposta(form) {
+            try {
+                var u = parseForm(form);
+                $.ajax({
+                    type: 'POST',
+                    url: '/CadastroResposta',
+                    data: JSON.stringify(u),
+                    success: function (data) {
+                        closeModalload();
+                        openModalMessage("Resposta criada!");
+                        return data;
+                    },
+                    error: function () {
+                        closeModalload();
+                        openModalMessage("Não foi possivel criar a resposta para essa pergunta");
+                    },
+                    contentType: "application/json"
+                });
+            } catch (e) {
+                openModalMessage(e.message);
+            }
+        }
+
+        function openModalquest(message) {
+            debugger;
+            let modalMessage = document.querySelector('.modal-load')
+            document.getElementById("PerguntaId").value = message;
+            modalMessage.style.display = 'block';
+        }
+
+
+    </script>
+}

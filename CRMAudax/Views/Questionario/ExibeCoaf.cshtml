@@ -1,0 +1,36 @@
+﻿@model dynamic
+@using CRMAudax.Controllers;
+
+<div class="form-style">
+    <div class="container-comite">
+        <div class="cabecalho">
+            <h3 class="titulo-pagina">Questionário do Coaf</h3>
+            <div class="linha-horizontal"></div>
+        </div>
+        @foreach (dynamic Pergunta in Model.Perguntas)
+        {
+
+            <div class="pergunta-coaf">
+                <p>@Pergunta.PerguntaCoaf</p>
+                <p>@Pergunta.RespostaPergunta</p>
+            </div>
+           
+        }
+        @*<div class="linha-horizontal"></div>*@
+    </div>
+</div>
+
+<div class="modal-message" id="modalMessage">
+    <div class="modal-message-content">
+        <div class="generic-message" id="divMessage">
+        </div>
+        <div class="modal-conteudo">
+            <button class="botao-message" onclick="closeModalMessage()">Continuar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+    </script>
+}
